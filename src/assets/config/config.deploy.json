@@ -1,0 +1,23 @@
+{
+    "env": {
+    "name": "DEV"
+     },
+    "appInsights": {
+    "instrumentationKey": "<dev-guid-here>"
+     },
+    "logging": {
+    "console": true,
+    "appInsights": false
+    },
+    "aad": {
+    "requireAuth": true,
+    "tenant": "<dev-guid-here>",
+    "clientId": "<dev-guid-here>"
+    },
+    "apiServer": {
+    "metadata": "https://metadata.demo.com/api/v1.0/",
+    "rules": "https://rules.demo.com/api/v1.0/",
+    "host": "http://luxuryhomeksa.com/KSAOnlineStore/",
+    "AuthorizationToken": "Basic U3RvcmVTb2x1dGlvbl8yMDE4OkNTc3AyMDE4QEdpdmVNZVNlcnZpY2U="
+    }
+}

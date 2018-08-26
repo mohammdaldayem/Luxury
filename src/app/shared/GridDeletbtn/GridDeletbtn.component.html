@@ -1,0 +1,35 @@
+<!-- <a class="btn btn-link btn-danger btn-just-icon remove"
+        mwlConfirmationPopover
+      [popoverTitle]="popoverTitle"
+      [popoverMessage]="popoverMessage"
+      placement="left"
+      (confirm)="onConfirmclick()"><i class="material-icons">close</i></a> -->
+      <!-- <button
+      class="btn btn-default"
+      mwlConfirmationPopover
+      [popoverTitle]="popoverTitle"
+      [popoverMessage]="popoverMessage"
+      placement="left"
+      (confirm)="confirmClicked = true"
+      (cancel)="cancelClicked = true">
+      Click me!
+    </button> -->
+    <a class="btn btn-link btn-danger btn-just-icon remove" data-toggle="modal" [attr.data-target]="'#myModal'+ID"><i class="material-icons">close</i></a>
+ <div class="modal fade modal-mini modal-primary" id="myModal{{ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-small">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to do this?</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button mat-raised-button type="button" class="btn btn-link" data-dismiss="modal">Never mind</button>
+        <button mat-raised-button type="button" class="btn btn-success btn-link" data-dismiss="modal"  (click)="onConfirmclick()">Yes
+          <div class="ripple-container"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

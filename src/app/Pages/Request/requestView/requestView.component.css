@@ -1,0 +1,12 @@
+.output {
+    padding-top: 16px;
+    text-align: left;
+}
+ul {
+    list-style-type: none;
+}
+img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
