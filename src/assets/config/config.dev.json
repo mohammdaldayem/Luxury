@@ -9,7 +9,7 @@
     "console": true,
     "appInsights": false
     },
-    "aad": {
+    "aad": { 
     "requireAuth": true,
     "tenant": "<dev-guid-here>",
     "clientId": "<dev-guid-here>"
