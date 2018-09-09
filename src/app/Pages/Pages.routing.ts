@@ -20,6 +20,18 @@ export const PagesRoutes: Routes = [
   {
     path: 'Item',
     loadChildren: './Item/Item.module#ItemModule'
+  },
+  {
+    path: 'Area',
+    loadChildren: './Area/Area.module#AreaModule'
+  },
+  {
+    path: 'Terms',
+    loadChildren: './TermsAndConditions/TermsAndConditions.module#TermsAndConditionsModule'
+  },
+  {
+    path: 'Advertisment',
+    loadChildren: './Advertisment/Advertisment.module#AdvertismentModule'
   }]
 }
 ];

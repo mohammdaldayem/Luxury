@@ -11,6 +11,11 @@ export interface IResponse {
     Cart: ICart[];
     SellerInfo: ISeller;
     Items: IItem[];
+    Areas: IArea[];
+    AreaInfo: IArea;
+    Terms_Conditions: ITerms;
+    Advertisments: IAdvertisment[];
+    ItemInfo: IAdvertisment;
 }
 export interface IMessage {
     ID: number;
@@ -96,5 +101,19 @@ export interface IItemDescription {
 }
 export interface IItemImage {
     ID: string;
+    Image: string;
+}
+export interface IArea {
+    ID: string;
+    Name: string;
+    ArName: string;
+}
+export interface ITerms {
+    Value: string;
+}
+export interface IAdvertisment {
+    ID: string;
+    Title: string;
+    Description: string;
     Image: string;
 }

@@ -56,7 +56,4 @@ export class IndexComponent implements OnInit, AfterViewInit  {
       }
     });
   }
-  update(event: any) {
-
-  }
 }

@@ -33,13 +33,13 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'apps',
         collapse: 'components',
         children: [
-            {path: 'buttons', title: 'Buttons', ab:'B'},
-            {path: 'grid', title: 'Grid System', ab:'GS'},
-            {path: 'panels', title: 'Panels', ab:'P'},
-            {path: 'sweet-alert', title: 'Sweet Alert', ab:'SA'},
-            {path: 'notifications', title: 'Notifications', ab:'N'},
-            {path: 'icons', title: 'Icons', ab:'I'},
-            {path: 'typography', title: 'Typography', ab:'T'}
+            {path: 'buttons', title: 'Buttons', ab: 'B'},
+            {path: 'grid', title: 'Grid System', ab: 'GS'},
+            {path: 'panels', title: 'Panels', ab: 'P'},
+            {path: 'sweet-alert', title: 'Sweet Alert', ab: 'SA'},
+            {path: 'notifications', title: 'Notifications', ab: 'N'},
+            {path: 'icons', title: 'Icons', ab: 'I'},
+            {path: 'typography', title: 'Typography', ab: 'T'}
         ]
     }, {
         path: '/forms',
@@ -48,10 +48,10 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'content_paste',
         collapse: 'forms',
         children: [
-            {path: 'regular', title: 'Regular Forms', ab:'RF'},
-            {path: 'extended', title: 'Extended Forms', ab:'EF'},
-            {path: 'validation', title: 'Validation Forms', ab:'VF'},
-            {path: 'wizard', title: 'Wizard', ab:'W'}
+            {path: 'regular', title: 'Regular Forms', ab: 'RF'},
+            {path: 'extended', title: 'Extended Forms', ab: 'EF'},
+            {path: 'validation', title: 'Validation Forms', ab: 'VF'},
+            {path: 'wizard', title: 'Wizard', ab: 'W'}
         ]
     }, {
         path: '/tables',
@@ -60,9 +60,9 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'grid_on',
         collapse: 'tables',
         children: [
-            {path: 'regular', title: 'Regular Tables', ab:'RT'},
-            {path: 'extended', title: 'Extended Tables', ab:'ET'},
-            {path: 'datatables.net', title: 'Datatables.net', ab:'DT'}
+            {path: 'regular', title: 'Regular Tables', ab: 'RT'},
+            {path: 'extended', title: 'Extended Tables', ab: 'ET'},
+            {path: 'datatables.net', title: 'Datatables.net', ab: 'DT'}
         ]
     }, {
         path: '/maps',
@@ -71,9 +71,9 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'place',
         collapse: 'maps',
         children: [
-            {path: 'google', title: 'Google Maps', ab:'GM'},
-            {path: 'fullscreen', title: 'Full Screen Map', ab:'FSM'},
-            {path: 'vector', title: 'Vector Map', ab:'VM'}
+            {path: 'google', title: 'Google Maps', ab: 'GM'},
+            {path: 'fullscreen', title: 'Full Screen Map', ab: 'FSM'},
+            {path: 'vector', title: 'Vector Map', ab: 'VM'}
         ]
     }, {
         path: '/widgets',
@@ -99,12 +99,12 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'image',
         collapse: 'pages',
         children: [
-            {path: 'pricing', title: 'Pricing', ab:'P'},
-            {path: 'timeline', title: 'Timeline Page', ab:'TP'},
-            {path: 'login', title: 'Login Page', ab:'LP'},
-            {path: 'register', title: 'Register Page', ab:'RP'},
-            {path: 'lock', title: 'Lock Screen Page', ab:'LSP'},
-            {path: 'user', title: 'User Page', ab:'UP'}
+            {path: 'pricing', title: 'Pricing', ab: 'P'},
+            {path: 'timeline', title: 'Timeline Page', ab: 'TP'},
+            {path: 'login', title: 'Login Page', ab: 'LP'},
+            {path: 'register', title: 'Register Page', ab: 'RP'},
+            {path: 'lock', title: 'Lock Screen Page', ab: 'LSP'},
+            {path: 'user', title: 'User Page', ab: 'UP'}
         ]
     },
     {
@@ -115,6 +115,9 @@ export const ROUTES: RouteInfo[] = [{
         collapse: 'manage',
         children: [
             {path: 'Item', title: 'Items', ab: 'I'},
+            {path: 'Area', title: 'Area', ab: 'A'},
+            {path: 'Terms', title: 'Terms and Conditions', ab: 'TC'},
+            {path: 'Advertisment', title: 'Advertisments', ab: 'TC'},
         ]
     }
 ];

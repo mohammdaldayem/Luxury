@@ -11,12 +11,6 @@ constructor(private http: HttpClient) {
   super();
 }
 getSellers() {
-  const httpOptions = {
-    headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-    .append('Access-Control-Allow-Origin', '*')
-    .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-    .append('Accept-Language', 'En')
-  };
  return this.http.get(AppConfig.settings.apiServer.host + 'Seller/Sellers.php', this.httpOptions);
 }
 deletSellers(request) {

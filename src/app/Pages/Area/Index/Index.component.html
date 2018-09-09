@@ -7,8 +7,8 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Sellers</h4>
-                <a [routerLink]="['/Pages/Seller/View']" type="submit" class="btn btn-info btn-fill" >Add</a>
+                <h4 class="card-title">Areas</h4>
+                <a [routerLink]="['/Pages/Area/View']" type="submit" class="btn btn-info btn-fill" >Add</a>
               </div>
                 <div class="card-body">
                         <mat-form-field>
@@ -20,23 +20,11 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
                             <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
                           </ng-container>
-                          <!-- Name Column -->
-                          <ng-container matColumnDef="Phone">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Phone}} </td>
-                          </ng-container>
-                      
-                          <!-- Weight Column -->
-                          <ng-container matColumnDef="Address">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
-                          </ng-container>
-
                           <ng-container matColumnDef="Actions">
                               <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
                               <td mat-cell *matCellDef="let element" class="text-right"> 
-                                  <a [routerLink]="['/Pages/Seller/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
-                                   <app-grid-delet-btn [ID]="element.ID" (onConfirm)="DeleteSeller($event)"></app-grid-delet-btn>
+                                  <a [routerLink]="['/Pages/Area/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
+                                   <app-grid-delet-btn [ID]="element.ID" (onConfirm)="DeleteArea($event)"></app-grid-delet-btn>
                                  </td>
                             </ng-container>
                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
