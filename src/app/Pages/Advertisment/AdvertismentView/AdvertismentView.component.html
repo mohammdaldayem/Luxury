@@ -1,0 +1,60 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary card-header-icon">
+                <!-- <div class="card-icon">
+                  <i class="material-icons">list</i>
+                </div> -->
+                <h4 class="card-title">Advertismwnt Details</h4>
+                
+              </div>
+                <div class="card-body">
+                  <form (ngSubmit)="AddUpdateAdvertisment()" #form>
+                      <mat-form-field class="example-full-width">
+                          <input matInput placeholder="English Title" [formControl]="enTitleFormControl">
+                          <mat-error *ngIf="enTitleFormControl.hasError('required')">
+                              English Title is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Arabic Title" [formControl]="arTitleFormControl">
+                            <mat-error *ngIf="arTitleFormControl.hasError('required')">
+                                Arabic Title is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="English Desciption" [formControl]="enDescFormControl">
+                            <mat-error *ngIf="enDescFormControl.hasError('required')">
+                              English Desciption is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Arabic Desciption" [formControl]="arDescFormControl">
+                            <mat-error *ngIf="arDescFormControl.hasError('required')">
+                                Arabic Desciption is <strong>required</strong>
+                            </mat-error>
+                          </mat-form-field>
+                         
+                              <button mat-raised-button type="button" (click)="imgFileInput.click()">Add a photo</button>
+                              <input hidden type="file" #imgFileInput (change)="previewImage($event)" />
+                            <mat-error *ngIf="imageFormControl.hasError('required')">
+                                Image is <strong>required</strong>
+                            </mat-error>
+                          <br/>
+                          <img #imagepreview width="100px" height="100px"/>
+                          <br/>
+                          <button mat-raised-button type="submit" class="btn btn-rose btn-fill">Submit</button>
+                  </form>
+                                
+                </div>
+                <!-- end content-->
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

@@ -11,8 +11,16 @@ export interface IResponse {
     Cart: ICart[];
     SellerInfo: ISeller;
     Items: IItem[];
+<<<<<<< HEAD
     SubCategories : ISubCategory[];
     Categories : ICategory[];
+=======
+    Areas: IArea[];
+    AreaInfo: IArea;
+    Terms_Conditions: ITerms;
+    Advertisments: IAdvertisment[];
+    ItemInfo: IAdvertisment;
+>>>>>>> 32af0dd976d0dc3dcb1a0d9f7ab956d61a4c9ecc
 }
 export interface IMessage {
     ID: number;
@@ -100,6 +108,7 @@ export interface IItemImage {
     ID: string;
     Image: string;
 }
+<<<<<<< HEAD
 export interface ISubCategory {
     ID: string;
     Image: string;
@@ -110,4 +119,19 @@ export  interface ICategory {
     ID : string;
     Name :string;
     Image : string;
+=======
+export interface IArea {
+    ID: string;
+    Name: string;
+    ArName: string;
+}
+export interface ITerms {
+    Value: string;
+}
+export interface IAdvertisment {
+    ID: string;
+    Title: string;
+    Description: string;
+    Image: string;
+>>>>>>> 32af0dd976d0dc3dcb1a0d9f7ab956d61a4c9ecc
 }

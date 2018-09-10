@@ -1,42 +1,38 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '../../../../../node_modules/@angular/material';
-import { ISeller, IItem, IResponse } from '../../../models/Response';
-import { ItemService } from '../../../Services/Item.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { IMessage, IResponse } from '../../../models/Response';
+import { ContactUsService } from '../../../Services/ContactUs.service';
 import swal from 'sweetalert2';
-import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'app-index',
   templateUrl: './Index.component.html',
   styleUrls: ['./Index.component.css']
 })
-export class IndexComponent implements OnInit, AfterViewInit  {
+export class IndexComponent implements AfterViewInit {
 
-  displayedColumns: string[] = [ 'Image', 'English Name', 'Arabic Name', 'Created At', 'Seller Name', 'Actions'];
-  dataSource: MatTableDataSource<IItem>;
-  imagePath: string = AppConfig.settings.apiServer.itemimagepath;
+  displayedColumns: string[] = [ 'Name', 'Email', 'Phone', 'Message', 'CreatedAt', 'Actions'];
+  dataSource: MatTableDataSource<IMessage>;
   resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _itemService: ItemService) { }
+  constructor(private _contactusservice: ContactUsService) { }
 
-  ngOnInit() {
-  }
+
   ngAfterViewInit(): void {
     this.loadAllItems(this.paginator.pageSize, this.paginator.pageIndex);
   }
   loadAllItems(pagesize: number, from: number) {
-    this._itemService.getAllItems({LoadFrom: (pagesize * from) + 1, PageSize: pagesize}).subscribe(resultobj => {
-      this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);
-      this.resultsLength = 33;  // (<IResponse>resultobj).Items.length;
+    this._contactusservice.getAllMessages({LoadFrom: (pagesize * from) + 1, PageSize: pagesize}).subscribe(resultobj => {
+      this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
+      this.resultsLength = 7;  // (<IResponse>resultobj).Items.length;
     });
   }
-
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  DeleteItem(ID: Number) {
+  DeleteContactUs(ID: Number) {
     console.log(ID);
-    this._itemService.deletItem({ItemId: ID}).subscribe(result => {
+    this._contactusservice.deletMessage({MessageId: ID}).subscribe(result => {
       const response = <IResponse>result ;
       if (response.success === true) {
         swal({
@@ -58,4 +54,5 @@ export class IndexComponent implements OnInit, AfterViewInit  {
       }
     });
   }
+
 }

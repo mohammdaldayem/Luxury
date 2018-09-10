@@ -12,12 +12,16 @@ constructor(private http: HttpClient) {
 }
 
 getSellers() {
+<<<<<<< HEAD
   const httpOptions = {
     headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
       .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
       .append('Accept-Language', 'En')
   };
   return this.http.get(AppConfig.settings.apiServer.host + 'Seller/Sellers.php', httpOptions);
+=======
+ return this.http.get(AppConfig.settings.apiServer.host + 'Seller/Sellers.php', this.httpOptions);
+>>>>>>> 32af0dd976d0dc3dcb1a0d9f7ab956d61a4c9ecc
 }
 deletSellers(request) {
   const httpOptions = {
