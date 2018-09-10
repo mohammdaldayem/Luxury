@@ -36,12 +36,15 @@
                                 Arabic Desciption is <strong>required</strong>
                             </mat-error>
                           </mat-form-field>
-                          <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Image" [formControl]="imageFormControl">
+                         
+                              <button mat-raised-button type="button" (click)="imgFileInput.click()">Add a photo</button>
+                              <input hidden type="file" #imgFileInput (change)="previewImage($event)" />
                             <mat-error *ngIf="imageFormControl.hasError('required')">
                                 Image is <strong>required</strong>
                             </mat-error>
-                          </mat-form-field>
+                          <br/>
+                          <img #imagepreview width="100px" height="100px"/>
+                          <br/>
                           <button mat-raised-button type="submit" class="btn btn-rose btn-fill">Submit</button>
                   </form>
                                 

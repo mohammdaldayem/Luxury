@@ -117,7 +117,8 @@ export const ROUTES: RouteInfo[] = [{
             {path: 'Item', title: 'Items', ab: 'I'},
             {path: 'Area', title: 'Area', ab: 'A'},
             {path: 'Terms', title: 'Terms and Conditions', ab: 'TC'},
-            {path: 'Advertisment', title: 'Advertisments', ab: 'TC'},
+            {path: 'Advertisment', title: 'Advertisments', ab: 'AD'},
+            {path: 'ContactUs', title: 'Contact Us', ab: 'CU'}
         ]
     }
 ];

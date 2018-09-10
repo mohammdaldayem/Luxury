@@ -32,6 +32,10 @@ export const PagesRoutes: Routes = [
   {
     path: 'Advertisment',
     loadChildren: './Advertisment/Advertisment.module#AdvertismentModule'
+  },
+  {
+    path: 'ContactUs',
+    loadChildren: './ContactUs/ContactUs.module#ContactUsModule'
   }]
 }
 ];

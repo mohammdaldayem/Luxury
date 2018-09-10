@@ -27,6 +27,7 @@ export class AdvertismentViewComponent implements OnInit {
     Validators.required,
   ]);
   ID: Number;
+  fileToUpload: File = null;
   constructor(private _advertismentService: AdvertismentService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
@@ -35,7 +36,7 @@ export class AdvertismentViewComponent implements OnInit {
 
    ngOnInit() {
     if (this.ID !== undefined && this.ID !== 0) {
-      this._advertismentService.getAdvertismentDetails({AreaId: this.ID}).subscribe(result => {
+      this._advertismentService.getAdvertismentDetails({AdvertismentId: this.ID}).subscribe(result => {
         const advertisment: IAdvertisment = <IAdvertisment>((<IResponse>result).ItemInfo);
          this.enTitleFormControl.setValue(advertisment.Title);
          this.arTitleFormControl.setValue(advertisment.Title);
@@ -43,6 +44,9 @@ export class AdvertismentViewComponent implements OnInit {
          this.arDescFormControl.setValue(advertisment.Description);
       });
          }
+  }
+  previewImage(files: FileList) {
+    this.fileToUpload = files.item(0);
   }
   AddUpdateAdvertisment() {
 //  if (!this.form.valid) {
