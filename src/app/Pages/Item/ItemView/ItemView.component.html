@@ -1,3 +1,106 @@
-<p>
-  ItemView works!
-</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <form [formGroup]="form" class="form-horizontal">
+            <div class="card-header card-header-primary card-header-icon">
+              <h4 class="card-title">Item Details</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <label class="col-md-2 col-form-label">English Name *</label>
+                <div class="col-md-2">
+                  <mat-form-field>
+                    <input matInput [formControl]="ennameFormControl" required>
+                    <mat-error *ngIf="ennameFormControl.invalid">English Name is Required</mat-error>
+                  </mat-form-field>
+                </div>
+                <label class="col-md-2 col-form-label">Arabic Name *</label>
+                <div class="col-md-2">
+                  <mat-form-field>
+                    <input matInput [formControl]="arnameFormControl" required>
+                    <mat-error *ngIf="arnameFormControl.invalid">Arabic Name is Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-md-2 col-form-label">Orginal Price *</label>
+                <div class="col-md-2">
+                  <mat-form-field>
+                    <input matInput [formControl]="orginalPriceFormControl" (change)="changePrice()" required>
+                    <mat-error *ngIf="orginalPriceFormControl.invalid">Orginal Price is Required</mat-error>
+                  </mat-form-field>
+                </div>
+                <label class="col-md-2 col-form-label">Profit Ratio *</label>
+                <div class="col-md-2">
+                  <mat-form-field>
+                    <input matInput [formControl]="profitRatioFormControl" (change)="changePrice()" required>
+                    <mat-error *ngIf="profitRatioFormControl.invalid">Profit Ratio is Required</mat-error>
+                  </mat-form-field>
+                </div>
+                <label class="col-md-2 col-form-label">Price </label>
+                <div class="col-md-2">
+                  <mat-form-field>
+                    <input matInput [formControl]="priceFormControl" required>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <!-- <div class="col-sm-4">
+                  <mat-select placeholder="Seller" [formControl]="sellerDDLControl">
+                    <mat-option *ngFor="let seller of Sellers" [value]="seller.ID">
+                      {{Seller.Name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="sellerDDLControl.invalid">Seller is Required</mat-error>
+                </div> -->
+                <div class="col-sm-4">
+                  <mat-select placeholder="Category" [formControl]="categoryDDLControl" (selectionChange)="changeCategory()">
+                    <mat-option *ngFor="let category of Categories" [value]="category.ID">
+                      {{category.Name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="categoryDDLControl.invalid">Category is Required</mat-error>
+                </div>
+                <div class="col-sm-4">
+                  <mat-select placeholder="Sub Category" [formControl]="subCategoryDDLControl">
+                    <mat-option *ngFor="let sub of SubCategories" [value]="sub.ID">
+                      {{sub.Name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="subCategoryDDLControl.invalid">Sub Category is Required</mat-error>
+                </div>
+              </div>
+              <!-- Descriprion  -->
+              <div>        
+                  <label class="col-md-2 col-form-label">Description</label>
+                  <button mat-button class="btn-md btn-right"><i class="fa fa-plus-circle" (click)="addDescriptionItem()"></i> Add New</button>         
+                </div>
+            </div>
+            <!-- item options -->
+            <div>        
+              <label class="col-md-2 col-form-label">Item Options</label>
+              <mat-radio-group>
+                  <mat-radio-button value="1">ON</mat-radio-button>
+                <mat-radio-button value="0">OFF</mat-radio-button>      
+              </mat-radio-group>
+              <mat-grid-list cols="2" rowHeight="2:1">
+                  <mat-grid-tile>  <!-- Colors -->
+                      
+                  </mat-grid-tile>
+                  <mat-grid-tile><!-- Sizes -->
+
+
+                  </mat-grid-tile>
+                </mat-grid-list>
+                         
+            </div>
+        </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

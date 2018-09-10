@@ -9,7 +9,10 @@ import { ItemService } from '../../Services/Item.service';
 import { IndexComponent } from './Index/Index.component';
 import { ItemViewComponent } from './ItemView/ItemView.component';
 import { GridDeletbtnModule } from '../../shared/GridDeletbtn/GridDeletbtn.module';
-
+import { SellerService } from '../../Services/Seller.service';
+import { CategoryService } from '../../Services/CategoryService.service';
+import { SubCategoryService } from '../../Services/SubCategory.service';
+import {ItemDescreptionComponent} from '../../Popups/ItemDescreption/ItemDescreption.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,7 +23,8 @@ import { GridDeletbtnModule } from '../../shared/GridDeletbtn/GridDeletbtn.modul
     MaterialModule,
     GridDeletbtnModule
   ],
-  declarations: [IndexComponent, ItemViewComponent],
-  providers: [ItemService]
+  declarations: [IndexComponent, ItemViewComponent,ItemDescreptionComponent],
+  providers: [ItemService,SellerService,CategoryService,SubCategoryService],
+  entryComponents :[ItemDescreptionComponent]
 })
 export class ItemModule { }

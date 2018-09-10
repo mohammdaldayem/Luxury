@@ -11,6 +11,8 @@ export interface IResponse {
     Cart: ICart[];
     SellerInfo: ISeller;
     Items: IItem[];
+    SubCategories : ISubCategory[];
+    Categories : ICategory[];
 }
 export interface IMessage {
     ID: number;
@@ -18,7 +20,7 @@ export interface IMessage {
      Email: string;
       Phone: string;
        Message: string;
-        StatusId: string;
+        StatusId: string; 
          CreatedAt: Date;
 }
 export interface IRequest {
@@ -97,4 +99,15 @@ export interface IItemDescription {
 export interface IItemImage {
     ID: string;
     Image: string;
+}
+export interface ISubCategory {
+    ID: string;
+    Image: string;
+    Name : string;
+    CategoryId : string; 
+}
+export  interface ICategory {
+    ID : string;
+    Name :string;
+    Image : string;
 }

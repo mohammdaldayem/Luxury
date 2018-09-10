@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
@@ -6,6 +6,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { ItemDescreptionComponent} from './Popups/ItemDescreption/ItemDescreption.component';
+
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -53,6 +55,7 @@ import {DashboardService} from './Services/dashboard.service';
 
 import { AppConfig } from './app.config';
 import { AppRoutes } from './app.routing';
+import { TOBEDELETEComponent } from './tobedelete/tobedelete.component';
 
 @NgModule({
   exports: [
@@ -87,12 +90,15 @@ import { AppRoutes } from './app.routing';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
-  ]
+  ],
+ 
+  
 })
 export class MaterialModule {}
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
+
 @NgModule({
     imports:      [
         CommonModule,

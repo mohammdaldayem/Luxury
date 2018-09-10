@@ -4,6 +4,7 @@ import { ISeller, IItem, IResponse } from '../../../models/Response';
 import { ItemService } from '../../../Services/Item.service';
 import swal from 'sweetalert2';
 import { AppConfig } from '../../../app.config';
+
 @Component({
   selector: 'app-index',
   templateUrl: './Index.component.html',
@@ -29,6 +30,7 @@ export class IndexComponent implements OnInit, AfterViewInit  {
       this.resultsLength = 33;  // (<IResponse>resultobj).Items.length;
     });
   }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

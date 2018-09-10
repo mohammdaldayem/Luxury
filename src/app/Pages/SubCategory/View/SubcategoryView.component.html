@@ -1,0 +1,57 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <form [formGroup]="form" class="form-horizontal">
+              <div class="card-header card-header-primary card-header-icon">
+                <h4 class="card-title">Subcategory Details</h4>
+              </div>
+                <div class="card-body">
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">English Name *</label>
+                          <div class="col-sm-4">
+                              <mat-form-field>
+                                  <input matInput [formControl]="ennameFormControl" required>
+                                  <mat-error *ngIf="ennameFormControl.invalid">English Name is Required</mat-error>
+                                </mat-form-field>
+                          </div>
+                      </div>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Arabic Name *</label>
+                          <div class="col-sm-4">
+                              <mat-form-field>
+                                  <input matInput [formControl]="arnameFormControl" required>
+                                  <mat-error *ngIf="arnameFormControl.invalid">Arabic Name is Required</mat-error>
+                                </mat-form-field>
+                          </div>
+                      </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                              <mat-select placeholder="Category" [formControl]="mainCategoryControl" >
+                                <mat-option *ngFor="let category of categories" [value]="category.ID">
+                                  {{category.Name}}
+                                </mat-option>
+                              </mat-select>
+                            </div>
+                          </div>
+                            <!-- <div class="row">
+                            upload image 
+                            </div> -->
+                                <div class="row">
+                                    <div class="col-md-4 ">
+                                        <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="alertd()">Save</button> 
+                                        <!-- To do  add / update -->
+                                    </div>
+                                  </div>
+                </div>
+                <!-- end content-->
+              </form>
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

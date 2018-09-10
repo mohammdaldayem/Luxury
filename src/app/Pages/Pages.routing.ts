@@ -20,6 +20,14 @@ export const PagesRoutes: Routes = [
   {
     path: 'Item',
     loadChildren: './Item/Item.module#ItemModule'
+  },
+  {
+    path: 'SubCategory',
+    loadChildren: './SubCategory/SubCategory.module#SubCategoryModule'
+  },
+  {
+    path: 'Category',
+    loadChildren: './Category/Category.module#CategoryModule'
   }]
 }
 ];

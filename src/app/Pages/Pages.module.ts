@@ -10,7 +10,7 @@ import { SellerModule } from './Seller/Seller.module';
 import { ItemModule } from './Item/Item.module';
 import { FieldErrorDisplayComponent } from '../shared/field-error-display/field-error-display.component';
 import { GridDeletbtnModule } from '../shared/GridDeletbtn/GridDeletbtn.module';
-
+import  {SubCategoryModule} from './SubCategory/SubCategory.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,7 +20,8 @@ import { GridDeletbtnModule } from '../shared/GridDeletbtn/GridDeletbtn.module';
     MaterialModule,
     SellerModule,
     ItemModule,
-    GridDeletbtnModule
+    GridDeletbtnModule,
+    SubCategoryModule
   ],
   declarations: []
 })
