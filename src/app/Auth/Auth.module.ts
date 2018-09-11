@@ -7,6 +7,7 @@ import { MaterialModule } from '../app.module';
 
 import { AuthRoutes } from './Auth.routing';
 import {LoginComponent} from './Login/Login.component';
+import {UserService} from '../../app/Services/User.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +17,7 @@ import {LoginComponent} from './Login/Login.component';
     MaterialModule
   ],
   declarations: [
-    LoginComponent]
+    LoginComponent],
+    providers: [UserService ]
 })
 export class AuthModule { }
