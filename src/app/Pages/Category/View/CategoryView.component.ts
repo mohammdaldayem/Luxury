@@ -5,6 +5,8 @@ import { IResponse, ICategory } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import swal from 'sweetalert2';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'app-seller-view',
@@ -26,7 +28,9 @@ export class CategoryViewComponent implements OnInit {
   form: FormGroup;
   ID: string;
   category: ICategory;
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  fileToUpload: File = null;
+  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, 
+    private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
     });
@@ -40,19 +44,24 @@ export class CategoryViewComponent implements OnInit {
 
     if (this.ID !== undefined) {
       this.categoryService.getCategories().subscribe(response => {
-        this.category = ((<IResponse>response).Categories).find(category=>category.ID==this.ID);
+        this.category = ((<IResponse>response).Categories).find(category => category.ID === this.ID);
         this.ennameFormControl.setValue(this.category.Name);
-        this.arnameFormControl.setValue(this.category.Name);//to be chanege when feedback come from back end
+        this.arnameFormControl.setValue(this.category.Name); // to be chanege when feedback come from back end
       });
     }
   }
-addUpdate(){
-  debugger
-  if(this.ID){
+  previewImage(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
+addUpdate() {
+
+  if (this.ID) {
     this.categoryService.updateCategory
     ({
       CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
-      CategoryName_En: this.ennameFormControl.value
+      CategoryName_En: this.ennameFormControl.value,
+      image: this.fileToUpload,
+      name: this.fileToUpload.name
     }).subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {
@@ -72,14 +81,31 @@ addUpdate(){
           buttonsStyling: false
         }).catch(swal.noop);
       }
-    }); 
-  }
-  else{
-    this.categoryService.addCategory
-    ({
-      CategoryName_Ar: this.arnameFormControl.value,
-      CategoryName_En: this.ennameFormControl.value
-    }).subscribe(result => {
+    });
+  } else {
+     const httpOptions = {
+       headers: new HttpHeaders()
+         .append('Content-Type', 'application/x-www-form-urlencoded')
+         .append(
+           'Authorization',
+           AppConfig.settings.apiServer.AuthorizationToken
+         )
+         .append('Accept-Language', 'En')
+     };
+     const formData: FormData = new FormData();
+     formData.append('CategoryName_Ar', this.arnameFormControl.value);
+     formData.append('CategoryName_En', this.ennameFormControl.value);
+     formData.append('image', this.fileToUpload);
+     this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+     httpOptions)
+    // this.categoryService.addCategory
+    //  ({
+    //    CategoryName_Ar: this.arnameFormControl.value,
+    //    CategoryName_En: this.ennameFormControl.value,
+    //    image: this.fileToUpload,
+    //    name: this.fileToUpload.name
+    //  })
+     .subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {
         swal({

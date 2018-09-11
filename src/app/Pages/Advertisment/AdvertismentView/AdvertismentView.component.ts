@@ -55,7 +55,7 @@ export class AdvertismentViewComponent implements OnInit {
     let response: any ;
     if (this.ID !== undefined && this.ID !== 0) {
 // tslint:disable-next-line:max-line-length
-this._advertismentService.updateAdvertisment({AdvertismentId: this.ID, TitleAr: this.arTitleFormControl.value, TitleEn: this.enTitleFormControl.value, DescriptionAr: this.arDescFormControl.value, DescriptionEn: this.enDescFormControl.value}).subscribe(result => {
+this._advertismentService.updateAdvertisment({AdvertismentId: this.ID, TitleAr: this.arTitleFormControl.value, TitleEn: this.enTitleFormControl.value, DescriptionAr: this.arDescFormControl.value, DescriptionEn: this.enDescFormControl.value, image: this.fileToUpload, name: this.fileToUpload.name}).subscribe(result => {
   response = <IResponse>result ;
   if (response.success === true) {
     swal({
@@ -77,7 +77,7 @@ this._advertismentService.updateAdvertisment({AdvertismentId: this.ID, TitleAr: 
 });
      } else {
       // tslint:disable-next-line:max-line-length
-      this._advertismentService.addAdvertisment({TitleAr: this.arTitleFormControl.value, TitleEn: this.enTitleFormControl.value, DescriptionAr: this.arDescFormControl.value, DescriptionEn: this.enDescFormControl.value}).subscribe(result => {
+      this._advertismentService.addAdvertisment({TitleAr: this.arTitleFormControl.value, TitleEn: this.enTitleFormControl.value, DescriptionAr: this.arDescFormControl.value, DescriptionEn: this.enDescFormControl.value, image: this.fileToUpload, name: this.fileToUpload.name}).subscribe(result => {
           response = <IResponse>result ;
           if (response.success === true) {
             swal({

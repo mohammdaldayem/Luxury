@@ -32,7 +32,7 @@ export const ROUTES: RouteInfo[] = [{
         title: 'Inbox',
         type: 'sub',
         icontype: 'image',
-        collapse: 'manage',
+        collapse: 'Inbox',
         children: [
             {path: 'Request', title: 'Request', ab: 'RQ'},
             {path: 'ContactUs', title: 'Contact Us', ab: 'CU'}
@@ -45,6 +45,7 @@ export const ROUTES: RouteInfo[] = [{
         icontype: 'image',
         collapse: 'manage',
         children: [
+            {path: 'Seller', title: 'Seller', ab: 'S'},
             {path: 'Item', title: 'Items', ab: 'I'},
             {path: 'Area', title: 'Area', ab: 'A'},
             {path: 'Terms', title: 'Terms and Conditions', ab: 'TC'},
@@ -76,7 +77,7 @@ export class SidebarComponent implements OnInit {
     updatePS(): void  {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
             const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
-            // let ps = new PerfectScrollbar(elemSidebar, { wheelSpeed: 2, suppressScrollX: true });
+             let ps = new PerfectScrollbar(elemSidebar, { wheelSpeed: 2, suppressScrollX: true });
         }
     }
     isMac(): boolean {

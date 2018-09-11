@@ -35,19 +35,10 @@ export class CategoryService extends BaseService {
   }
 
   addCategory(request: any) {
-    const httpOptions = {
-      headers: new HttpHeaders()
-        .append('Content-Type', 'application/x-www-form-urlencoded')
-        .append(
-          'Authorization',
-          AppConfig.settings.apiServer.AuthorizationToken
-        )
-        .append('Accept-Language', 'En')
-    };
     return this.http.post(
       AppConfig.settings.apiServer.host + 'Category/AddNewCategory.php',
-      this.getFormUrlEncoded(request),
-      httpOptions
+      this.getFormUrlEncodedwithfile(request),
+      this.httpOptions
     );
   }
 
