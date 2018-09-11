@@ -19,7 +19,7 @@ import {CategoryViewComponent} from './View/CategoryView.component';
     MaterialModule,
     GridDeletbtnModule
   ],
-  declarations: [IndexComponent,CategoryViewComponent],
+  declarations: [IndexComponent, CategoryViewComponent],
   providers: [CategoryService]
 })
 export class CategoryModule { }

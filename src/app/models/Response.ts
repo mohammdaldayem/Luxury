@@ -11,16 +11,13 @@ export interface IResponse {
     Cart: ICart[];
     SellerInfo: ISeller;
     Items: IItem[];
-<<<<<<< HEAD
-    SubCategories : ISubCategory[];
-    Categories : ICategory[];
-=======
+    SubCategories: ISubCategory[];
+    Categories: ICategory[];
     Areas: IArea[];
     AreaInfo: IArea;
     Terms_Conditions: ITerms;
     Advertisments: IAdvertisment[];
     ItemInfo: IAdvertisment;
->>>>>>> 32af0dd976d0dc3dcb1a0d9f7ab956d61a4c9ecc
 }
 export interface IMessage {
     ID: number;
@@ -28,7 +25,7 @@ export interface IMessage {
      Email: string;
       Phone: string;
        Message: string;
-        StatusId: string; 
+        StatusId: string;
          CreatedAt: Date;
 }
 export interface IRequest {
@@ -108,18 +105,18 @@ export interface IItemImage {
     ID: string;
     Image: string;
 }
-<<<<<<< HEAD
+
 export interface ISubCategory {
     ID: string;
     Image: string;
-    Name : string;
-    CategoryId : string; 
+    Name: string;
+    CategoryId: string;
 }
 export  interface ICategory {
-    ID : string;
-    Name :string;
-    Image : string;
-=======
+    ID: string;
+    Name: string;
+    Image: string;
+}
 export interface IArea {
     ID: string;
     Name: string;
@@ -133,5 +130,4 @@ export interface IAdvertisment {
     Title: string;
     Description: string;
     Image: string;
->>>>>>> 32af0dd976d0dc3dcb1a0d9f7ab956d61a4c9ecc
 }
