@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AppConfig } from '../../../app.config';
@@ -16,11 +16,21 @@ export class IndexComponent implements OnInit {
   dataSource: MatTableDataSource<ICategory>;
   imagePath: string = AppConfig.settings.apiServer.categoryimagepath;
   categories: ICategory[];
+  resultsLength = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
+      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageSize, this.paginator.pageIndex));
+      this.resultsLength = (<IResponse>result).Categories.length;  
     })
+  }
+
+  loadAllICategories(pagesize: number, from: number) {
+    this.CategoryService.getCategories().subscribe(resultobj => {
+      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>resultobj).Categories.slice(from, pagesize));
+      this.resultsLength = (<IResponse>resultobj).Categories.length;  
+    });
   }
   
   applyFilter(filterValue: string) {

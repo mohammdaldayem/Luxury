@@ -13,6 +13,7 @@ import {UserService} from '../../app/Services/User.service';
     CommonModule,
     RouterModule.forChild(AuthRoutes),
     FormsModule,
+    ReactiveFormsModule,
     MdModule,
     MaterialModule
   ],

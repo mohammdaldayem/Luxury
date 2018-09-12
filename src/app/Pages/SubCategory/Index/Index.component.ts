@@ -16,7 +16,7 @@ export class IndexComponent implements OnInit {
 
   displayedColumns: string[] = ['Image', 'Name', 'Actions'];
   dataSource: MatTableDataSource<ISubCategory>;
-  imagePath: string = AppConfig.settings.apiServer.categoryimagepath;
+  imagePath: string = AppConfig.settings.apiServer.subCategoryimagepath;
   categories: ICategory[];
   category: string;
   constructor(private CategoryService: CategoryService, private SubCategoryService: SubCategoryService) { }

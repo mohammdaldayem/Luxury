@@ -27,17 +27,19 @@
                           </div>
                       </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <label class="col-sm-2"></label>
+                                <div class="col-sm-4">
                               <mat-select placeholder="Category" [formControl]="mainCategoryControl" >
-                                <mat-option *ngFor="let category of categories" [value]="category.ID">
+                                <mat-option *ngFor="let category of categories" [value]="category.ID" class="">
                                   {{category.Name}}
                                 </mat-option>
                               </mat-select>
                             </div>
                           </div>
-                            <!-- <div class="row">
-                            upload image 
-                            </div> -->
+                          <div class="row">
+                            <button mat-raised-button type="button" (click)="imgFileInput.click()">Add a photo</button>
+                            <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
+                             </div>
                                 <div class="row">
                                     <div class="col-md-4 ">
                                         <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="alertd()">Save</button> 

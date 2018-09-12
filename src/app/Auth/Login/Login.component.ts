@@ -1,9 +1,10 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { UserService } from '../../Services/User.service';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder ,FormsModule } from '@angular/forms';
 import { IResponse } from '../../models/Response';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { debug } from 'util';
 
 declare var $: any;
 
@@ -14,17 +15,17 @@ declare var $: any;
 export class LoginComponent implements OnInit, OnDestroy {
     userNameFormControl = new FormControl('', [
         Validators.required,
-    ]);
-    passwordFormControl = new FormControl('', [
+      ]);
+      passwordFormControl = new FormControl('', [
         Validators.required,
-    ]);
-
+      ]);
     form: FormGroup;
     test: Date = new Date();
     private toggleButton: any;
     private sidebarVisible: boolean;
     private nativeElement: Node;
-
+    private userName : string;
+    private password : string; 
     constructor(private element: ElementRef, private userService: UserService,  private route: Router,) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -64,22 +65,22 @@ export class LoginComponent implements OnInit, OnDestroy {
         body.classList.remove('off-canvas-sidebar');
     }
 
-    logIn() {
-        debugger       
+    logIn() {  
+        debugger
         this.userService.logIn({UserName : this.userNameFormControl.value,Password:this.passwordFormControl.value})
         .subscribe(result => {
             const response = <IResponse>result;
             if (response.success === true) {
                 this.route.navigate(['/dashboard']);
             } else {
-              swal({
-                title: 'Failed',
-                text: 'InValid User Name Or Password',
-                type: 'error',
-                confirmButtonClass: 'btn btn-info',
-                buttonsStyling: false
-              }).catch(swal.noop);
-            }
+                swal({
+                  title: 'Failed',
+                  text: 'Invalid User Name Or Password',
+                  type: 'error',
+                  confirmButtonClass: 'btn btn-info',
+                  buttonsStyling: false
+                }).catch(swal.noop);
+              }
           });
     }
 }

@@ -5,7 +5,9 @@ import { CategoryService } from '../../../Services/CategoryService.service';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
+import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'app-seller-view',
@@ -30,7 +32,9 @@ export class SubcategoryViewComponent implements OnInit {
   category: ISubCategory;
   categories: ICategory[];
   mainCategory: string;
-  constructor(private SubCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  fileToUpload: File = null;
+
+  constructor(private SubCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder,private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
       this.CategortyID = params['CategoryID'];
@@ -86,65 +90,28 @@ export class SubcategoryViewComponent implements OnInit {
         });
     }
     else {
-      this.SubCategoryService.addSupCategory
-        ({
-          CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value
-        }).subscribe(result => {
-          const response = <IResponse>result;
-          if (response.success === true) {
-            swal({
-              title: 'Success',
-              text: 'The transaction is succeeded',
-              buttonsStyling: false,
-              confirmButtonClass: 'btn btn-success',
-              type: 'success'
-            });
-          } else {
-            swal({
-              title: 'Failed',
-              text: 'The transaction is failed',
-              type: 'error',
-              confirmButtonClass: 'btn btn-info',
-              buttonsStyling: false
-            }).catch(swal.noop);
-          }
-        });
-    }
-  }
-  addUpdateSubCategory() {
-    debugger;
-    if (this.ID !== undefined) {
-      this.SubCategoryService.updateSupCategory
-        ({
-          CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value, SubCategoryId: this.ID
-        }).subscribe(result => {
-          const response = <IResponse>result;
-          if (response.success === true) {
-            swal({
-              title: 'Success',
-              text: 'The transaction is succeeded',
-              buttonsStyling: false,
-              confirmButtonClass: 'btn btn-success',
-              type: 'success'
-            });
-          } else {
-            swal({
-              title: 'Failed',
-              text: 'The transaction is failed',
-              type: 'error',
-              confirmButtonClass: 'btn btn-info',
-              buttonsStyling: false
-            }).catch(swal.noop);
-          }
-        });
-    } else {
-      this.SubCategoryService.addSupCategory
-        ({
-          CategoryId: this.CategortyID, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value
-        }).subscribe(result => {
+      // this.SubCategoryService.addSupCategory
+      //   ({
+      //     CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
+      //     CategoryName_En: this.ennameFormControl.value
+      //   })
+        const httpOptions = {
+          headers: new HttpHeaders()
+            .append('Content-Type', 'application/x-www-form-urlencoded')
+            .append(
+              'Authorization',
+              AppConfig.settings.apiServer.AuthorizationToken
+            )
+            .append('Accept-Language', 'En')
+        };
+        const formData: FormData = new FormData();
+        formData.append('CategoryId', this.mainCategoryControl.value);
+        formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
+        formData.append('SubCategoryName_En', this.ennameFormControl.value);
+        formData.append('image', this.fileToUpload);
+        this.http.post( AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
+        httpOptions)
+        .subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
             swal({
@@ -167,4 +134,7 @@ export class SubcategoryViewComponent implements OnInit {
     }
   }
 
+  previewImage(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
 }

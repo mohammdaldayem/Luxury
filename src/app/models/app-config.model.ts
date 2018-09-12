@@ -25,5 +25,6 @@ export interface IAppConfig {
         categoryimagepath: string;
         itemimagepath: string;
         advertimagepath: string;
+        subCategoryimagepath : string;
     };
 }
