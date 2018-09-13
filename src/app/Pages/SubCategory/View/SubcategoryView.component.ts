@@ -8,6 +8,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBui
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
 import { AppConfig } from '../../../app.config';
+import { formGroupNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
 
 @Component({
   selector: 'app-seller-view',
@@ -16,16 +17,9 @@ import { AppConfig } from '../../../app.config';
 })
 
 export class SubcategoryViewComponent implements OnInit {
-  ennameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-  arnameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-  mainCategoryControl = new FormControl('', [
-    Validators.required,
-  ]);
-
+  ennameFormControl: FormControl;
+  arnameFormControl: FormControl;
+  mainCategoryControl: FormControl;
   form: FormGroup;
   ID: string;
   CategortyID: string;
@@ -33,23 +27,32 @@ export class SubcategoryViewComponent implements OnInit {
   categories: ICategory[];
   mainCategory: string;
   fileToUpload: File = null;
+  isSubmitted: boolean;
 
-  constructor(private SubCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder,private http: HttpClient) {
+  constructor(private SubCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
       this.CategortyID = params['CategoryID'];
+      this.form = new FormGroup({});
+      this.ennameFormControl = new FormControl('', [
+        Validators.required,
+      ]);
+      this.arnameFormControl = new FormControl('', [
+        Validators.required,
+      ]);
+      this.mainCategoryControl = new FormControl('', [
+        Validators.required,
+      ]);
     });
+
+    this.form.addControl('ennameFormControl', this.ennameFormControl);
+    this.form.addControl('arnameFormControl', this.arnameFormControl);
+    this.form.addControl('mainCategoryControl', this.mainCategoryControl);
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      enname: ['', Validators.required],
-      arname: ['', Validators.required]
-    });
-
     this.categoryService.getCategories().subscribe(response => {
       this.categories = ((<IResponse>response).Categories)
-      this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
     });
 
     if (this.ID !== undefined) {
@@ -58,12 +61,17 @@ export class SubcategoryViewComponent implements OnInit {
         this.ennameFormControl.setValue(this.category.Name);
         this.arnameFormControl.setValue(this.category.Name);
       });
+      this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
+
     }
   }
-  alertd() {
+  addUpdate() {
+    this.isSubmitted = true;
+    debugger
+    if (this.form.status == "INVALID" || !this.fileToUpload)
+      return;
+
     if (this.ID) {
-      this.mainCategoryControl.value
-      debugger
       this.SubCategoryService.updateSupCategory
         ({
           CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
@@ -95,21 +103,21 @@ export class SubcategoryViewComponent implements OnInit {
       //     CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
       //     CategoryName_En: this.ennameFormControl.value
       //   })
-        const httpOptions = {
-          headers: new HttpHeaders()
-            .append('Content-Type', 'application/x-www-form-urlencoded')
-            .append(
-              'Authorization',
-              AppConfig.settings.apiServer.AuthorizationToken
-            )
-            .append('Accept-Language', 'En')
-        };
-        const formData: FormData = new FormData();
-        formData.append('CategoryId', this.mainCategoryControl.value);
-        formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
-        formData.append('SubCategoryName_En', this.ennameFormControl.value);
-        formData.append('image', this.fileToUpload);
-        this.http.post( AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .append('Content-Type', 'application/x-www-form-urlencoded')
+          .append(
+            'Authorization',
+            AppConfig.settings.apiServer.AuthorizationToken
+          )
+          .append('Accept-Language', 'En')
+      };
+      const formData: FormData = new FormData();
+      formData.append('CategoryId', this.mainCategoryControl.value);
+      formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
+      formData.append('SubCategoryName_En', this.ennameFormControl.value);
+      formData.append('image', this.fileToUpload);
+      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
         httpOptions)
         .subscribe(result => {
           const response = <IResponse>result;

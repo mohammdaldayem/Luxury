@@ -50,8 +50,8 @@ export const ROUTES: RouteInfo[] = [{
             {path: 'Area', title: 'Area', ab: 'A'},
             {path: 'Terms', title: 'Terms and Conditions', ab: 'TC'},
             {path: 'Advertisment', title: 'Advertisments', ab: 'AD'},
-            {path: 'Category', title: 'Ctegory', ab: 'AD'},
-            {path: 'SubCategory', title: 'SubCategory', ab: 'AD'},
+            {path: 'Category', title: 'Category', ab: 'CT'},
+            {path: 'SubCategory', title: 'SubCategory', ab: 'SC'},
 
         ]
     }

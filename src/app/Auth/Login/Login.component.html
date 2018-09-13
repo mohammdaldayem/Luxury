@@ -17,8 +17,8 @@
                     </div>
                     <input type="text" [formControl]="userNameFormControl" matInput  class="form-control"  id="userName" placeholder="User Name..."  
                       required  >
-                    <mat-error *ngIf="">User Name Is Required</mat-error>
                   </div>
+                  <span style="margin-left: 14px;font-size: 12px;color: red;" *ngIf="!userNameFormControl.valid && isSubmitted">User Name Is Required</span>
                 </span>
                 <span class="bmd-form-group">
                   <div class="input-group">
@@ -29,8 +29,8 @@
                     </div>
                     <input type="password" [formControl]="passwordFormControl" class="form-control" placeholder="Password..."  id="password" 
                       required>
-                    <mat-error *ngIf="">Password Is Required</mat-error>
                   </div>
+                  <mat-error style="margin-left: 14px;font-size: 12px;color: red;" *ngIf="!passwordFormControl.valid && isSubmitted">Password Is Required</mat-error>
                 </span>
               </div>
               <div class="card-footer justify-content-center">
