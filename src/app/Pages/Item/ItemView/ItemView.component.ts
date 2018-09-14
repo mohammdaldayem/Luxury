@@ -158,7 +158,7 @@ export class ItemViewComponent implements OnInit {
                 // this.Item.ItemImages.push({ID: '0', Image: files[i].name} as IItemImage);
                 this.addItemImages.push(files[i]);
                  reader.onload = (ev) => {
-                    this.Itemurls.push(ev.target.result);
+                    //this.Itemurls.push(ev.target.result);
                  };
                 reader.readAsDataURL(files[i]);
         }

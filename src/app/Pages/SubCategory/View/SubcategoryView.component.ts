@@ -53,7 +53,7 @@ export class SubcategoryViewComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getCategories().subscribe(response => {
       this.categories = ((<IResponse>response).Categories)
-      if(this.ID){
+      if (this.ID) {
         this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
       }
     });
@@ -69,14 +69,25 @@ export class SubcategoryViewComponent implements OnInit {
   }
   addUpdate() {
     this.isSubmitted = true;
-    if (this.form.status == "INVALID" || (!this.ID && !this.fileToUpload))
+    if (this.form.status === 'INVALID' || (!this.ID && !this.fileToUpload)) {
       return;
+    }
     if (this.ID) {
-      this.SubCategoryService.updateSupCategory
-        ({
-          CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value, SubCategoryId: this.ID
-        }).subscribe(result => {
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .append('Content-Type', 'application/x-www-form-urlencoded')
+          .append(
+            'Authorization',
+            AppConfig.settings.apiServer.AuthorizationToken
+          )
+          .append('Accept-Language', 'En')
+      };
+      const formData: FormData = new FormData();
+      formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
+      formData.append('SubCategoryName_En', this.ennameFormControl.value);
+      formData.append('Image', this.fileToUpload);
+      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
+        httpOptions).subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
             swal({
@@ -96,8 +107,7 @@ export class SubcategoryViewComponent implements OnInit {
             }).catch(swal.noop);
           }
         });
-    }
-    else {
+    } else {
       // this.SubCategoryService.addSupCategory
       //   ({
       //     CategoryId: this.mainCategoryControl.value, CategoryName_Ar: this.arnameFormControl.value,
@@ -116,7 +126,7 @@ export class SubcategoryViewComponent implements OnInit {
       formData.append('CategoryId', this.mainCategoryControl.value);
       formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
       formData.append('SubCategoryName_En', this.ennameFormControl.value);
-      formData.append('image', this.fileToUpload);
+      formData.append('Image', this.fileToUpload);
       this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
         httpOptions)
         .subscribe(result => {

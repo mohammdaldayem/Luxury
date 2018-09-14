@@ -22,36 +22,20 @@ export class IndexComponent implements OnInit {
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
-<<<<<<< HEAD
       // tslint:disable-next-line:max-line-length
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageSize, this.paginator.pageIndex));
+      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageIndex, this.paginator.pageSize));
       this.resultsLength = (<IResponse>result).Categories.length;
     });
-=======
-
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageIndex, this.paginator.pageSize));
-      this.resultsLength = (<IResponse>result).Categories.length;  
-    })
->>>>>>> f2dcc128aca44cbb495c26ff3bd50bd5b8150b02
   }
 
   loadAllICategories(pagesize: number, from: number) {
     // from = from * pagesize;
     // pagesize = pagesize + from
-    debugger
     this.CategoryService.getCategories().subscribe(resultobj => {
-<<<<<<< HEAD
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>resultobj).Categories.slice(from, pagesize));
-      this.resultsLength = (<IResponse>resultobj).Categories.length;
-    });
-  }
-
-=======
       this.dataSource.data = ((<IResponse>resultobj).Categories.slice(from, pagesize));
       this.resultsLength = (<IResponse>resultobj).Categories.length;
     });
   }
->>>>>>> f2dcc128aca44cbb495c26ff3bd50bd5b8150b02
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

@@ -55,25 +55,27 @@ export class CategoryViewComponent implements OnInit {
   }
   addUpdate() {
     this.isSubmitted = true;
-    debugger
-    if (this.form.status == "INVALID" || (!this.ID && !this.fileToUpload))
+    if (this.form.status === 'INVALID' || (!this.ID && !this.fileToUpload)) {
       return;
+    }
 
     if (this.ID) {
-      var sendObject = this.fileToUpload == null ?
-        {
-          CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value
-        }
-        :
-        {
-          CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
-          CategoryName_En: this.ennameFormControl.value,
-          image: this.fileToUpload,
-          name: this.fileToUpload.name
-        }
-      this.categoryService.updateCategory
-        (sendObject).subscribe(result => {
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .append('Content-Type', 'application/x-www-form-urlencoded')
+          .append(
+            'Authorization',
+            AppConfig.settings.apiServer.AuthorizationToken
+          )
+          .append('Accept-Language', 'En')
+      };
+      const formData: FormData = new FormData();
+      formData.append('CategoryId', this.ID);
+      formData.append('CategoryName_Ar', this.arnameFormControl.value);
+      formData.append('CategoryName_En', this.ennameFormControl.value);
+      formData.append('image', this.fileToUpload);
+      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewCategory.php', formData,
+        httpOptions).subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
             swal({
@@ -93,17 +95,7 @@ export class CategoryViewComponent implements OnInit {
             }).catch(swal.noop);
           }
         });
-      } else {
-        swal({
-          title: 'Failed',
-          text: 'The transaction is failed',
-          type: 'error',
-          confirmButtonClass: 'btn btn-info',
-          buttonsStyling: false
-        }).catch(swal.noop);
-      }
-    });
-  } else {
+    } else {
       const httpOptions = {
         headers: new HttpHeaders()
           .append('Content-Type', 'application/x-www-form-urlencoded')
@@ -117,16 +109,8 @@ export class CategoryViewComponent implements OnInit {
       formData.append('CategoryName_Ar', this.arnameFormControl.value);
       formData.append('CategoryName_En', this.ennameFormControl.value);
       formData.append('image', this.fileToUpload);
-<<<<<<< HEAD
-      this.http.post(AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewCategory.php', formData,
         httpOptions)
-        // this.categoryService.addCategory
-        //  ({
-        //    CategoryName_Ar: this.arnameFormControl.value,
-        //    CategoryName_En: this.ennameFormControl.value,
-        //    image: this.fileToUpload,
-        //    name: this.fileToUpload.name
-        //  })
         .subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
@@ -146,26 +130,6 @@ export class CategoryViewComponent implements OnInit {
               buttonsStyling: false
             }).catch(swal.noop);
           }
-=======
-      this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
-      httpOptions)
-    //  this.categoryService.addCategory
-    //   ({
-    //     CategoryName_Ar: this.arnameFormControl.value,
-    //     CategoryName_En: this.ennameFormControl.value,
-    //     image: this.fileToUpload,
-    //     name: this.fileToUpload.name
-    //   })
-     .subscribe(result => {
-      const response = <IResponse>result;
-      if (response.success === true) {
-        swal({
-          title: 'Success',
-          text: 'The transaction is succeeded',
-          buttonsStyling: false,
-          confirmButtonClass: 'btn btn-success',
-          type: 'success'
->>>>>>> f2dcc128aca44cbb495c26ff3bd50bd5b8150b02
         });
     }
   }

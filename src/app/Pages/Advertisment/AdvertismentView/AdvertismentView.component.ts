@@ -62,9 +62,9 @@ export class AdvertismentViewComponent implements OnInit {
   }
   AddUpdateAdvertisment() {
     this.isSubmitted = true;
-    debugger
-    if (this.form.status == "INVALID" || !this.fileToUpload)
+    if (this.form.status === 'INVALID' || !this.fileToUpload) {
       return;
+    }
     let response: any;
     if (this.ID !== undefined && this.ID !== 0) {
       // tslint:disable-next-line:max-line-length
@@ -89,7 +89,6 @@ export class AdvertismentViewComponent implements OnInit {
         }
       });
     } else {
-      debugger
       const httpOptions = {
         headers: new HttpHeaders()
           .append('Content-Type', 'application/x-www-form-urlencoded')
@@ -102,7 +101,6 @@ export class AdvertismentViewComponent implements OnInit {
       formData.append('DescriptionAr', this.arDescFormControl.value);
       formData.append('DescriptionEn', this.enDescFormControl.value);
       formData.append('image', this.fileToUpload);
-      formData.append('name', 'Chair2.jpg');
       this.http.post(AppConfig.settings.apiServer.host + 'Advertisment/Add_Advertisment.php', formData,
         httpOptions)
         .subscribe(result => {
