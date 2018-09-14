@@ -15,33 +15,33 @@ import { AppConfig } from '../../../app.config';
 })
 
 export class CategoryViewComponent implements OnInit {
-  ennameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-  arnameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-  mainCategoryControl = new FormControl('', [
-    Validators.required,
-  ]);
-
+  ennameFormControl: FormControl;
+  arnameFormControl: FormControl;
+  isSubmitted : boolean;
   form: FormGroup;
   ID: string;
   category: ICategory;
   fileToUpload: File = null;
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, 
+  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder,
     private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
+      this.form = new FormGroup({});
+
+      this.ennameFormControl = new FormControl('', [
+        Validators.required,
+      ]);
+
+      this.arnameFormControl = new FormControl('', [
+        Validators.required,
+      ]);
+
+      this.form.addControl('ennameFormControl', this.ennameFormControl)
+      this.form.addControl('arnameFormControl', this.arnameFormControl)
     });
   }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      enname: ['', Validators.required],
-      arname: ['', Validators.required]
-    });
-
     if (this.ID !== undefined) {
       this.categoryService.getCategories().subscribe(response => {
         this.category = ((<IResponse>response).Categories).find(category => category.ID === this.ID);
@@ -53,7 +53,11 @@ export class CategoryViewComponent implements OnInit {
   previewImage(files: FileList) {
     this.fileToUpload = files.item(0);
   }
-addUpdate() {
+  addUpdate() {
+    this.isSubmitted = true;
+    if (this.form.status === 'INVALID' || !this.fileToUpload) {
+    return;
+    }
 
   if (this.ID) {
     const httpOptions = {
@@ -106,6 +110,7 @@ addUpdate() {
       formData.append('CategoryName_Ar', this.arnameFormControl.value);
       formData.append('CategoryName_En', this.ennameFormControl.value);
       formData.append('image', this.fileToUpload);
+<<<<<<< HEAD
       this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
       httpOptions)
     //  this.categoryService.addCategory
@@ -124,17 +129,37 @@ addUpdate() {
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-success',
           type: 'success'
+=======
+      this.http.post(AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+        httpOptions)
+        // this.categoryService.addCategory
+        //  ({
+        //    CategoryName_Ar: this.arnameFormControl.value,
+        //    CategoryName_En: this.ennameFormControl.value,
+        //    image: this.fileToUpload,
+        //    name: this.fileToUpload.name
+        //  })
+        .subscribe(result => {
+          const response = <IResponse>result;
+          if (response.success === true) {
+            swal({
+              title: 'Success',
+              text: 'The transaction is succeeded',
+              buttonsStyling: false,
+              confirmButtonClass: 'btn btn-success',
+              type: 'success'
+            });
+          } else {
+            swal({
+              title: 'Failed',
+              text: 'The transaction is failed',
+              type: 'error',
+              confirmButtonClass: 'btn btn-info',
+              buttonsStyling: false
+            }).catch(swal.noop);
+          }
+>>>>>>> caeda4840a99d50f1fb764207bda573a02ae9620
         });
-      } else {
-        swal({
-          title: 'Failed',
-          text: 'The transaction is failed',
-          type: 'error',
-          confirmButtonClass: 'btn btn-info',
-          buttonsStyling: false
-        }).catch(swal.noop);
-      }
-    });
+    }
   }
-}
 }

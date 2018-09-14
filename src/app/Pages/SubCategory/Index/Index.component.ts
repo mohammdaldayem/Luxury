@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubCategoryService } from '../../../Services/SubCategory.service';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
@@ -16,24 +16,31 @@ export class IndexComponent implements OnInit {
 
   displayedColumns: string[] = ['Image', 'Name', 'Actions'];
   dataSource: MatTableDataSource<ISubCategory>;
-  imagePath: string = AppConfig.settings.apiServer.categoryimagepath;
+  imagePath: string = AppConfig.settings.apiServer.subCategoryimagepath;
   categories: ICategory[];
   category: string;
+  resultsLength = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(private CategoryService: CategoryService, private SubCategoryService: SubCategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
       this.categories = ((<IResponse>result).Categories);
     })
-    this.SubCategoryService.getSupCategories({ MainCategoryId: 3 }).subscribe(result => {
-      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories);
+  }
+
+  loadAllISubCategories(pagesize: number, from: number) {
+    this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
+      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories.slice(from, pagesize));
+      this.resultsLength = (<IResponse>result).SubCategories.length;
     });
   }
 
   changeCategory() {
     this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
-      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories);
+      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories.slice(this.paginator.pageIndex, this.paginator.pageSize)),
+      this.resultsLength = (<IResponse>result).SubCategories.length;
     });
-
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

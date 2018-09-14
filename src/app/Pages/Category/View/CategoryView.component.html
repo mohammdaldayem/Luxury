@@ -12,8 +12,8 @@
                 <label class="col-sm-2 col-form-label">English Name *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="ennameFormControl" required>
-                    <mat-error *ngIf="ennameFormControl.invalid">English Name is Required</mat-error>
+                    <input type="text" [formControl]="ennameFormControl" matInput required>
+                    <mat-error *ngIf="ennameFormControl.invalid && isSubmitted">English Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -21,15 +21,16 @@
                 <label class="col-sm-2 col-form-label">Arabic Name *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="arnameFormControl" required>
-                    <mat-error *ngIf="arnameFormControl.invalid">Arabic Name is Required</mat-error>
+                    <input type="text" [formControl]="arnameFormControl" matInput required>
+                    <mat-error *ngIf="arnameFormControl.invalid && isSubmitted">Arabic Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                           <button mat-raised-button type="button" (click)="imgFileInput.click()">Add a photo</button>
-                           <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
-                            </div>
+                <button mat-raised-button type="button" (click)="imgFileInput.click()" >Add a photo</button>
+                <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
+              </div>
+              <mat-error style="font-size: 75%;" *ngIf="!fileToUpload && isSubmitted">Image is Required</mat-error>
               <div class="row">
                 <div class="col-md-4 ">
                   <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdate()">Save</button>
@@ -47,3 +48,7 @@
     <!-- end row -->
   </div>
 </div>
+
+
+
+
