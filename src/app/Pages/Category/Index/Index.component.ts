@@ -21,8 +21,9 @@ export class IndexComponent implements OnInit {
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
+
       this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageIndex, this.paginator.pageSize));
-      this.resultsLength = (<IResponse>result).Categories.length;
+      this.resultsLength = (<IResponse>result).Categories.length;  
     })
   }
 
@@ -35,7 +36,6 @@ export class IndexComponent implements OnInit {
       this.resultsLength = (<IResponse>resultobj).Categories.length;
     });
   }
-
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -52,7 +52,7 @@ export class IndexComponent implements OnInit {
         }).catch(swal.noop);
         this.CategoryService.getCategories().subscribe(result => {
           this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
-        })
+        });
       } else {
         swal({
           title: 'Failed',

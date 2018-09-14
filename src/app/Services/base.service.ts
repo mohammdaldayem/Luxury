@@ -15,18 +15,19 @@ constructor() {
   };
  }
 
- getFormUrlEncodedwithfile(toConvert) {
+ getFormUrlEncodedwithfile(toConvert): FormData {
    const formData: FormData = new FormData();
    // tslint:disable-next-line:forin
    for (const property in toConvert) {
     let encodedValue = null;
      const encodedKey = property;
      if (toConvert[property] instanceof File) {
-       encodedValue = toConvert[property];
+       encodedValue = toConvert[property] as File;
+       formData.append(encodedKey, encodedValue, encodedValue.name);
      } else {
        encodedValue = toConvert[property];
+       formData.append(encodedKey, encodedValue);
      }
-     formData.append(encodedKey, encodedValue);
    }
    return formData;
  }

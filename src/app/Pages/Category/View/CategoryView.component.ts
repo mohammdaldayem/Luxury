@@ -93,7 +93,17 @@ export class CategoryViewComponent implements OnInit {
             }).catch(swal.noop);
           }
         });
-    } else {
+      } else {
+        swal({
+          title: 'Failed',
+          text: 'The transaction is failed',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
+  } else {
       const httpOptions = {
         headers: new HttpHeaders()
           .append('Content-Type', 'application/x-www-form-urlencoded')
@@ -107,27 +117,24 @@ export class CategoryViewComponent implements OnInit {
       formData.append('CategoryName_Ar', this.arnameFormControl.value);
       formData.append('CategoryName_En', this.ennameFormControl.value);
       formData.append('image', this.fileToUpload);
-      this.http.post(AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
-        httpOptions)
-        .subscribe(result => {
-          const response = <IResponse>result;
-          if (response.success === true) {
-            swal({
-              title: 'Success',
-              text: 'The transaction is succeeded',
-              buttonsStyling: false,
-              confirmButtonClass: 'btn btn-success',
-              type: 'success'
-            });
-          } else {
-            swal({
-              title: 'Failed',
-              text: 'The transaction is failed',
-              type: 'error',
-              confirmButtonClass: 'btn btn-info',
-              buttonsStyling: false
-            }).catch(swal.noop);
-          }
+      this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+      httpOptions)
+    //  this.categoryService.addCategory
+    //   ({
+    //     CategoryName_Ar: this.arnameFormControl.value,
+    //     CategoryName_En: this.ennameFormControl.value,
+    //     image: this.fileToUpload,
+    //     name: this.fileToUpload.name
+    //   })
+     .subscribe(result => {
+      const response = <IResponse>result;
+      if (response.success === true) {
+        swal({
+          title: 'Success',
+          text: 'The transaction is succeeded',
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-success',
+          type: 'success'
         });
     }
   }
