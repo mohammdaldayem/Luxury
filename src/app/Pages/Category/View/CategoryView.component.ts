@@ -17,7 +17,7 @@ import { AppConfig } from '../../../app.config';
 export class CategoryViewComponent implements OnInit {
   ennameFormControl: FormControl;
   arnameFormControl: FormControl;
-  isSubmitted : boolean;
+  isSubmitted: boolean;
   form: FormGroup;
   ID: string;
   category: ICategory;
@@ -26,7 +26,8 @@ export class CategoryViewComponent implements OnInit {
     private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
-      this.form = new FormGroup({});
+    });
+    this.form = new FormGroup({});
 
       this.ennameFormControl = new FormControl('', [
         Validators.required,
@@ -36,9 +37,8 @@ export class CategoryViewComponent implements OnInit {
         Validators.required,
       ]);
 
-      this.form.addControl('ennameFormControl', this.ennameFormControl)
-      this.form.addControl('arnameFormControl', this.arnameFormControl)
-    });
+      this.form.addControl('ennameFormControl', this.ennameFormControl);
+      this.form.addControl('arnameFormControl', this.arnameFormControl);
   }
 
   ngOnInit() {
@@ -110,26 +110,6 @@ export class CategoryViewComponent implements OnInit {
       formData.append('CategoryName_Ar', this.arnameFormControl.value);
       formData.append('CategoryName_En', this.ennameFormControl.value);
       formData.append('image', this.fileToUpload);
-<<<<<<< HEAD
-      this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
-      httpOptions)
-    //  this.categoryService.addCategory
-    //   ({
-    //     CategoryName_Ar: this.arnameFormControl.value,
-    //     CategoryName_En: this.ennameFormControl.value,
-    //     image: this.fileToUpload,
-    //     name: this.fileToUpload.name
-    //   })
-     .subscribe(result => {
-      const response = <IResponse>result;
-      if (response.success === true) {
-        swal({
-          title: 'Success',
-          text: 'The transaction is succeeded',
-          buttonsStyling: false,
-          confirmButtonClass: 'btn btn-success',
-          type: 'success'
-=======
       this.http.post(AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
         httpOptions)
         // this.categoryService.addCategory
@@ -158,7 +138,6 @@ export class CategoryViewComponent implements OnInit {
               buttonsStyling: false
             }).catch(swal.noop);
           }
->>>>>>> caeda4840a99d50f1fb764207bda573a02ae9620
         });
     }
   }

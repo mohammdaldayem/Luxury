@@ -16,6 +16,9 @@ export class ItemService extends BaseService {
   deletItem(request) {
     return this.http.post(AppConfig.settings.apiServer.host + 'Item/Delete_Item.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
+getItemDetails(request) {
+  return this.http.post(AppConfig.settings.apiServer.host + 'Item/ItemDetails.php', this.getFormUrlEncoded(request), this.httpOptions);
+}
 
 
 }

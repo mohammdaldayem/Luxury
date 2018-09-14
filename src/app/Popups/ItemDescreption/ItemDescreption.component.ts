@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { IItemDescription } from "../../models/Response";
+import { IItemDescription } from '../../models/Response';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -28,5 +28,8 @@ export class ItemDescreptionComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  onOkClick(): void {
+    this.dialogRef.close({name: this.nameFormControl.value, value: this.valueFormControl.value});
   }
 }

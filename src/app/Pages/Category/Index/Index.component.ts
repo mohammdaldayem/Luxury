@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AppConfig } from '../../../app.config';
@@ -18,28 +18,23 @@ export class IndexComponent implements OnInit {
   categories: ICategory[];
   resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  // tslint:disable-next-line:no-shadowed-variable
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
-<<<<<<< HEAD
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
-    });
-  }
-
-=======
+      // tslint:disable-next-line:max-line-length
       this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageSize, this.paginator.pageIndex));
-      this.resultsLength = (<IResponse>result).Categories.length;  
-    })
+      this.resultsLength = (<IResponse>result).Categories.length;
+    });
   }
 
   loadAllICategories(pagesize: number, from: number) {
     this.CategoryService.getCategories().subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<ICategory>((<IResponse>resultobj).Categories.slice(from, pagesize));
-      this.resultsLength = (<IResponse>resultobj).Categories.length;  
+      this.resultsLength = (<IResponse>resultobj).Categories.length;
     });
   }
-  
->>>>>>> caeda4840a99d50f1fb764207bda573a02ae9620
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -54,6 +49,7 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
         }).catch(swal.noop);
+        // tslint:disable-next-line:no-shadowed-variable
         this.CategoryService.getCategories().subscribe(result => {
           this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
         });

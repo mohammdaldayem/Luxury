@@ -11,6 +11,7 @@ export interface IResponse {
     Cart: ICart[];
     SellerInfo: ISeller;
     Items: IItem[];
+    ItemDetails: IItem;
     SubCategories: ISubCategory[];
     Categories: ICategory[];
     Areas: IArea[];
@@ -69,7 +70,7 @@ export interface Iitem {
     Quantity: string;
     Size: string;
 }
-export interface IItem {
+export class IItem {
     ItemInfo: IItemInfo;
     ItemColors: IItemColor[];
     ItemSizes: IItemSize[];
