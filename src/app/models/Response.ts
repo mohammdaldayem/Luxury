@@ -18,6 +18,7 @@ export interface IResponse {
     Terms_Conditions: ITerms;
     Advertisments: IAdvertisment[];
     ItemInfo: IAdvertisment;
+    AdminInfo : IAdminInfo;
 }
 export interface IMessage {
     ID: number;
@@ -130,4 +131,8 @@ export interface IAdvertisment {
     Title: string;
     Description: string;
     Image: string;
+}
+
+export interface IAdminInfo {
+    Name : string
 }

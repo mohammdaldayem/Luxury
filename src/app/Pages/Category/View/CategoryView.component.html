@@ -27,14 +27,17 @@
                 </div>
               </div>
               <div class="row">
-                <button mat-raised-button type="button" (click)="imgFileInput.click()" >Add a photo</button>
+                <button mat-raised-button type="button" (click)="imgFileInput.click()">
+                  <span *ngIf="!ID">Add a photo</span>
+                  <span *ngIf="ID">Update photo</span>
+                </button>
                 <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
               </div>
-              <mat-error style="font-size: 75%;" *ngIf="!fileToUpload && isSubmitted">Image is Required</mat-error>
+              <mat-error style="font-size: 75%;" *ngIf="!this.ID &&!fileToUpload && isSubmitted">Image is Required</mat-error>
               <div class="row">
                 <div class="col-md-4 ">
-                  <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdate()">Save</button>
-                  <!-- To do  add / update -->
+                  <button *ngIf="!ID" mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdate()">Add</button>
+                  <button *ngIf="ID" mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdate()">Update</button>
                 </div>
               </div>
             </div>
@@ -48,7 +51,3 @@
     <!-- end row -->
   </div>
 </div>
-
-
-
-

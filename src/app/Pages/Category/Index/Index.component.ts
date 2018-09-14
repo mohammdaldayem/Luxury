@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AppConfig } from '../../../app.config';
@@ -21,18 +21,21 @@ export class IndexComponent implements OnInit {
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageSize, this.paginator.pageIndex));
-      this.resultsLength = (<IResponse>result).Categories.length;  
+      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageIndex, this.paginator.pageSize));
+      this.resultsLength = (<IResponse>result).Categories.length;
     })
   }
 
   loadAllICategories(pagesize: number, from: number) {
+    // from = from * pagesize;
+    // pagesize = pagesize + from
+    debugger
     this.CategoryService.getCategories().subscribe(resultobj => {
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>resultobj).Categories.slice(from, pagesize));
-      this.resultsLength = (<IResponse>resultobj).Categories.length;  
+      this.dataSource.data = ((<IResponse>resultobj).Categories.slice(from, pagesize));
+      this.resultsLength = (<IResponse>resultobj).Categories.length;
     });
   }
-  
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

@@ -17,7 +17,7 @@ import { AppConfig } from '../../../app.config';
 export class CategoryViewComponent implements OnInit {
   ennameFormControl: FormControl;
   arnameFormControl: FormControl;
-  isSubmitted : boolean;
+  isSubmitted: boolean;
   form: FormGroup;
   ID: string;
   category: ICategory;
@@ -56,17 +56,24 @@ export class CategoryViewComponent implements OnInit {
   addUpdate() {
     this.isSubmitted = true;
     debugger
-    if(this.form.status == "INVALID" || !this.fileToUpload)
-    return;
+    if (this.form.status == "INVALID" || (!this.ID && !this.fileToUpload))
+      return;
 
     if (this.ID) {
-      this.categoryService.updateCategory
-        ({
+      var sendObject = this.fileToUpload == null ?
+        {
+          CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
+          CategoryName_En: this.ennameFormControl.value
+        }
+        :
+        {
           CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
           CategoryName_En: this.ennameFormControl.value,
           image: this.fileToUpload,
           name: this.fileToUpload.name
-        }).subscribe(result => {
+        }
+      this.categoryService.updateCategory
+        (sendObject).subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
             swal({
@@ -102,13 +109,6 @@ export class CategoryViewComponent implements OnInit {
       formData.append('image', this.fileToUpload);
       this.http.post(AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
         httpOptions)
-        // this.categoryService.addCategory
-        //  ({
-        //    CategoryName_Ar: this.arnameFormControl.value,
-        //    CategoryName_En: this.ennameFormControl.value,
-        //    image: this.fileToUpload,
-        //    name: this.fileToUpload.name
-        //  })
         .subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {

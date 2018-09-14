@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import  {logenUser} from '../app/Auth/logenUser';
 export const AppRoutes: Routes = [
   {
     path: '',
@@ -22,11 +23,13 @@ export const AppRoutes: Routes = [
     children: [
         {
       path: '',
-      loadChildren: './dashboard/dashboard.module#DashboardModule'
+      loadChildren: './dashboard/dashboard.module#DashboardModule',
+      canActivate : [logenUser]
   },
   {
     path: 'Pages',
-    loadChildren: './Pages/Pages.module#PagesModule'
+    loadChildren: './Pages/Pages.module#PagesModule',
+    canActivate : [logenUser]
   }
 ]}
 ];

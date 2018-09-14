@@ -1,11 +1,10 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { UserService } from '../../Services/User.service';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder, FormsModule } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { IResponse } from '../../models/Response';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { debug } from 'util';
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 declare var $: any;
 
 @Component({
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     userNameFormControl: FormControl;
     passwordFormControl: FormControl;
     isSubmitted: boolean;
-    constructor(private element: ElementRef, private userService: UserService, private route: Router, ) {
+    constructor(private element: ElementRef, private userService: UserService, private route: Router,private cookieService :CookieService ) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
         this.form = new FormGroup({});
@@ -80,6 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .subscribe(result => {
                 const response = <IResponse>result;
                 if (response.success === true) {
+                    this.cookieService.put('adminInfo',response.AdminInfo.Name);
                     this.route.navigate(['/dashboard']);
                 } else {
                     swal({
