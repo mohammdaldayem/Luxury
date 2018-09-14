@@ -7,7 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ItemDescreptionComponent} from './Popups/ItemDescreption/ItemDescreption.component';
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import {logenUser} from './Auth/logenUser';
+import {UserService} from './Services/User.service';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -119,7 +121,7 @@ export function initializeApp(appConfig: AppConfig) {
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
-    providers: [AppConfig,
+    providers: [UserService,logenUser,CookieService,AppConfig,
       { provide: APP_INITIALIZER,
         useFactory: initializeApp,
         deps: [AppConfig], multi: true },

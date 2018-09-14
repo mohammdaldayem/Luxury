@@ -53,6 +53,9 @@ export class SubcategoryViewComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getCategories().subscribe(response => {
       this.categories = ((<IResponse>response).Categories)
+      if(this.ID){
+        this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
+      }
     });
 
     if (this.ID !== undefined) {
@@ -61,16 +64,13 @@ export class SubcategoryViewComponent implements OnInit {
         this.ennameFormControl.setValue(this.category.Name);
         this.arnameFormControl.setValue(this.category.Name);
       });
-      this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
 
     }
   }
   addUpdate() {
     this.isSubmitted = true;
-    debugger
-    if (this.form.status == "INVALID" || !this.fileToUpload)
+    if (this.form.status == "INVALID" || (!this.ID && !this.fileToUpload))
       return;
-
     if (this.ID) {
       this.SubCategoryService.updateSupCategory
         ({

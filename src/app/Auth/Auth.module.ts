@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MdModule } from '../md/md.module';
 import { MaterialModule } from '../app.module';
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { AuthRoutes } from './Auth.routing';
 import {LoginComponent} from './Login/Login.component';
 import {UserService} from '../../app/Services/User.service';
@@ -19,6 +19,6 @@ import {UserService} from '../../app/Services/User.service';
   ],
   declarations: [
     LoginComponent],
-    providers: [UserService ]
+    providers: [UserService ,CookieService]
 })
 export class AuthModule { }
