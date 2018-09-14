@@ -9,6 +9,15 @@
             </div>
             <div class="card-body">
               <div class="row">
+                  <label class="col-md-2 col-form-label">Item Images *</label>
+                  <div class="col-md-2">
+                    <input type='file' (change)="onSelectFile($event)" multiple>
+                  </div>
+              </div>
+              <br/>
+              <img *ngFor='let url of urls'  [src]="url" height="200" style="margin: 10px"> <br/>
+              <mat-divider></mat-divider>
+              <div class="row">
                 <label class="col-md-2 col-form-label">English Name *</label>
                 <div class="col-md-2">
                   <mat-form-field>

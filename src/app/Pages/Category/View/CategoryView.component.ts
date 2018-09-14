@@ -56,13 +56,23 @@ export class CategoryViewComponent implements OnInit {
 addUpdate() {
 
   if (this.ID) {
-    this.categoryService.updateCategory
-    ({
-      CategoryId: this.ID, CategoryName_Ar: this.arnameFormControl.value,
-      CategoryName_En: this.ennameFormControl.value,
-      image: this.fileToUpload,
-      name: this.fileToUpload.name
-    }).subscribe(result => {
+    const httpOptions = {
+      headers: new HttpHeaders()
+        .append('Content-Type', 'application/x-www-form-urlencoded')
+        .append(
+          'Authorization',
+          AppConfig.settings.apiServer.AuthorizationToken
+        )
+        .append('Accept-Language', 'En')
+    };
+    const formData: FormData = new FormData();
+    formData.append('CategoryId', this.ID);
+    formData.append('CategoryName_Ar', this.arnameFormControl.value);
+    formData.append('CategoryName_En', this.ennameFormControl.value);
+    formData.append('image', this.fileToUpload);
+    this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+    httpOptions)
+    .subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {
         swal({
@@ -83,28 +93,28 @@ addUpdate() {
       }
     });
   } else {
-     const httpOptions = {
-       headers: new HttpHeaders()
-         .append('Content-Type', 'application/x-www-form-urlencoded')
-         .append(
-           'Authorization',
-           AppConfig.settings.apiServer.AuthorizationToken
-         )
-         .append('Accept-Language', 'En')
-     };
-     const formData: FormData = new FormData();
-     formData.append('CategoryName_Ar', this.arnameFormControl.value);
-     formData.append('CategoryName_En', this.ennameFormControl.value);
-     formData.append('image', this.fileToUpload);
-     this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
-     httpOptions)
-    // this.categoryService.addCategory
-    //  ({
-    //    CategoryName_Ar: this.arnameFormControl.value,
-    //    CategoryName_En: this.ennameFormControl.value,
-    //    image: this.fileToUpload,
-    //    name: this.fileToUpload.name
-    //  })
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .append('Content-Type', 'application/x-www-form-urlencoded')
+          .append(
+            'Authorization',
+            AppConfig.settings.apiServer.AuthorizationToken
+          )
+          .append('Accept-Language', 'En')
+      };
+      const formData: FormData = new FormData();
+      formData.append('CategoryName_Ar', this.arnameFormControl.value);
+      formData.append('CategoryName_En', this.ennameFormControl.value);
+      formData.append('image', this.fileToUpload);
+      this.http.post( AppConfig.settings.apiServer.host + 'Category/MainCategories.php', formData,
+      httpOptions)
+    //  this.categoryService.addCategory
+    //   ({
+    //     CategoryName_Ar: this.arnameFormControl.value,
+    //     CategoryName_En: this.ennameFormControl.value,
+    //     image: this.fileToUpload,
+    //     name: this.fileToUpload.name
+    //   })
      .subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {

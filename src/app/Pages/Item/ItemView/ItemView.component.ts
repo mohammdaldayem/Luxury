@@ -36,6 +36,7 @@ export class ItemViewComponent implements OnInit {
   Categories: ICategory[];
   SubCategories: ISubCategory[];
   Item: IItem;
+  urls = [];
   //#endregion
   //#region  Validation
   ennameFormControl = new FormControl('', [Validators.required]);
@@ -54,7 +55,8 @@ export class ItemViewComponent implements OnInit {
     private sellerService: SellerService,
     private categoryService: CategoryService,
     private subCategoryService: SubCategoryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
@@ -68,13 +70,23 @@ export class ItemViewComponent implements OnInit {
       .subscribe(
         Response => (this.Categories = (<IResponse>Response).Categories)
       );
-    this.dialog.open(ItemDescreptionComponent, {
-      width: '1000px'
-    });
+    // this.dialog.open(ItemDescreptionComponent, {
+    //   width: '1000px'
+    // });
   }
   //#endregion
   //#region Functions
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      enname: ['', Validators.required],
+      arname: ['', Validators.required],
+      orginalPrice: ['', Validators.required],
+      profitRatio: ['', Validators.required],
+      price: ['', Validators.required],
+      sellerDDL: ['', Validators.required],
+      categoryDDL: ['', Validators.required],
+      subCategoryDDL: ['', Validators.required],
+    });
     if (this.ID) {
       // load the item
     }
@@ -113,6 +125,19 @@ export class ItemViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+        const filesAmount = event.target.files.length;
+        for (let i = 0; i < filesAmount; i++) {
+                const reader = new FileReader();
+                // tslint:disable-next-line:no-shadowed-variable
+                reader.onload = (event) => {
+                   this.urls.push(event.target.result);
+                };
+                reader.readAsDataURL(event.target.files[i]);
+        }
+    }
   }
 }
 //#endregion

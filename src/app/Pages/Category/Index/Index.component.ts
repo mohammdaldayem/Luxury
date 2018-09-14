@@ -20,9 +20,9 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
       this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
-    })
+    });
   }
-  
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -39,7 +39,7 @@ export class IndexComponent implements OnInit {
         }).catch(swal.noop);
         this.CategoryService.getCategories().subscribe(result => {
           this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
-        })
+        });
       } else {
         swal({
           title: 'Failed',
