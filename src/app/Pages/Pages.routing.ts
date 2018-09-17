@@ -45,7 +45,13 @@ export const PagesRoutes: Routes = [
       {
         path: 'ContactUs',
         loadChildren: './ContactUs/ContactUs.module#ContactUsModule'
+      },
+      {
+        path: 'Delivery',
+        loadChildren : './Delivery/Delivery.module#DeliveryModule'
       }
     ]
   }
 ];
+
+

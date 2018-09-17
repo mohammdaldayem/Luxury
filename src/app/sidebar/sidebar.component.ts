@@ -52,6 +52,7 @@ export const ROUTES: RouteInfo[] = [{
         { path: 'Advertisment', title: 'Advertisments', ab: 'AD' },
         { path: 'Category', title: 'Category', ab: 'CT' },
         { path: 'SubCategory', title: 'SubCategory', ab: 'SC' },
+        { path: 'Delivery', title: 'Delivery Setting', ab: 'DS' },
 
     ]
 }

@@ -57,7 +57,6 @@ import {DashboardService} from './Services/dashboard.service';
 
 import { AppConfig } from './app.config';
 import { AppRoutes } from './app.routing';
-import { TOBEDELETEComponent } from './tobedelete/tobedelete.component';
 
 @NgModule({
   exports: [
@@ -93,8 +92,6 @@ import { TOBEDELETEComponent } from './tobedelete/tobedelete.component';
     MatToolbarModule,
     MatTooltipModule
   ],
- 
-  
 })
 export class MaterialModule {}
 export function initializeApp(appConfig: AppConfig) {
@@ -121,7 +118,7 @@ export function initializeApp(appConfig: AppConfig) {
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
-    providers: [UserService,logenUser,CookieService,AppConfig,
+    providers: [UserService, logenUser, CookieService, AppConfig,
       { provide: APP_INITIALIZER,
         useFactory: initializeApp,
         deps: [AppConfig], multi: true },

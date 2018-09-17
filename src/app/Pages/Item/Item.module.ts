@@ -13,7 +13,7 @@ import { SellerService } from '../../Services/Seller.service';
 import { CategoryService } from '../../Services/CategoryService.service';
 import { SubCategoryService } from '../../Services/SubCategory.service';
 import {ItemDescreptionComponent} from '../../Popups/ItemDescreption/ItemDescreption.component';
-import { ItemSizeComponent } from '../../Popups/ItemSize/ItemSize.component';
+import {ItemSizeComponent} from '../../Popups/ItemSize/ItemSize.component';
 @NgModule({
   imports: [
     CommonModule,
