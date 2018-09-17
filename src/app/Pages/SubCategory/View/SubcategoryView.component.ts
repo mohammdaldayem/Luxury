@@ -29,7 +29,9 @@ export class SubcategoryViewComponent implements OnInit {
   fileToUpload: File = null;
   isSubmitted: boolean;
 
-  constructor(private SubCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient) {
+
+  // tslint:disable-next-line:max-line-length
+  constructor(private _subCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
       this.CategortyID = params['CategoryID'];
@@ -52,15 +54,15 @@ export class SubcategoryViewComponent implements OnInit {
 
   ngOnInit() {
     this.categoryService.getCategories().subscribe(response => {
-      this.categories = ((<IResponse>response).Categories)
+      this.categories = ((<IResponse>response).Categories);
       if (this.ID) {
-        this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID == this.CategortyID).ID);
+        this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID === this.CategortyID).ID);
       }
     });
 
     if (this.ID !== undefined) {
-      this.SubCategoryService.getSupCategories({ MainCategoryId: this.CategortyID }).subscribe(result => {
-        this.category = ((<IResponse>result).SubCategories).find(x => x.ID == this.ID);
+      this._subCategoryService.getSupCategories({ MainCategoryId: this.CategortyID }).subscribe(result => {
+        this.category = ((<IResponse>result).SubCategories).find(x => x.ID === this.ID);
         this.ennameFormControl.setValue(this.category.Name);
         this.arnameFormControl.setValue(this.category.Name);
       });

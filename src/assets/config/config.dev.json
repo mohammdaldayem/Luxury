@@ -21,6 +21,7 @@
     "categoryimagepath": "http://luxuryhomeksa.com/KSAOnlineStore/Category/Category_Images/",
     "subCategoryimagepath": "http://luxuryhomeksa.com/KSAOnlineStore/Category/SubCategory_Images/",
     "itemimagepath": "http://luxuryhomeksa.com/KSAOnlineStore/Item/Items_Images/",
+    "itemcolorspath": "http://luxuryhomeksa.com/KSAOnlineStore/Item/Items_Images/",
     "advertimagepath": "http://luxuryhomeksa.com/KSAOnlineStore/Advertisment/Advertisment_Images/",
     "AuthorizationToken": "Basic U3RvcmVTb2x1dGlvbl8yMDE4OkNTc3AyMDE4QEdpdmVNZVNlcnZpY2U=",
     "AuthorizationUser":"StoreSolution_2018",

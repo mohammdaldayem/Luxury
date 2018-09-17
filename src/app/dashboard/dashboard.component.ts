@@ -15,10 +15,10 @@ declare const $: any;
 export class DashboardComponent implements OnInit, AfterViewInit {
   // constructor(private navbarTitleService: NavbarTitleService, private notificationService: NotificationService) { }
   public tableData: TableData;
-  allRequestsCount: number;
-  todayRequestsCount: number;
-  allContactUsCount: number;
-  todayContactUsCount: number;
+  allRequestsCount: string;
+  todayRequestsCount: string;
+  allContactUsCount: string;
+  todayContactUsCount: string;
 
   constructor(private _dashboardService: DashboardService ) { }
   startAnimationForLineChart(chart: any) {
@@ -78,14 +78,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
   // constructor(private navbarTitleService: NavbarTitleService) { }
   public ngOnInit() {
-    this._dashboardService.getAllAndTodaycontactUsCountReq({LoadFrom: 0, PageSize: 100000}).subscribe(result => {
-      this.allContactUsCount = (<IResponse>result[0]).Messages.length;
-      this.todayContactUsCount = (<IResponse>result[1]).TodayMessages.length;
+    this._dashboardService.getdashboarddata().subscribe(result => {
+      this.allContactUsCount = (<IResponse>result).AllMessagesCount;
+      this.todayContactUsCount = (<IResponse>result).TodayMessagesCount;
+      this.allRequestsCount = (<IResponse>result).AllRequestsCount;
+      this.todayRequestsCount = (<IResponse>result).TodayRequestsCount;
       });
-      this._dashboardService.getAllAndTodayRequestsCount({LoadFrom: 0, PageSize: 100000}).subscribe(result => {
-        this.allRequestsCount = (<IResponse>result[0]).Requests.length;
-        this.todayRequestsCount = (<IResponse>result[1]).TodayRequests.length;
-        });
    }
    ngAfterViewInit() {
    }

@@ -19,6 +19,6 @@ import {UserService} from '../../app/Services/User.service';
   ],
   declarations: [
     LoginComponent],
-    providers: [UserService ,CookieService]
+    providers: [UserService, CookieService]
 })
 export class AuthModule { }

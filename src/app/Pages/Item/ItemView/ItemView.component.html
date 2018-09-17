@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <form [formGroup]="form" class="form-horizontal">
+          <form [formGroup]="form" (ngSubmit)="addupdateItem()"  class="form-horizontal">
             <div class="card-header card-header-primary card-header-icon">
               <h4 class="card-title">Item Details</h4>
             </div>
@@ -15,13 +15,15 @@
                   </div>
               </div>
               <div class="row" *ngIf='Item.ItemImages'>
-                <div class="col-md-2" *ngFor='let Image of Item.ItemImages' matBadge="15" matBadgeColor="warn">
-                    <img src='{{itemImagePath + Image.Image}}' height="200" style="margin: 10px" > <br/>
+                <div class="col-md-2" *ngFor='let Image of Item.ItemImages; let i=index' [hidden]="Image.Deleted === '1'" >
+                    <a href="#" (click)="deleteItemImagefromobj(i,$event)"  class="close"></a>
+                    <img src='{{itemImagePath + Image.Image}}' style="margin: 10px" > <br/>
                 </div>
               </div>
               <div class="row" *ngIf='Itemurls.length > 0'>
-                  <div class="col-md-2" *ngFor='let Image of Itemurls' matBadge="15" matBadgeColor="warn">
-                      <img [src]="Image" height="200" style="margin: 10px" > <br/>
+                  <div class="col-md-2" *ngFor='let Image of Itemurls; let i=index'>
+                      <a href="#" (click)="deleteItemImage(i,$event)"  class="close"></a>
+                      <img [src]="Image" style="margin: 10px" > <br/>
                   </div>
                 </div>
               <mat-divider></mat-divider>
@@ -99,55 +101,90 @@
               </div>
               <!-- Descriprion  -->
               <mat-divider></mat-divider>
-              <div class="row">        
-                  <label class="col-md-2 col-form-label" style="float :left">Description</label>
+              <div class="row">  
+                  <h4 class="col-md-2 card-title">Description</h4>
+                  <!-- <label class="col-md-2 col-form-label"></label> -->
                   <div class="col-md-10">
-                      <button mat-button type='button' class="btn-md btn-right" (click)="addDescriptionItem()"><i class="fa fa-plus-circle" ></i> Add New</button>         
+                      <mat-radio-group [formControl]="HasDescription" style="float :right ;margin: 10px">
+                          <mat-radio-button value="1">ON</mat-radio-button>
+                        <mat-radio-button value="0">OFF</mat-radio-button>      
+                      </mat-radio-group>
+                      <button *ngIf="HasDescription.value === '1'" mat-button type='button' class="btn-md btn-right" (click)="addDescriptionItem()"><i class="fa fa-plus-circle" ></i> Add New</button>         
                   </div>
                 </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                  <div class="example-table-container">
-                      <table mat-table [dataSource]="ItemDescdataSource" class="example-table">
-                        <!-- Number Column -->
-                        <ng-container matColumnDef="name">
-                          <th mat-header-cell *matHeaderCellDef>Name</th>
-                          <td mat-cell *matCellDef="let row">{{row.Name}}</td>
-                        </ng-container>
-                  
-                        <!-- Title Column -->
-                        <ng-container matColumnDef="value">
-                          <th mat-header-cell *matHeaderCellDef>Value</th>
-                          <td mat-cell *matCellDef="let row">{{row.Value}}</td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                      </table>
+                <div class="row" *ngIf="HasDescription.value === '1'">
+                    <div class="col-md-12">
+                        <div class="example-table-container">
+                            <table mat-table [dataSource]="ItemDescdataSource" class="example-table">
+                              <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let row">{{row.Name}}</td>
+                              </ng-container>
+                        
+                              <ng-container matColumnDef="value">
+                                <th mat-header-cell *matHeaderCellDef>Value</th>
+                                <td mat-cell *matCellDef="let row">{{row.Value}}</td>
+                              </ng-container>
+      
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                          </div>
                     </div>
-              </div>
+                  </div>
+      <br/>
+                  <mat-divider></mat-divider>
+                  <!-- item options -->
+                  <div class="row">
+                      <h4 class="col-md-2 card-title">Item Options</h4>        
+                      <div class="col-md-10">
+                    <mat-radio-group [formControl]="HasOptions" style="float :right ;margin: 10px">
+                        <mat-radio-button value="1">ON</mat-radio-button>
+                      <mat-radio-button value="0">OFF</mat-radio-button>      
+                    </mat-radio-group>
+                  </div>
+                </div>
+                    <div class="row" *ngIf="HasOptions.value === '1'">
+                        <div class="col-md-6">  <!-- Colors -->
+                          <div class="row">
+                          <h5 class="col-md-2 card-title">Colors</h5> 
+                          <div class="col-md-10">
+                              <button mat-button type='button' class="btn-md btn-right" (click)="colorFileInput.click()"><i class="fa fa-plus-circle" ></i> Add a photo</button>
+                                <input (change)="onSelectColor($event.target.files)" hidden type="file" #colorFileInput multiple />
+                          </div>
+                        </div>  
+                        <div class="row" *ngIf='Item.ItemImages'>
+                            
+                            <div class="col-md-2" *ngFor='let Image of Item.ItemColors;let i = index' style="margin: 5px;" [hidden]="Image.Deleted === '1'">
+                                <a href="#" (click)="deleteItemColorfromobj(i,$event)"  class="close"></a>
+                                <img src='{{itemColorsPath + Image.ColorImage}}' style="margin: 10px" > <br/>
+                            </div>
+                          </div>
+                          <div class="row" *ngIf='Colorsurls.length > 0' style="margin: 5px;">
+                              <div class="col-md-2" *ngFor='let Image of Colorsurls;let i = index'>
+                                  <a href="#" (click)="deleteItemColor(i,$event)"  class="close"></a>
+                                  <img [src]="Image" style="margin: 10px" > <br/>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"><!-- Sizes -->
+                          <div class="row">
+                              <h5 class="col-md-2 card-title">Sizes</h5> 
+                              <div class="col-md-10">
+                                  <button mat-button type='button' class="btn-md btn-right" (click)="addSizeItem()"><i class="fa fa-plus-circle" ></i> Add New</button>
+                              </div>
+                            </div> 
+                            <div class="row">
+                              <div class="col-md-1" *ngFor="let item of Item.ItemSizes;let i = index" style="margin: 5px; border: solid black 1px" [hidden]="item.Deleted === '1'">
+                                  <a href="#" (click)="deleteItemSize(i,$event)"  class="close-sm"></a>
+                                <span style="text-align: center">{{item.SizeValue}}</span>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
             </div>
-
-            <mat-divider></mat-divider>
-            <!-- item options -->
-            <div>        
-              <label class="col-md-2 col-form-label">Item Options</label>
-              <mat-radio-group style="float :right">
-                  <mat-radio-button value="1">ON</mat-radio-button>
-                <mat-radio-button value="0">OFF</mat-radio-button>      
-              </mat-radio-group>
-              <mat-grid-list cols="2" rowHeight="2:1">
-                  <mat-grid-tile>  <!-- Colors -->
-                      
-                  </mat-grid-tile>
-                  <mat-grid-tile><!-- Sizes -->
-
-
-                  </mat-grid-tile>
-                </mat-grid-list>
-                         
-            </div>
+            <button *ngIf="!ID" mat-raised-button type="submit" class="btn btn-rose btn-fill">Add</button>
+              <button *ngIf="ID" mat-raised-button type="submit" class="btn btn-rose btn-fill">Update</button>
           </form>
         </div>
       </div>

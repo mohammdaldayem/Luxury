@@ -4,7 +4,7 @@ import { IItemDescription } from '../../models/Response';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-ItemDescreption',
+  selector: 'app-itemdescreption',
   templateUrl: './ItemDescreption.component.html',
   styleUrls: ['./ItemDescreption.component.css']
 })

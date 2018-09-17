@@ -14,6 +14,9 @@ constructor(private http: HttpClient) {
 getFoods() {
   return this.http.get('/api/food');
 }
+getdashboarddata() {
+  return  this.http.get(AppConfig.settings.apiServer.host + 'Request/Requests_Pagenation.php', this.httpOptions);
+}
 getAllAndTodaycontactUsCountReq(request) {
   const httpOptions = {
     headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')

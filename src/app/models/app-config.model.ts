@@ -24,7 +24,8 @@ export interface IAppConfig {
         AuthorizationPassword: string;
         categoryimagepath: string;
         itemimagepath: string;
+        itemcolorspath: string;
         advertimagepath: string;
-        subCategoryimagepath : string;
+        subCategoryimagepath: string;
     };
 }

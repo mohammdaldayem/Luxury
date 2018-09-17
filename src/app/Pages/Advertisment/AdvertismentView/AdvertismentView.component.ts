@@ -100,7 +100,7 @@ export class AdvertismentViewComponent implements OnInit {
       formData.append('TitleEn', this.enTitleFormControl.value);
       formData.append('DescriptionAr', this.arDescFormControl.value);
       formData.append('DescriptionEn', this.enDescFormControl.value);
-      formData.append('image', this.fileToUpload);
+      formData.append('Image', this.fileToUpload);
       this.http.post(AppConfig.settings.apiServer.host + 'Advertisment/Add_Advertisment.php', formData,
         httpOptions)
         .subscribe(result => {

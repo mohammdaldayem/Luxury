@@ -19,7 +19,11 @@ export interface IResponse {
     Terms_Conditions: ITerms;
     Advertisments: IAdvertisment[];
     ItemInfo: IAdvertisment;
-    AdminInfo : IAdminInfo;
+    AdminInfo: IAdminInfo;
+    AllRequestsCount: string;
+    TodayRequestsCount: string;
+    AllMessagesCount: string;
+    TodayMessagesCount: string;
 }
 export interface IMessage {
     ID: number;
@@ -85,6 +89,8 @@ export interface IItemInfo {
     ProfitRatio: string;
     Price: string;
     SellerId: string;
+    CategoryId: string;
+    SubCategoryId: string;
     HasOptions: string;
     HasDescription: string;
 }
@@ -93,19 +99,23 @@ export interface IItemColor {
     NameAr: String;
     NameEn: String;
     ColorImage: String;
+    Deleted: string;
 }
 export interface IItemSize {
     ID: string;
     SizeValue: string;
+    Deleted: string;
 }
 export interface IItemDescription {
     ID: string;
     Name: string;
     Value: string;
+    Deleted: string;
 }
 export interface IItemImage {
     ID: string;
     Image: string;
+    Deleted: string;
 }
 
 export interface ISubCategory {
@@ -135,5 +145,5 @@ export interface IAdvertisment {
 }
 
 export interface IAdminInfo {
-    Name : string
+    Name: string;
 }
