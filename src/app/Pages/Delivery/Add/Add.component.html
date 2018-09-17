@@ -1,0 +1,40 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+            <form [formGroup]="form" class="form-horizontal">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">Delivery Settings</h4>
+          </div>
+          <div class="card-body">
+            <div class="row" layout="row" layout-align="center center">
+              <label class="col-sm-2 col-form-label">Deleviry Free for m<sup>2</sup> *</label>
+              <div class="col-sm-4">
+                <mat-form-field>
+                  <input type="text" [formControl]="deliveryValueFormControl" matInput required/>
+                  <mat-error >Deleviry is Required</mat-error>
+                </mat-form-field>
+                
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 ">
+                <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="Add()">Add</button>
+              </div>
+            </div>
+          </div>
+        </form>
+          <!-- end content-->
+        </div>
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
+    </div>
+    <!-- end row -->
+  </div>
+</div>

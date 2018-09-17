@@ -57,7 +57,6 @@ import {DashboardService} from './Services/dashboard.service';
 
 import { AppConfig } from './app.config';
 import { AppRoutes } from './app.routing';
-import { TOBEDELETEComponent } from './tobedelete/tobedelete.component';
 
 @NgModule({
   exports: [

@@ -13,6 +13,7 @@ import { SellerService } from '../../Services/Seller.service';
 import { CategoryService } from '../../Services/CategoryService.service';
 import { SubCategoryService } from '../../Services/SubCategory.service';
 import {ItemDescreptionComponent} from '../../Popups/ItemDescreption/ItemDescreption.component';
+import {ItemSizeComponent} from '../../Popups/ItemSize/ItemSize.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,8 +24,8 @@ import {ItemDescreptionComponent} from '../../Popups/ItemDescreption/ItemDescrep
     MaterialModule,
     GridDeletbtnModule
   ],
-  declarations: [IndexComponent, ItemViewComponent,ItemDescreptionComponent],
+  declarations: [IndexComponent, ItemViewComponent,ItemDescreptionComponent,ItemSizeComponent],
   providers: [ItemService,SellerService,CategoryService,SubCategoryService],
-  entryComponents :[ItemDescreptionComponent]
+  entryComponents :[ItemDescreptionComponent,ItemSizeComponent]
 })
 export class ItemModule { }
