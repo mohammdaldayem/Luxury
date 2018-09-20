@@ -31,28 +31,28 @@ export const ROUTES: RouteInfo[] = [{
     path: '/Pages',
     title: 'Inbox',
     type: 'sub',
-    icontype: 'image',
+    icontype: 'move_to_inbox',
     collapse: 'Inbox',
     children: [
-        { path: 'Request', title: 'Request', ab: 'RQ' },
-        { path: 'ContactUs', title: 'Contact Us', ab: 'CU' }
+        { path: 'Request', title: 'Request', ab: '' },
+        { path: 'ContactUs', title: 'Contact Us', ab: '' }
     ]
 },
 {
     path: '/Pages',
     title: 'Manage App',
     type: 'sub',
-    icontype: 'image',
+    icontype: 'settings',
     collapse: 'manage',
     children: [
-        { path: 'Seller', title: 'Seller', ab: 'S' },
-        { path: 'Item', title: 'Items', ab: 'I' },
-        { path: 'Area', title: 'Area', ab: 'A' },
-        { path: 'Terms', title: 'Terms and Conditions', ab: 'TC' },
-        { path: 'Advertisment', title: 'Advertisments', ab: 'AD' },
-        { path: 'Category', title: 'Category', ab: 'CT' },
-        { path: 'SubCategory', title: 'SubCategory', ab: 'SC' },
-        { path: 'Delivery', title: 'Delivery Setting', ab: 'DS' },
+        { path: 'Seller', title: 'Seller', ab: '' },
+        { path: 'Item', title: 'Items', ab: '' },
+        { path: 'Area', title: 'Area', ab: '' },
+        { path: 'Terms', title: 'Terms and Conditions', ab: '' },
+        { path: 'Advertisment', title: 'Advertisments', ab: '' },
+        { path: 'Category', title: 'Category', ab: '' },
+        { path: 'SubCategory', title: 'SubCategory', ab: '' },
+        { path: 'Delivery', title: 'Delivery Setting', ab: '' },
 
     ]
 }

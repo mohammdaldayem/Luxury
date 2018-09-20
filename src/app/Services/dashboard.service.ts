@@ -15,7 +15,7 @@ getFoods() {
   return this.http.get('/api/food');
 }
 getdashboarddata() {
-  return  this.http.get(AppConfig.settings.apiServer.host + 'Request/Requests_Pagenation.php', this.httpOptions);
+  return  this.http.get(AppConfig.settings.apiServer.host + 'Reports/DashboardData.php', this.httpOptions);
 }
 getAllAndTodaycontactUsCountReq(request) {
   const httpOptions = {

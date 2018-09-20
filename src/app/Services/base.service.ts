@@ -9,7 +9,7 @@ export class BaseService {
   httpOptions: {};
 constructor() {
   this.httpOptions = {
-    headers: new HttpHeaders().append('Content-Type', 'multipart/form-data')
+    headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
     .append('Accept-Language', 'En')
   };

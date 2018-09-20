@@ -15,7 +15,7 @@
                         <i class="material-icons">face</i>
                       </span>
                     </div>
-                    <input type="text" [formControl]="userNameFormControl" matInput  class="form-control"  id="userName" placeholder="User Name..."  
+                    <input type="text" [formControl]="userNameFormControl" matInput  class="form-control"  id="userName" placeholder="User Name"  
                       required  >
                   </div>
                   <span style="margin-left: 14px;font-size: 12px;color: red;" *ngIf="!userNameFormControl.valid && isSubmitted">User Name Is Required</span>
@@ -27,7 +27,7 @@
                         <i class="material-icons">lock_outline</i>
                       </span>
                     </div>
-                    <input type="password" [formControl]="passwordFormControl" class="form-control" placeholder="Password..."  id="password" 
+                    <input type="password" [formControl]="passwordFormControl" class="form-control" placeholder="Password"  id="password" 
                       required>
                   </div>
                   <mat-error style="margin-left: 14px;font-size: 12px;color: red;" *ngIf="!passwordFormControl.valid && isSubmitted">Password Is Required</mat-error>
