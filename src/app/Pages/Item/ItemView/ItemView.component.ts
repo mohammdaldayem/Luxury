@@ -68,8 +68,8 @@ export class ItemViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient
   ) {
-    this.HasDescription.setValue("0");
-    this.HasOptions.setValue("0");
+    this.HasDescription.setValue('0');
+    this.HasOptions.setValue('0');
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
     });
@@ -110,7 +110,6 @@ export class ItemViewComponent implements OnInit {
         this.categoryDDLControl.setValue(this.Item.ItemInfo.CategoryId);
         this.subCategoryDDLControl.setValue(this.Item.ItemInfo.SubCategoryId);
       });
-      // load the item
     }
   }
 

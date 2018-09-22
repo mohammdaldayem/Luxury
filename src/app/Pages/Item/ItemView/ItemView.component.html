@@ -76,7 +76,7 @@
                   <mat-form-field>
                     <mat-select placeholder="Seller" [formControl]="sellerDDLControl">
                       <mat-option *ngFor="let seller of Sellers" [value]="seller.ID">
-                        {{seller.Name}}
+                        {{seller.Name}} {{seller.ID}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
