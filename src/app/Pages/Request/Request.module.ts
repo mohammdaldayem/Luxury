@@ -10,6 +10,7 @@ import { RequestService } from '../../Services/request.service';
 import { SellerService } from '../../Services/Seller.service';
 import { ItemService } from '../../Services/Item.service';
 import { RequestViewComponent } from './requestView/requestView.component';
+import { GridDeletbtnModule } from '../../shared/GridDeletbtn/GridDeletbtn.module';
 
 @NgModule({
   imports: [
@@ -17,9 +18,10 @@ import { RequestViewComponent } from './requestView/requestView.component';
     RouterModule.forChild(RequestRoutes),
     FormsModule,
     MdModule,
-    MaterialModule
+    MaterialModule,
+    GridDeletbtnModule
   ],
   declarations: [IndexComponent, RequestViewComponent],
-  providers: [RequestService, SellerService,ItemService]
+  providers: [RequestService, SellerService, ItemService]
 })
 export class RequestModule { }

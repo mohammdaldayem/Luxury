@@ -5,6 +5,7 @@ import { SellerService } from '../../../Services/Seller.service';
 import { IResponse, IRequest, ISeller, IStatus } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-index',
@@ -73,7 +74,30 @@ export class IndexComponent implements OnInit {
   }
 
 
-  deleteRequest(ID: Number) {
-    debugger
+  deleteRequest(id) {
+    this._requestService.deleteRequest({value : id}).subscribe(result => {
+      const response = <IResponse>result;
+      if (response.success === true) {
+        swal({
+          title: 'Success',
+          text: 'The transaction is succeeded',
+          buttonsStyling: false,
+          confirmButtonClass: 'btn btn-success',
+          type: 'success'
+        }).catch(swal.noop);
+        // tslint:disable-next-line:no-shadowed-variable
+        this._requestService.getRequests({ LoadFrom: 0, PageSize: 100000 }).subscribe(result => {
+          this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests);
+        });
+      } else {
+        swal({
+          title: 'Failed',
+          text: 'The transaction is failed',
+          type: 'error',
+          confirmButtonClass: 'btn btn-info',
+          buttonsStyling: false
+        }).catch(swal.noop);
+      }
+    });
   }
 }

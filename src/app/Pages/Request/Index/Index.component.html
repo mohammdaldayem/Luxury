@@ -51,7 +51,7 @@
 
             </div>
             <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
             </mat-form-field>
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
               <!-- Position Column -->
@@ -91,7 +91,7 @@
                 <td mat-cell *matCellDef="let element" class="text-right">
                   <a [routerLink]="['/Pages/Request/View']" [queryParams]="{ID: element.RequestId}" class="btn btn-link btn-warning btn-just-icon edit"><i
                       class="material-icons">dvr</i></a>
-                  <!-- <app-grid-delet-btn [ID]="element.RequestId" (onConfirm)="deleteRequest($event)"></app-grid-delet-btn> -->
+                  <app-grid-delet-btn [ID]="element.RequestId" (onConfirm)="deleteRequest($event)"></app-grid-delet-btn>
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

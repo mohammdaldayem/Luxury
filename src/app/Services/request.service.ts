@@ -37,4 +37,13 @@ export class RequestService extends BaseService {
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/UpdateRequestStatus.php', this.getFormUrlEncoded(request)
     , httpOptions);
   }
+
+
+  deleteRequest(request: any) {
+    return this.http.post(
+      AppConfig.settings.apiServer.host + '',
+      this.getFormUrlEncoded(request),
+      this.httpOptions
+    );
+  }
 }
