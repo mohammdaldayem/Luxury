@@ -116,13 +116,11 @@ export class ItemViewComponent implements OnInit {
 
   addupdateItem() {
     this.isSubmitted = true;
-    debugger
     if (this.form.status === 'INVALID') {
       return;
     }
     const httpOptions = {
       headers: new HttpHeaders()
-        .append('Content-Type', 'multipart/form-data')
         .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
         .append('Accept-Language', 'En')
     };

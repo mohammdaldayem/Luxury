@@ -12,19 +12,16 @@
           </div>
           <div class="card-body">
             <div class="row" layout="row" layout-align="center center">
-              <label class="col-sm-2 col-form-label">Deleviry Free for m<sup>2</sup> *</label>
               <div class="col-sm-4">
                 <mat-form-field>
-                  <input type="text" [formControl]="deliveryValueFormControl" matInput required/>
+                  <input type="text" [formControl]="deliveryValueFormControl" matInput required placeholder="Deleviry Free"/>
                   <mat-error >Deleviry is Required</mat-error>
                 </mat-form-field>
-                
-
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4 ">
-                <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="Add()">Add</button>
+              <div class="col-md-12">
+                <button mat-raised-button type="submit" class="btn btn-rose btn-fill right-green" (click)="Add()">SAve</button>
               </div>
             </div>
           </div>

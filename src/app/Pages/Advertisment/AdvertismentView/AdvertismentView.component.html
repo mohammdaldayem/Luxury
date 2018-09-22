@@ -45,12 +45,11 @@
               </button>
               <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
               <mat-error style="font-size: 75%;" *ngIf="!this.ID &&!fileToUpload && isSubmitted">Image is <strong>required</strong></mat-error>
-
               <br />
-              <!-- <img #imagepreview width="100px" height="100px"/> -->
               <br />
-              <button *ngIf="!ID" mat-raised-button type="submit" class="btn btn-rose btn-fill">Add</button>
-              <button *ngIf="ID" mat-raised-button type="submit" class="btn btn-rose btn-fill">Update</button>
+              <div class="col-md-12">
+                  <button  mat-raised-button type="submit" class="btn btn-rose btn-fill right-green">Save</button>
+              </div>
             </form>
 
           </div>

@@ -9,19 +9,17 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <label class="col-sm-2 col-form-label">English Name *</label>
-                <div class="col-sm-4">
+                <div class="col-md-9">
                   <mat-form-field>
-                    <input type="text" [formControl]="ennameFormControl" matInput required>
+                    <input type="text" [formControl]="ennameFormControl" matInput placeholder="English Name *" required>
                     <mat-error *ngIf="ennameFormControl.invalid && isSubmitted">English Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                <label class="col-sm-2 col-form-label">Arabic Name *</label>
-                <div class="col-sm-4">
+                <div class="col-md-9">
                   <mat-form-field>
-                    <input type="text" [formControl]="arnameFormControl" matInput required>
+                    <input type="text" [formControl]="arnameFormControl" matInput placeholder="Arabic Name *" required>
                     <mat-error *ngIf="arnameFormControl.invalid && isSubmitted">Arabic Name is Required</mat-error>
                   </mat-form-field>
                 </div>
@@ -31,16 +29,17 @@
               </div>
               <br/>
               <div class="row">
-                <button mat-raised-button type="button" (click)="imgFileInput.click()">
-                  <span *ngIf="!ID">Add a photo</span>
-                  <span *ngIf="ID">Update photo</span>
-                </button>
+                <div class="col-md-2">
+                    <button mat-raised-button type="button" (click)="imgFileInput.click()">
+                        <span >Add a photo</span>
+                      </button>
+                </div>
                 <input hidden type="file" #imgFileInput (change)="previewImage($event.target.files)" />
               </div>
               <mat-error style="font-size: 75%;" *ngIf="!this.ID &&!fileToUpload && isSubmitted">Image is Required</mat-error>
               <div class="row">
-                <div class="col-md-4 ">
-                  <button  mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdate()">Save</button>
+                <div class="col-md-12">
+                  <button  mat-raised-button type="submit" class="btn btn-rose btn-fill right-green" (click)="addUpdate()">Save</button>
                 </div>
               </div>
             </div>
