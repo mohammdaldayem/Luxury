@@ -11,11 +11,13 @@ import swal from 'sweetalert2';
 export class IndexComponent implements OnInit {
   displayedColumns: string[] = [ 'Name', 'Phone', 'Address', 'Actions'];
   dataSource: MatTableDataSource<ISeller>;
+  totalCount: number = 0;
   constructor(private _sellerService: SellerService) { }
 
   ngOnInit() {
     this._sellerService.getSellers().subscribe(result => {
       this.dataSource = new MatTableDataSource<ISeller>((<IResponse>result).Sellers);
+      this.totalCount = ((<IResponse>result).Sellers).length;
     });
   }
   applyFilter(filterValue: string) {

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SubcategoryViewComponent } from './CategoryView.component';
+import { CategoryViewComponent } from './CategoryView.component';
 
 describe('ViewComponent', () => {
-  let component: SubcategoryViewComponent;
-  let fixture: ComponentFixture<SubcategoryViewComponent>;
+  let component: CategoryViewComponent;
+  let fixture: ComponentFixture<CategoryViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubcategoryViewComponent ]
+      declarations: [ CategoryViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubcategoryViewComponent);
+    fixture = TestBed.createComponent(CategoryViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

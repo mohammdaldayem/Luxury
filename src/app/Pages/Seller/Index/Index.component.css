@@ -4,3 +4,11 @@ table {
   .example-container {
     display: inline !important;
   }
+
+  .right {
+    float: right;
+  }
+
+  .green{
+    background-color: green;
+  }

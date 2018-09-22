@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../../Services/request.service';
-import { IResponse, IRequest, ISeller, ICart } from '../../../models/Response';
+import { ItemService } from '../../../Services/Item.service';
+import { IResponse, IRequest, ISeller, ICart, IItem } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import swal from 'sweetalert2';
 
@@ -17,36 +18,36 @@ export class RequestViewComponent implements OnInit {
   ID: Number;
   Cart: ICart[];
   SelectedStatus: any;
-  Statuses = [{ID: 1, NameEN: 'Pending'}, {ID: 2, NameEN: 'In Progress'}, {ID: 3, NameEN: 'Completed'}, {ID: 4, NameEN: 'Declined'}];
-  constructor(private _requestService: RequestService, private route: ActivatedRoute) {
+  Statuses = [{ ID: 1, NameEN: 'Pending' }, { ID: 2, NameEN: 'In Progress' }, { ID: 3, NameEN: 'Completed' }, { ID: 4, NameEN: 'Declined' }];
+  constructor(private itemService: ItemService, private _requestService: RequestService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
-  });
+    });
   }
   ngOnInit() {
-    this._requestService.getRequestDetails({RequestId: this.ID}).subscribe(result => {
+    this._requestService.getRequestDetails({ RequestId: this.ID }).subscribe(result => {
       this.request = <IRequest>((<IResponse>result).RequestInfo);
       this.Cart = (<IResponse>result).Cart;
-      console.log(this.request);
+      debugger
       const myLatlng = new google.maps.LatLng(this.request.Latitude, this.request.Longitude);
-    const mapOptions = {
-        zoom: 4,
+      const mapOptions = {
+        zoom: 17,
         center: myLatlng,
         scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
-    };
-    const map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
-    const marker = new google.maps.Marker({
+      };
+      const map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
+      const marker = new google.maps.Marker({
         position: myLatlng,
         title: 'Request Location !'
-    });
-    marker.setMap(map);
+      });
+      marker.setMap(map);
     });
   }
   showconfermationmessage(Reqid: number, statusid: number) {
     this.SelectedStatus = statusid;
   }
   ChangeRequestStatus() {
-    this._requestService.changeRequestStatus({RequestId: this.request.ID, StatusId: this.SelectedStatus}).subscribe(result => {
+    this._requestService.changeRequestStatus({ RequestId: this.request.ID, StatusId: this.SelectedStatus }).subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {
         swal({
@@ -55,7 +56,7 @@ export class RequestViewComponent implements OnInit {
           buttonsStyling: false,
           confirmButtonClass: 'btn btn-success',
           type: 'success'
-      }).catch(swal.noop);
+        }).catch(swal.noop);
       } else {
         swal({
           title: 'Failed',
@@ -63,9 +64,19 @@ export class RequestViewComponent implements OnInit {
           type: 'error',
           confirmButtonClass: 'btn btn-info',
           buttonsStyling: false
-      }).catch(swal.noop);
+        }).catch(swal.noop);
       }
     });
   }
 
+
+  getItemPrice(item: any) {
+    var id = item.ItemId;
+    var price = null;
+    this.itemService.getAllItems({ LoadFrom: 0, PageSize: 100 }).subscribe(response => {
+      var item  = (<IResponse>response).Items.find(item => item.ItemInfo.ID == id);
+      price = item.ItemInfo.Price
+      return price;
+    })
+  }
 }

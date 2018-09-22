@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SellerService } from '../../../Services/Seller.service';
-import { IResponse, IRequest, ISeller, ICart } from '../../../models/Response';
+import { AreaService } from '../../../Services/Area.service';
+import { IResponse, IRequest, ISeller, ICart, IArea } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import swal from 'sweetalert2';
@@ -21,15 +22,24 @@ export class SellerViewComponent implements OnInit {
   arnameFormControl: FormControl;
   phoneFormControl: FormControl;
   addressFormControl: FormControl;
+  locationFormControl: FormControl;
+  areaFormControl : FormControl;
   isSubitted: boolean;
-  constructor(private _sellerService: SellerService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  map: any;
+  areas : IArea[];
+
+  constructor(private araeService: AreaService, private _sellerService: SellerService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
     });
     this.form = new FormGroup({});
+    this.areaFormControl = new FormControl();
     this.ennameFormControl = new FormControl('', [
       Validators.required,
     ]);
+
+    this.locationFormControl = new FormControl();
+
     this.arnameFormControl = new FormControl('', [
       Validators.required,
     ]);
@@ -42,10 +52,16 @@ export class SellerViewComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.araeService.getAreas().subscribe(response => {
+      this.areas = ((<IResponse>response).Areas);
+    })
+
     this.form.addControl('ennameFormControl', this.ennameFormControl);
     this.form.addControl('arnameFormControl', this.arnameFormControl);
     this.form.addControl('phoneFormControl', this.phoneFormControl);
     this.form.addControl('addressFormControl', this.addressFormControl);
+    this.form.addControl('addressFormControl', this.areaFormControl);
 
     const myLatlng = new google.maps.LatLng('-33.8688', '151.2195');
     const mapOptions = {
@@ -54,24 +70,32 @@ export class SellerViewComponent implements OnInit {
       scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
     };
 
-    const map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
+    this.map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
+
+    this.map.addListener('click', function (e) {
+      var newPosition = e.latLng;
+      debugger
+      console.log(e.latLng + this.map);
+    });
 
     if (this.ID !== undefined && this.ID !== 0) {
       this._sellerService.getSellerDetails({ SellerId: this.ID }).subscribe(result => {
         const seller: ISeller = <ISeller>((<IResponse>result).SellerInfo);
+        debugger
         this.ennameFormControl.setValue(seller.Name);
         this.phoneFormControl.setValue(seller.Phone);
         this.addressFormControl.setValue(seller.Address);
-        map.setCenter(new google.maps.LatLng(seller.Longitude, seller.Latitude));
+        this.map.setCenter(new google.maps.LatLng(seller.Longitude, seller.Latitude));
         // tslint:disable-next-line:no-shadowed-variable
         if (this.markers !== undefined) {
           this.markers.forEach(function (marker: any) {
             marker.setMap(null);
           });
         }
+
         this.markers = [];
         this.markers.push(new google.maps.Marker({
-          map: map,
+          map: this.map,
           title: '',
           position: new google.maps.LatLng(seller.Longitude, seller.Latitude),
           draggable: true
@@ -100,6 +124,7 @@ export class SellerViewComponent implements OnInit {
     if (this.ID !== undefined && this.ID !== 0) {
       // tslint:disable-next-line:max-line-length
       this._sellerService.updateSellers({
+        areaID: this.areaFormControl.value,
         SellerId: this.ID, NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
         // tslint:disable-next-line:max-line-length
         , Address: this.addressFormControl.value, Latitude: this.markers[0].position.lat(), Longitude: this.markers[0].position.lng()
@@ -126,6 +151,7 @@ export class SellerViewComponent implements OnInit {
     } else {
       // tslint:disable-next-line:max-line-length
       this._sellerService.addSellers({
+        areaID: this.areaFormControl.value,
         NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
         // tslint:disable-next-line:max-line-length
         , Address: this.addressFormControl.value, Latitude: this.markers[0].position.lat(), Longitude: this.markers[0].position.long()
@@ -152,4 +178,16 @@ export class SellerViewComponent implements OnInit {
     }
   }
 
+
+  changeLocationSearch() {
+    // debugger
+    // var request = {
+    //   location: this.map.getCenter(),
+    //   radius: '500',
+    //   query: this.locationFormControl.value
+    // };
+    // var gh = this.map;
+    // var service = new google.maps.places.PlacesService(this.map);
+
+  }
 }

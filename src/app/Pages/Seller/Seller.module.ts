@@ -8,6 +8,7 @@ import { IndexComponent } from './Index/Index.component';
 import { SellerViewComponent } from './SellerView/SellerView.component';
 import { SellerRoutes } from './Seller.routing';
 import { SellerService } from '../../Services/Seller.service';
+import { AreaService } from '../../Services/Area.service';
 import { GridDeletbtnModule } from '../../shared/GridDeletbtn/GridDeletbtn.module';
 
 @NgModule({
@@ -21,6 +22,6 @@ import { GridDeletbtnModule } from '../../shared/GridDeletbtn/GridDeletbtn.modul
     GridDeletbtnModule
   ],
   declarations: [IndexComponent, SellerViewComponent],
-  providers: [ SellerService]
+  providers: [ SellerService,AreaService]
 })
 export class SellerModule { }

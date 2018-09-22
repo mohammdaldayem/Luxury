@@ -19,7 +19,10 @@ export class AdvertismentViewComponent implements OnInit {
   enDescFormControl: FormControl;
   arDescFormControl: FormControl;
   ID: Number;
+  elementImage: string = null;
   fileToUpload: File = null;
+  imagePath: string = AppConfig.settings.apiServer.advertimagepath;
+
   constructor(private _advertismentService: AdvertismentService, private route: ActivatedRoute, private http: HttpClient) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
@@ -54,6 +57,8 @@ export class AdvertismentViewComponent implements OnInit {
         this.arTitleFormControl.setValue(advertisment.Title);
         this.enDescFormControl.setValue(advertisment.Description);
         this.arDescFormControl.setValue(advertisment.Description);
+        this.elementImage = advertisment.Image;
+        this.imagePath = AppConfig.settings.apiServer.advertimagepath;
       });
     }
   }
@@ -91,9 +96,8 @@ export class AdvertismentViewComponent implements OnInit {
     } else {
       const httpOptions = {
         headers: new HttpHeaders()
-          .append('Content-Type', 'application/x-www-form-urlencoded')
           .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-          .append('Accept-Language', 'En')
+          .append('Accept-Language', 'Ar')
       };
       const formData: FormData = new FormData();
       formData.append('TitleAr', this.arTitleFormControl.value);
@@ -101,6 +105,8 @@ export class AdvertismentViewComponent implements OnInit {
       formData.append('DescriptionAr', this.arDescFormControl.value);
       formData.append('DescriptionEn', this.enDescFormControl.value);
       formData.append('Image', this.fileToUpload);
+      formData.append('name', 'Name');
+
       this.http.post(AppConfig.settings.apiServer.host + 'Advertisment/Add_Advertisment.php', formData,
         httpOptions)
         .subscribe(result => {

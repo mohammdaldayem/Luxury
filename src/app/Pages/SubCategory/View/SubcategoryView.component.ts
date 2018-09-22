@@ -4,7 +4,14 @@ import { SubCategoryService } from '../../../Services/SubCategory.service';
 import { CategoryService } from '../../../Services/CategoryService.service';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
-import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  FormGroup,
+  FormBuilder
+} from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import swal from 'sweetalert2';
 import { AppConfig } from '../../../app.config';
@@ -15,7 +22,6 @@ import { formGroupNameProvider } from '@angular/forms/src/directives/reactive_di
   templateUrl: './SubcategoryView.component.html',
   styleUrls: ['./SubcategoryView.component.css']
 })
-
 export class SubcategoryViewComponent implements OnInit {
   ennameFormControl: FormControl;
   arnameFormControl: FormControl;
@@ -28,23 +34,24 @@ export class SubcategoryViewComponent implements OnInit {
   mainCategory: string;
   fileToUpload: File = null;
   isSubmitted: boolean;
-
+  elementImage: string;
+  imagePath: string;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private _subCategoryService: SubCategoryService, private categoryService: CategoryService, private route: ActivatedRoute, private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(
+    private _subCategoryService: SubCategoryService,
+    private categoryService: CategoryService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private http: HttpClient
+  ) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
       this.CategortyID = params['CategoryID'];
       this.form = new FormGroup({});
-      this.ennameFormControl = new FormControl('', [
-        Validators.required,
-      ]);
-      this.arnameFormControl = new FormControl('', [
-        Validators.required,
-      ]);
-      this.mainCategoryControl = new FormControl('', [
-        Validators.required,
-      ]);
+      this.ennameFormControl = new FormControl('', [Validators.required]);
+      this.arnameFormControl = new FormControl('', [Validators.required]);
+      this.mainCategoryControl = new FormControl('', [Validators.required]);
     });
 
     this.form.addControl('ennameFormControl', this.ennameFormControl);
@@ -54,19 +61,26 @@ export class SubcategoryViewComponent implements OnInit {
 
   ngOnInit() {
     this.categoryService.getCategories().subscribe(response => {
-      this.categories = ((<IResponse>response).Categories);
+      this.categories = (<IResponse>response).Categories;
       if (this.ID) {
-        this.mainCategoryControl.setValue(this.categories.find(cat => cat.ID === this.CategortyID).ID);
+        this.mainCategoryControl.setValue(
+          this.categories.find(cat => cat.ID === this.CategortyID).ID
+        );
       }
     });
 
     if (this.ID !== undefined) {
-      this._subCategoryService.getSupCategories({ MainCategoryId: this.CategortyID }).subscribe(result => {
-        this.category = ((<IResponse>result).SubCategories).find(x => x.ID === this.ID);
-        this.ennameFormControl.setValue(this.category.Name);
-        this.arnameFormControl.setValue(this.category.Name);
-      });
-
+      this._subCategoryService
+        .getSupCategories({ MainCategoryId: this.CategortyID })
+        .subscribe(result => {
+          this.category = (<IResponse>result).SubCategories.find(
+            x => x.ID === this.ID
+          );
+          this.ennameFormControl.setValue(this.category.Name);
+          this.arnameFormControl.setValue(this.category.Name);
+          this.elementImage = this.category.Image;
+          this.imagePath = AppConfig.settings.apiServer.subCategoryimagepath;
+        });
     }
   }
   addUpdate() {
@@ -77,7 +91,6 @@ export class SubcategoryViewComponent implements OnInit {
     if (this.ID) {
       const httpOptions = {
         headers: new HttpHeaders()
-          .append('Content-Type', 'application/x-www-form-urlencoded')
           .append(
             'Authorization',
             AppConfig.settings.apiServer.AuthorizationToken
@@ -85,11 +98,18 @@ export class SubcategoryViewComponent implements OnInit {
           .append('Accept-Language', 'En')
       };
       const formData: FormData = new FormData();
+      formData.append('CategoryId', this.mainCategoryControl.value);
       formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
       formData.append('SubCategoryName_En', this.ennameFormControl.value);
       formData.append('Image', this.fileToUpload);
-      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
-        httpOptions).subscribe(result => {
+      formData.append('SubCategoryId', this.ID);
+      this.http
+        .post(
+          AppConfig.settings.apiServer.host + 'Category/EditSubCategory.php',
+          formData,
+          httpOptions
+        )
+        .subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {
             swal({
@@ -117,7 +137,6 @@ export class SubcategoryViewComponent implements OnInit {
       //   })
       const httpOptions = {
         headers: new HttpHeaders()
-          .append('Content-Type', 'application/x-www-form-urlencoded')
           .append(
             'Authorization',
             AppConfig.settings.apiServer.AuthorizationToken
@@ -128,9 +147,13 @@ export class SubcategoryViewComponent implements OnInit {
       formData.append('CategoryId', this.mainCategoryControl.value);
       formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
       formData.append('SubCategoryName_En', this.ennameFormControl.value);
-      formData.append('Image', this.fileToUpload);
-      this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', formData,
-        httpOptions)
+      formData.append('image', this.fileToUpload);
+      this.http
+        .post(
+          AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php',
+          formData,
+          httpOptions
+        )
         .subscribe(result => {
           const response = <IResponse>result;
           if (response.success === true) {

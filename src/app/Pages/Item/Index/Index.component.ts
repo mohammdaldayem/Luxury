@@ -27,7 +27,7 @@ export class IndexComponent implements OnInit, AfterViewInit  {
   loadAllItems(pagesize: number, from: number) {
     this._itemService.getAllItems({LoadFrom: (pagesize * from) + 1, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);
-      this.resultsLength = 33;  // (<IResponse>resultobj).Items.length;
+      this.resultsLength = (<IResponse>resultobj).Items.length;
     });
   }
 

@@ -19,6 +19,15 @@ export class DeliveryService extends BaseService {
         .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
         .append('Accept-Language', 'En')
     };
-    return this.http.post(AppConfig.settings.apiServer.host + '', this.getFormUrlEncoded(request), httpOptions);
+    return this.http.post(AppConfig.settings.apiServer.host + 'DeliveryFee/Edit_DeliveryFee.php', this.getFormUrlEncoded(request), httpOptions);
+  }
+
+  getDeliveryFee() {
+    const httpOptions = {
+      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
+        .append('Accept-Language', 'En')
+    };
+    return this.http.get(AppConfig.settings.apiServer.host + 'DeliveryFee/DeliveryFee.php', httpOptions);
   }
 }

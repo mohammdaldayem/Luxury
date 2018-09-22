@@ -36,14 +36,13 @@ export class AreaViewComponent implements OnInit {
     if (this.ID !== undefined && this.ID !== 0) {
       this._areaService.getAreaDetails({ AreaId: this.ID }).subscribe(result => {
         const area: IArea = <IArea>((<IResponse>result).AreaInfo);
-        debugger
         this.enNameFormControl.setValue(area.Name);
         this.arNameFormControl.setValue(area.ArName);
       });
     }
   }
   AddUpdateArea() {
-    if (this.form.status == "INVALID") {
+    if (this.form.status === "INVALID") {
       return;
     }
     let response: any;

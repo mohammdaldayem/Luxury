@@ -1,151 +1,167 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-              <div class="card">
-                  <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                      <i class="material-icons">account_box</i>
-                    </div>
-                    <h4 class="card-title">User Iformation</h4>
-                  </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Order #</label>
-                            <div class="col-sm-10 output">
-                              {{request?.ID}}
-                            </div>
-                          </div>
-                          <div class="row">
-                              <label class="col-sm-2 col-form-label">Name</label>
-                              <div class="col-sm-10 output">
-                                {{request?.ClientName}}
-                              </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2 col-form-label">Phone</label>
-                                <div class="col-sm-10 output" >
-                                  {{request?.Phone}}
-                                </div>
-                              </div>
-                              <div class="row">
-                                  <label class="col-sm-2 col-form-label">Address</label>
-                                  <div class="col-sm-10 output" >
-                                    {{request?.Address}}
-                                  </div>
-                                </div>
-                                <div class="row">
-                                    <label class="col-sm-2 col-form-label">Notes</label>
-                                    <div class="col-sm-10 output" >
-                                        <mat-form-field>
-                                            <textarea matInput readonly="readonly">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">account_box</i>
+            </div>
+            <h4 class="card-title">User Information</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Order #</label>
+              <div class="col-sm-10 output">
+                {{request?.ID}}
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Name</label>
+              <div class="col-sm-10 output">
+                {{request?.ClientName}}
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Phone</label>
+              <div class="col-sm-10 output">
+                {{request?.Phone}}
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Address</label>
+              <div class="col-sm-10 output">
+                {{request?.Address}}
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label">Notes</label>
+              <div class="col-sm-10 output">
+                <mat-form-field>
+                  <textarea matInput readonly="readonly">
                                                 {{request?.Notes}}
                                             </textarea>
-                                          </mat-form-field>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-sm-12" >
-                                         <legend>Location</legend>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-md-12">
-                                          <div id="regularMap" class="map"></div>
-                                      </div>
-                                    </div>
-                    </div>
-               </div>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <legend>Location</legend>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div id="regularMap" class="map"></div>
+              </div>
+            </div>
           </div>
-          <div class="col-md-6">
-              <div class="card">
-                  <div class="card-header card-header-primary card-header-icon">
-                    <div class="card-icon">
-                      <i class="material-icons">list</i>
-                    </div>
-                    <h4 class="card-title">User Iformation</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">list</i>
+            </div>
+            <h4 class="card-title">Request Information</h4>
+          </div>
+          <div class="card-body">
+            <ul class="mdc-list">
+              <li *ngFor="let cart of Cart">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="col-form-label">Seller Name </label>
                   </div>
-                    <div class="card-body" >
-                         <ul class="mdc-list" >
-                         <li *ngFor="let cart of Cart">
-                           <div class="row">
-                             <div class="col-md-3 col-sm-5"><h3 class="mdc-list-group">Seller Name :</h3></div>
-                             <div class="col-md-4 col-sm-7"><h3 class="mdc-list-group__subheader">{{cart?.SellerDetails?.Name}}</h3></div>
-                           </div>
-                            <ul class="mdc-list">
-                              <li class="mdc-list-item" *ngFor="let item of cart.RequestItems">
-                                <div class="row col-form-label">
-                                  <div class="col-md-3">
-                                      <img src="../../../../assets/img/image_placeholder.jpg"/>
-                                  </div>
-                                  <div class="col-md-9">
-                                      <div class="row">
-                                          <label class="col-sm-2 col-form-label">Name</label>
-                                          <div class="col-sm-3 output">
-                                              {{item.ItemName}}
-                                          </div>
-                                          <label class="col-sm-2 col-form-label">Size</label>
-                                                <div class="col-sm-3 output">
-                                                    {{item.Size}}
-                                                </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-sm-2 col-form-label">Price</label>
-                                            <div class="col-sm-3 output">
-                                               ???
-                                            </div>
-                                            <label class="col-sm-2 col-form-label">Color</label>
-                                                <div class="col-sm-3 output">
-                                                    {{item.ColorName}}
-                                                </div>
-                                          </div>
-                                          <div class="row">
-                                              <label class="col-sm-2 col-form-label">Quantity</label>
-                                              <div class="col-sm-3 output">
-                                                  {{item.Quantity}}
-                                              </div>
-                                            </div>
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                         </li>
-                       </ul>  
-                       <div class="row">
-                          <div class="col-md-2 col-sm-3"><h3 class="mdc-list-group">Total :</h3></div>
-                          <div class="col-md-2 col-sm-7"><h3 class="mdc-list-group__subheader">{{request?.Total}}</h3></div>
-                        </div>
+                  <div class="col-md-4">
+                    <label class="col-form-label">{{cart?.SellerDetails?.Name}}</label>
+                  </div>
+                </div>
+                <ul>
+                  <li class="mdc-list-item" *ngFor="let item of cart.RequestItems">
+                    <div class="row">
+                      <!-- <div class="col-md-3">
+                        <img src="../../../../assets/img/image_placeholder.jpg" />
+                      </div> -->
+                      <div class="col-md-9">
+                        <br>
                         <div class="row">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Change Request Status
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-left">
-                                   <button class="dropdown-item" type="button" *ngFor="let status of Statuses" data-toggle="modal" data-target="#myModal10" (click)="showconfermationmessage(request.ID,status.ID)">{{status.NameEN}}</button>
-                                </div>
-                            </div>
+                          <label class="col-md-4">Name  </label>
+                          <label class="col-md-3"> {{item.ItemName}}</label>
                         </div>
+                        <br>
+                        <div class="row">
+                          <label class="col-md-4">Size  </label>
+                          <label class="col-md-3"> {{item.Size}}</label>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <label class="col-md-4">Price  </label>
+                          <label class="col-md-3">{{getItemPrice(item)}}</label>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-md-4">Color  </label>
+                            <label class="col-md-3"> {{item.ColorName}}</label>
+                        </div>
+                        <br>
+                        <div class="row">
+                          <label class="col-md-4">Quantity  </label>
+                          <label class="col-md-3"> {{item.Quantity}}</label>
+                        </div>
+                        <br>
+                        <div class="row">
+                         <div class="col-md-7">
+                            <img src="../../../../assets/img/image_placeholder.jpg" />
+                         </div>
+                        </div>
+                      </div>
                     </div>
-               </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <div class="row">
+              <div class="col-md-4">
+                <h3 class="mdc-list-group">Total </h3>
+              </div>
+              <div class="col-md-3">
+                <h3 class="mdc-list-group__subheader">{{request?.Total}}</h3>
+              </div>
             </div>
-        </div>
-      </div>
-      </div>
-      <div class="modal fade modal-mini modal-primary" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-small">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure you want to do this?</p>
-              </div>
-              <div class="modal-footer justify-content-center">
-                <button mat-raised-button type="button" class="btn btn-link" data-dismiss="modal">Never mind</button>
-                <button mat-raised-button type="button" class="btn btn-success btn-link" data-dismiss="modal" (click)="ChangeRequestStatus()">Yes
-                  <div class="ripple-container"></div>
+            <div class="row">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  Change Request Status
                 </button>
+                <div class="dropdown-menu dropdown-menu-left">
+                  <button class="dropdown-item" type="button" *ngFor="let status of Statuses" data-toggle="modal"
+                    data-target="#myModal10" (click)="showconfermationmessage(request.ID,status.ID)">{{status.NameEN}}</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-mini modal-primary" id="myModal10" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-small">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to do this?</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button mat-raised-button type="button" class="btn btn-link" data-dismiss="modal">Never mind</button>
+        <button mat-raised-button type="button" class="btn btn-success btn-link" data-dismiss="modal" (click)="ChangeRequestStatus()">Yes
+          <div class="ripple-container"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

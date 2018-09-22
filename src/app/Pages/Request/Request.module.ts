@@ -8,6 +8,7 @@ import { IndexComponent } from './Index/Index.component';
 import { RequestRoutes } from './Request.routing';
 import { RequestService } from '../../Services/request.service';
 import { SellerService } from '../../Services/Seller.service';
+import { ItemService } from '../../Services/Item.service';
 import { RequestViewComponent } from './requestView/requestView.component';
 
 @NgModule({
@@ -19,6 +20,6 @@ import { RequestViewComponent } from './requestView/requestView.component';
     MaterialModule
   ],
   declarations: [IndexComponent, RequestViewComponent],
-  providers: [RequestService, SellerService]
+  providers: [RequestService, SellerService,ItemService]
 })
 export class RequestModule { }

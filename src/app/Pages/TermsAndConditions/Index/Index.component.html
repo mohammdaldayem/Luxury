@@ -1,33 +1,52 @@
-
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-              <div class="card">
-                  <form>
-                 <div class="card-header card-header-primary card-header-icon">
-                   <div class="card-icon">
-                    <i class="material-icons">list</i>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <form>
+            <div class="card-header card-header-primary card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">list</i>
+              </div>
+              <h4 class="card-title">Terms and condition</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <form (ngSubmit)="AddUpdateTerms()">
+                  <div class="col-md-12">
+                    <label><strong>Arabic Terms</strong></label>
+                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsAr" [spellcheck]="true"></app-ngx-editor>
                   </div>
-                  <h4 class="card-title">Terms and condition</h4>
-                </div> 
-                  <div class="card-body">
-                    <form (ngSubmit)="AddUpdateTerms()" >
-                      <mat-grid-list cols="2" rowHeight="2:1">
-                          <mat-grid-tile><app-ngx-editor style="height: 20rem;min-height: 20rem" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="TremsAr" [ngModelOptions]="{standalone: true}"></app-ngx-editor></mat-grid-tile>
-                          <mat-grid-tile><app-ngx-editor style="height: 20rem;min-height: 20rem" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="TremsEn" [ngModelOptions]="{standalone: true}"></app-ngx-editor></mat-grid-tile>
-                        </mat-grid-list>
-                        <button mat-raised-button type="submit" class="btn btn-rose btn-fill">Submit</button>
-                      </form>
+                  <br />
+                  <div class="col-md-12">
+                    <label><strong>English Terms</strong></label>
+                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsEn" [spellcheck]="true"></app-ngx-editor>
                   </div>
-                  <!-- end content-->
+                  <button mat-raised-button type="submit" class="btn btn-rose btn-fill right-green">Save</button>
                 </form>
               </div>
-              <!--  end card  -->
-          </div>
-          <!-- end col-md-12 -->
+
+              <!-- <form (ngSubmit)="AddUpdateTerms()">
+                <mat-grid-list cols="2" rowHeight="2:1">
+                  <mat-grid-tile>
+                    <app-ngx-editor style="height: 100%;min-height: 20rem" [placeholder]="'Enter text here...'"
+                      [spellcheck]="true" [(ngModel)]="TremsAr" [ngModelOptions]="{standalone: true}"></app-ngx-editor>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <app-ngx-editor style="height: 20rem;min-height: 20rem" [placeholder]="'Enter text here...'"
+                      [spellcheck]="true" [(ngModel)]="TremsEn" [ngModelOptions]="{standalone: true}"></app-ngx-editor>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                <button mat-raised-button type="submit" class="btn btn-rose btn-fill">Submit</button>
+              </form> -->
+            </div>
+            <!-- end content-->
+          </form>
+        </div>
+        <!--  end card  -->
       </div>
-      <!-- end row -->
+      <!-- end col-md-12 -->
     </div>
+    <!-- end row -->
   </div>
-  
+</div>

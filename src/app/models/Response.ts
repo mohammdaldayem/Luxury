@@ -20,6 +20,7 @@ export interface IResponse {
     Advertisments: IAdvertisment[];
     ItemInfo: IAdvertisment;
     AdminInfo: IAdminInfo;
+    DeliveryFee: IDeliveryFee;
     AllRequestsCount: string;
     TodayRequestsCount: string;
     AllMessagesCount: string;
@@ -47,7 +48,7 @@ export interface IRequest {
     Notes: string;
     CreatedAt: Date;
 }
-export interface ISeller {
+export class ISeller {
 ID: string;
 Name: string;
 Phone: string;
@@ -147,3 +148,13 @@ export interface IAdvertisment {
 export interface IAdminInfo {
     Name: string;
 }
+
+export class IStatus {
+    ID: string;
+    StatusName: string;
+}
+
+export class IDeliveryFee {
+  Value: string;
+}
+

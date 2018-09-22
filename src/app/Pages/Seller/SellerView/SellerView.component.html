@@ -1,75 +1,89 @@
 <div class="main-content">
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <form [formGroup]="form" class="form-horizontal">
-              <div class="card-header card-header-primary card-header-icon">
-                <!-- <div class="card-icon">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <form [formGroup]="form" class="form-horizontal">
+            <div class="card-header card-header-primary card-header-icon">
+              <!-- <div class="card-icon">
                   <i class="material-icons">list</i>
                 </div> -->
-                <h4 class="card-title">Sellet Details</h4>
-              </div>
-                <div class="card-body">
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">English Name *</label>
-                          <div class="col-sm-4">
-                              <mat-form-field>
-                                  <input matInput [formControl]="ennameFormControl" required>
-                                  <mat-error *ngIf="ennameFormControl.invalid">Name is Required</mat-error>
-                                </mat-form-field>
-                          </div>
-                      </div>
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">Arabic Name *</label>
-                          <div class="col-sm-4">
-                              <mat-form-field>
-                                  <input matInput [formControl]="arnameFormControl" required>
-                                  <mat-error *ngIf="arnameFormControl.invalid">Name is Required</mat-error>
-                                </mat-form-field>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <label class="col-sm-2 col-form-label">Phone *</label>
-                            <div class="col-sm-4">
-                                <mat-form-field>
-                                    <input matInput [formControl]="phoneFormControl" type="number" required>
-                                    <mat-error *ngIf="phoneFormControl.invalid">Phone is Required</mat-error>
-                                  </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Address *</label>
-                              <div class="col-sm-4">
-                                  <mat-form-field>
-                                      <input matInput [formControl]="addressFormControl" required>
-                                      <mat-error *ngIf="addressFormControl.invalid">Address is Required</mat-error>
-                                    </mat-form-field>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-sm-12" >
-                                 <legend>Location</legend>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-12">
-                                  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                                  <div id="regularMap" class="map"></div>
-                              </div>
-                            </div>
-                                <div class="row">
-                                    <div class="col-md-4 align-self-end">
-                                        <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdateSeller()">Submit</button>
-                                    </div>
-                                  </div>
-                </div>
-                <!-- end content-->
-              </form>
+              <h4 class="card-title">Sellet Details</h4>
             </div>
-            <!--  end card  -->
+            <div class="card-body">
+              <div class="row">
+                <label class="col-sm-2 col-form-label">English Name *</label>
+                <div class="col-sm-4">
+                  <mat-form-field>
+                    <input matInput [formControl]="ennameFormControl" required>
+                    <mat-error *ngIf="ennameFormControl.invalid">Name is Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-2 col-form-label">Arabic Name *</label>
+                <div class="col-sm-4">
+                  <mat-form-field>
+                    <input matInput [formControl]="arnameFormControl" required>
+                    <mat-error *ngIf="arnameFormControl.invalid">Name is Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-2 col-form-label">Phone *</label>
+                <div class="col-sm-4">
+                  <mat-form-field>
+                    <input matInput [formControl]="phoneFormControl" type="number" required>
+                    <mat-error *ngIf="phoneFormControl.invalid">Phone is Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-2 col-form-label">Area *</label>
+                <div class="col-sm-4">
+                  <mat-form-field>
+                    <mat-select [formControl]="areaFormControl">
+                      <mat-option *ngFor="let area of areas" [value]="area.ID">
+                        {{area.Name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-2 col-form-label">Address *</label>
+                <div class="col-sm-4">
+                  <mat-form-field>
+                    <input matInput [formControl]="addressFormControl" required>
+                    <mat-error *ngIf="addressFormControl.invalid">Address is Required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <legend>Location</legend>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <input id="pac-input" class="controls" type="text" [formControl]="locationFormControl" placeholder="Search Box"
+                    (change)="changeLocationSearch()">
+                  <div id="regularMap" class="map"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 align-self-end">
+                  <button mat-raised-button type="submit" class="btn btn-rose btn-fill" (click)="addUpdateSeller()">Submit</button>
+                </div>
+              </div>
+            </div>
+            <!-- end content-->
+          </form>
         </div>
-        <!-- end col-md-12 -->
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
     </div>
     <!-- end row -->
   </div>

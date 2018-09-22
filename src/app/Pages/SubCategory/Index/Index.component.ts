@@ -1,9 +1,9 @@
+import { CategoryService } from './../../../Services/CategoryService.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubCategoryService } from '../../../Services/SubCategory.service';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AppConfig } from '../../../app.config';
-import { CategoryService } from '../../../Services/CategoryService.service';
 import swal from 'sweetalert2';
 
 @Component({

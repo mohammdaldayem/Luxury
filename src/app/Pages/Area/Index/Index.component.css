@@ -4,3 +4,7 @@ table {
   .example-container {
     display: inline !important;
   }
+
+  .green{
+    background-color: green;
+  }

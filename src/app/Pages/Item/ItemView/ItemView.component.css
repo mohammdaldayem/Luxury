@@ -1,81 +1,102 @@
-.btn-right{
-    float :right
+
+.btn-right {
+  float: right
+}
+.right{
+  float: right;
+  margin-right: 10px !important;
+  background-color: green !important;
+}
+
+.radio{
+  margin: 5px !important;
 }
 .example-container {
-    position: relative;
-  }
-  
-  .example-table-container {
-    position: relative;
-    max-height: 400px;
-    overflow: auto;
-  }
-  
-  table {
-    width: 100%;
-  }
-  mat-grid-tile {
-    border-right-width: 1px;
-  }
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+mat-grid-tile {
+  border-right-width: 1px;
+}
 
 /* delte button */
-  .close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 20px;
-    height: 20px;
-    opacity: 0.5;
-    
-  }
-  .close:hover {
-    opacity: 1;
-  }
-  .close:before, .close:after {
-    position: absolute;
-    left: 15px;
-    content: ' ';
-    height: 20px;
-    width: 2px;
-    background-color: red;
-  }
-  .close:before {
-    transform: rotate(45deg);
-  }
-  .close:after {
-    transform: rotate(-45deg);
-  }
-  /* delte button small */
-  .close-sm {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 20px;
-    height: 20px;
-    opacity: 0.5;
-    
-  }
-  .close-sm:hover {
-    opacity: 1;
-  }
-  .close-sm:before, .close-sm:after {
-    position: absolute;
-    left: 15px;
-    content: ' ';
-    height: 20px;
-    width: 2px;
-    background-color: red;
-  }
-  .close-sm:before {
-    transform: rotate(45deg);
-  }
-  .close-sm:after {
-    transform: rotate(-45deg);
-  }
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
 
-  /* Image size */
-  img {
-    max-width: 100%;
-    max-height: 100%;
 }
-  
+
+.close:hover {
+  opacity: 1;
+}
+
+.close:before,
+.close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: red;
+}
+
+.close:before {
+  transform: rotate(45deg);
+}
+
+.close:after {
+  transform: rotate(-45deg);
+}
+
+/* delte button small */
+.close-sm {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+
+}
+
+.close-sm:hover {
+  opacity: 1;
+}
+
+.close-sm:before,
+.close-sm:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: red;
+}
+
+.close-sm:before {
+  transform: rotate(45deg);
+}
+
+.close-sm:after {
+  transform: rotate(-45deg);
+}
+
+/* Image size */
+img {
+  max-width: 100%;
+  max-height: 100%;
+}

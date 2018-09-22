@@ -75,6 +75,7 @@
     "@angular/compiler-cli": "6.0.2",
     "@types/bootstrap": "3.3.32",
     "@types/chartist": "0.9.34",
+    "@types/googlemaps": "^3.30.13",
     "@types/jasmine": "2.5.38",
     "@types/jquery": "1.10.31",
     "@types/node": "6.0.73",
