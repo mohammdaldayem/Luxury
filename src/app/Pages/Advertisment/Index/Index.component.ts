@@ -26,8 +26,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
   loadAllIAdvertisment(pagesize: number, from: number) {
     this._advertismentService.getAllAdvertisments().subscribe(resultobj => {
-      this.dataSource = new MatTableDataSource<IAdvertisment>((<IResponse>resultobj).Advertisments.slice(from, pagesize));
-      this.resultsLength = (<IResponse>resultobj).Advertisments.length;  // (<IResponse>resultobj).Items.length;
+      this.dataSource = new MatTableDataSource<IAdvertisment>((<IResponse>resultobj).Advertisments);
+      this.resultsLength = (<IResponse>resultobj).Advertisments.length;  
+      this.dataSource.paginator = this.paginator;
     });
   }
   applyFilter(filterValue: string) {

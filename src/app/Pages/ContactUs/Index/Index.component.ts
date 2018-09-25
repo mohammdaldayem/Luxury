@@ -24,7 +24,8 @@ export class IndexComponent implements AfterViewInit {
   loadAllItems(pagesize: number, from: number) {
     this._contactusservice.getAllMessages({LoadFrom: (pagesize * from) + 1, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
-      this.resultsLength = 7;  // (<IResponse>resultobj).Items.length;
+      this.resultsLength = (<IResponse>resultobj).Items.length;
+      this.dataSource.paginator = this.paginator;
     });
   }
   applyFilter(filterValue: string) {

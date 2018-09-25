@@ -1,60 +1,60 @@
 <div class="main-content">
   <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-              <div class="card-header card-header-primary card-header-icon">
-                <div class="card-icon">
-                  <i class="material-icons">assignment</i>
-                </div>
-                <h4 class="card-title">Advertisments</h4>
-              </div>
-                <div class="card-body">
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-                            <a class="float-right card-title" routerLink="/Pages/Advertisment/View" routerLinkActive="active">
-                  <button class="btn green"> Add New</button></a>
-                          </mat-form-field>
-                          <!-- <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">assignment</i>
+            </div>
+            <h4 class="card-title">Advertisments</h4>
+          </div>
+          <div class="card-body">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+              <a class="float-right card-title" routerLink="/Pages/Advertisment/View" routerLinkActive="active">
+                <button class="btn green"> Add New</button></a>
+            </mat-form-field>
+            <!-- <div class="spinner-container" *ngIf="dataSource.loading$ | async">
                               <mat-spinner></mat-spinner>
                           </div> -->
-                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-                          
-                          <ng-container matColumnDef="Image">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
-                            <td mat-cell *matCellDef="let element"> 
-                              <img height="100px" width="100px" src='{{imagePath + element.Image}}' />  </td>
-                          </ng-container>
-                          
-                          <ng-container matColumnDef="Title">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
-                          </ng-container>
-                      
-                          
-                          <ng-container matColumnDef="Description">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                            <td mat-cell *matCellDef="let element">{{element.Description}} </td>
-                          </ng-container>
-                          <ng-container matColumnDef="Actions">
-                              <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-                              <td mat-cell *matCellDef="let element" class="text-right"> 
-                                  <a [routerLink]="['/Pages/Advertisment/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
-                                   <app-grid-delet-btn [ID]="element.ID" (onConfirm)="DeleteItem($event)"></app-grid-delet-btn>
-                                 </td>
-                            </ng-container>
-                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                      
-                        <mat-paginator [pageSizeOptions]="[10, 15, 20]" [pageSize]="10"  #paginator [length]="resultsLength" showFirstLastButtons (page)="loadAllIAdvertisment($event.pageSize,$event.pageIndex)" ></mat-paginator>
-                      
-                </div>
-                <!-- end content-->
-            </div>
-            <!--  end card  -->
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+              <ng-container matColumnDef="Image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                <td mat-cell *matCellDef="let element">
+                  <img height="100px" width="100px" src='{{imagePath + element.Image}}' /> </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Title">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+                <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="Description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element">{{element.Description}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                <td mat-cell *matCellDef="let element" class="text-right">
+                  <a [routerLink]="['/Pages/Advertisment/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i
+                      class="material-icons">dvr</i></a>
+                  <app-grid-delet-btn [ID]="element.ID" (onConfirm)="DeleteItem($event)"></app-grid-delet-btn>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+          <!-- end content-->
         </div>
-        <!-- end col-md-12 -->
+        <!--  end card  -->
+      </div>
+      <!-- end col-md-12 -->
     </div>
     <!-- end row -->
   </div>

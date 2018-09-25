@@ -39,10 +39,7 @@
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
-            <mat-paginator [pageSizeOptions]="[10, 15, 20]" [pageSize]="10" #paginator [length]="resultsLength"
-              showFirstLastButtons (page)="loadAllICategories($event.pageSize,$event.pageIndex)"></mat-paginator>
-
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
           </div>
           <!-- end content-->
         </div>

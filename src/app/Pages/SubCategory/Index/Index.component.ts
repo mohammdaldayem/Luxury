@@ -31,14 +31,16 @@ export class IndexComponent implements OnInit {
 
   loadAllISubCategories(pagesize: number, from: number) {
     this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
-      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories.slice(from, pagesize));
+      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories);
+      this.dataSource.paginator = this.paginator;
       this.resultsLength = (<IResponse>result).SubCategories.length;
     });
   }
 
   changeCategory() {
     this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
-      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories.slice(this.paginator.pageIndex, this.paginator.pageSize)),
+      this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories),
+      this.dataSource.paginator = this.paginator;
       this.resultsLength = (<IResponse>result).SubCategories.length;
     });
   }

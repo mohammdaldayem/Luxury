@@ -23,7 +23,8 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.CategoryService.getCategories().subscribe(result => {
       // tslint:disable-next-line:max-line-length
-      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories.slice(this.paginator.pageIndex, this.paginator.pageSize));
+      this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
+      this.dataSource.paginator = this.paginator;
       this.resultsLength = (<IResponse>result).Categories.length;
     });
   }
@@ -50,7 +51,7 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
         }).catch(swal.noop);
-        // tslint:disable-next-line:no-shadowed-variable
+        debugger
         this.CategoryService.getCategories().subscribe(result => {
           this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);
         });

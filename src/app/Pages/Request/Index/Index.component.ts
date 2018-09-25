@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../../Services/request.service';
 import { SellerService } from '../../../Services/Seller.service';
@@ -24,6 +24,8 @@ export class IndexComponent implements OnInit {
   completedStatus: IStatus;
   declinedStatus: IStatus;
   allSeller: ISeller;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private _requestService: RequestService, private _sellerService: SellerService, private router: Router) {
     this.allSeller = new ISeller();
@@ -61,6 +63,8 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this._requestService.getRequests({ LoadFrom: 0, PageSize: 100000 }).subscribe(result => {
       this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests);
+      this.dataSource.paginator = this.paginator;
+      debugger
     });
     this._sellerService.getSellers().subscribe(result => {
       this.sellers = (<IResponse>result).Sellers;

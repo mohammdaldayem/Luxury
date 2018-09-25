@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { SellerService } from '../../../Services/Seller.service';
 import { IResponse, ISeller } from '../../../models/Response';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
@@ -12,12 +12,14 @@ export class IndexComponent implements OnInit {
   displayedColumns: string[] = [ 'Name', 'Phone', 'Address', 'Actions'];
   dataSource: MatTableDataSource<ISeller>;
   totalCount: number = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private _sellerService: SellerService) { }
 
   ngOnInit() {
     this._sellerService.getSellers().subscribe(result => {
       this.dataSource = new MatTableDataSource<ISeller>((<IResponse>result).Sellers);
       this.totalCount = ((<IResponse>result).Sellers).length;
+      this.dataSource.paginator = this.paginator;
     });
   }
   applyFilter(filterValue: string) {
