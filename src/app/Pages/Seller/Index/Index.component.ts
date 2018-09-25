@@ -37,9 +37,9 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
       }).catch(swal.noop);
-      this._sellerService.getSellers().subscribe(resultobj => {
-        this.dataSource = new MatTableDataSource<ISeller>((<IResponse>resultobj).Sellers);
-      });
+      var index = this.dataSource.data.findIndex(x=>x.ID==''+ID);
+      this.dataSource.data.splice(index,1);
+      this.dataSource._updateChangeSubscription();
       } else {
         swal({
           title: 'Failed',

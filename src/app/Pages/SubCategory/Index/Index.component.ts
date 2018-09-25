@@ -40,7 +40,7 @@ export class IndexComponent implements OnInit {
   changeCategory() {
     this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
       this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories),
-      this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginator;
       this.resultsLength = (<IResponse>result).SubCategories.length;
     });
   }
@@ -58,9 +58,9 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
         }).catch(swal.noop);
-        this.SubCategoryService.getSupCategories({ MainCategoryId: 3 }).subscribe(resultobj => {
-          this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>resultobj).SubCategories);
-        });
+        var index = this.dataSource.data.findIndex(x => x.ID == '' + ID);
+        this.dataSource.data.splice(index, 1);
+        this.dataSource._updateChangeSubscription();
       } else {
         swal({
           title: 'Failed',

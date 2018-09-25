@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { IArea, IResponse } from '../../../models/Response';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource,MatPaginator } from '@angular/material';
 import { AreaService } from '../../../Services/Area.service';
 import swal from 'sweetalert2';
 
@@ -13,17 +13,18 @@ export class IndexComponent implements OnInit {
   displayedColumns: string[] = [ 'Name', 'Actions'];
   dataSource: MatTableDataSource<IArea>;
   constructor(private _areaService: AreaService) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
     this._areaService.getAreas().subscribe(result => {
       this.dataSource = new MatTableDataSource<IArea>((<IResponse>result).Areas);
+      this.dataSource.paginator = this.paginator;
     });
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   DeleteArea(ID: Number) {
-    console.log(ID);
     this._areaService.deletAreas({AreaId: ID}).subscribe(result => {
       const response = <IResponse>result ;
       if (response.success === true) {
@@ -34,9 +35,9 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
       }).catch(swal.noop);
-      this._areaService.getAreas().subscribe(resultobj => {
-        this.dataSource = new MatTableDataSource<IArea>((<IResponse>result).Areas);
-      });
+      var index = this.dataSource.data.findIndex(x=>x.ID==''+ID);
+      this.dataSource.data.splice(index,1);
+      this.dataSource._updateChangeSubscription();
       } else {
         swal({
           title: 'Failed',
