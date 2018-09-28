@@ -1,5 +1,10 @@
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
+       .right-green{
+         float: right;
+         background-color: green !important;
+         margin-top: 10px;
+       }
        #map {
         height: 100%;
       }

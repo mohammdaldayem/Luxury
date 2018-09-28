@@ -51,6 +51,7 @@ export interface IRequest {
 export class ISeller {
 ID: string;
 Name: string;
+NameAR: string;
 Phone: string;
 Address: string;
 Latitude: string;

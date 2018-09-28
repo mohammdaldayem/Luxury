@@ -13,21 +13,22 @@ declare const google: any;
   styleUrls: ['./SellerView.component.css']
 })
 export class SellerViewComponent implements OnInit {
-
+  //#region Decleration
   form: FormGroup;
   seller: ISeller;
   ID: Number;
-  markers: Array<any>;
+  marker: any;
   ennameFormControl: FormControl;
   arnameFormControl: FormControl;
   phoneFormControl: FormControl;
   addressFormControl: FormControl;
   locationFormControl: FormControl;
-  areaFormControl : FormControl;
+  areaFormControl: FormControl;
   isSubitted: boolean;
   map: any;
-  areas : IArea[];
-
+  areas: IArea[];
+  //#endregion
+  //#region constructor
   constructor(private araeService: AreaService, private _sellerService: SellerService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
@@ -50,20 +51,21 @@ export class SellerViewComponent implements OnInit {
       Validators.required,
     ]);
   }
-
+  //#endregion
+  //#region Init
   ngOnInit() {
-
     this.araeService.getAreas().subscribe(response => {
       this.areas = ((<IResponse>response).Areas);
     })
-
+    //#region controls
     this.form.addControl('ennameFormControl', this.ennameFormControl);
     this.form.addControl('arnameFormControl', this.arnameFormControl);
     this.form.addControl('phoneFormControl', this.phoneFormControl);
     this.form.addControl('addressFormControl', this.addressFormControl);
     this.form.addControl('addressFormControl', this.areaFormControl);
-
-    const myLatlng = new google.maps.LatLng('-33.8688', '151.2195');
+    //#endregion
+    //#region map
+    const myLatlng = new google.maps.LatLng('31.9454', '35.9284');
     const mapOptions = {
       zoom: 6,
       center: myLatlng,
@@ -71,63 +73,49 @@ export class SellerViewComponent implements OnInit {
     };
 
     this.map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
-
-    this.map.addListener('click', function (e) {
-      var newPosition = e.latLng;
-      debugger
-      console.log(e.latLng + this.map);
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      title: '',
+      position: new google.maps.LatLng('31.9454', '35.9284'),
+      draggable: true
     });
 
+    google.maps.event.addListener(this.map, 'click', (e) => {
+      this.map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+      var markerPsoition = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng())
+      this.marker.setPosition(markerPsoition);
+    });
+
+    google.maps.event.addListener(this.marker, 'dragend', (e) => {
+      this.map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+    });
+
+    //#endregion
+    //#region  fill the controllers
     if (this.ID !== undefined && this.ID !== 0) {
       this._sellerService.getSellerDetails({ SellerId: this.ID }).subscribe(result => {
         const seller: ISeller = <ISeller>((<IResponse>result).SellerInfo);
-        debugger
         this.ennameFormControl.setValue(seller.Name);
+        this.arnameFormControl.setValue(seller.NameAR == undefined ? seller.Name : seller.Name);
         this.phoneFormControl.setValue(seller.Phone);
         this.addressFormControl.setValue(seller.Address);
-        this.map.setCenter(new google.maps.LatLng(seller.Longitude, seller.Latitude));
-        // tslint:disable-next-line:no-shadowed-variable
-        if (this.markers !== undefined) {
-          this.markers.forEach(function (marker: any) {
-            marker.setMap(null);
-          });
-        }
-
-        this.markers = [];
-        this.markers.push(new google.maps.Marker({
-          map: this.map,
-          title: '',
-          position: new google.maps.LatLng(seller.Longitude, seller.Latitude),
-          draggable: true
-        }));
-
+        this.map.setCenter(new google.maps.LatLng(seller.Latitude, seller.Longitude));
+        var markerPsoition = new google.maps.LatLng(seller.Latitude, seller.Longitude)
+        this.marker.setPosition(markerPsoition);
       });
     }
+    //#endregion
   }
-  ongradend(marker) {
-    this.seller.Latitude = marker.position.lat();
-    this.seller.Longitude = marker.position.lng();
-  }
-  setMarker(event) {
-    if (event !== undefined) {
-      const myLatLng: any = event.latLng;
-    }
-    // var lat = myLatLng.lat();
-    // var lng = myLatLng.lng();
-  }
+  //#endregion
   addUpdateSeller() {
-    var dsfsd = this.markers;
-    debugger
     if (this.form.status == "INVALID")
       return;
     let response: any;
     if (this.ID !== undefined && this.ID !== 0) {
-      // tslint:disable-next-line:max-line-length
       this._sellerService.updateSellers({
         areaID: this.areaFormControl.value,
         SellerId: this.ID, NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
-        // tslint:disable-next-line:max-line-length
-        , Address: this.addressFormControl.value, Latitude: this.markers[0].position.lat(), Longitude: this.markers[0].position.lng()
+        , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {
         response = <IResponse>result;
         if (response.success === true) {
@@ -149,12 +137,10 @@ export class SellerViewComponent implements OnInit {
         }
       });
     } else {
-      // tslint:disable-next-line:max-line-length
       this._sellerService.addSellers({
         areaID: this.areaFormControl.value,
         NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
-        // tslint:disable-next-line:max-line-length
-        , Address: this.addressFormControl.value, Latitude: this.markers[0].position.lat(), Longitude: this.markers[0].position.long()
+        , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {
         response = <IResponse>result;
         if (response.success === true) {
@@ -176,18 +162,5 @@ export class SellerViewComponent implements OnInit {
         }
       });
     }
-  }
-
-
-  changeLocationSearch() {
-    // debugger
-    // var request = {
-    //   location: this.map.getCenter(),
-    //   radius: '500',
-    //   query: this.locationFormControl.value
-    // };
-    // var gh = this.map;
-    // var service = new google.maps.places.PlacesService(this.map);
-
   }
 }
