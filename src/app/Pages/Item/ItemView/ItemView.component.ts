@@ -108,7 +108,13 @@ export class ItemViewComponent implements OnInit {
         this.HasDescription.setValue(this.Item.ItemInfo.HasDescription);
         this.HasOptions.setValue(this.Item.ItemInfo.HasOptions);
         this.categoryDDLControl.setValue(this.Item.ItemInfo.CategoryId);
+        this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription);
+        this.subCategoryService
+      .getSupCategories({ MainCategoryId: this.categoryDDLControl.value })
+      .subscribe(result => {
+        this.SubCategories = (<IResponse>result).SubCategories;
         this.subCategoryDDLControl.setValue(this.Item.ItemInfo.SubCategoryId);
+      });
       });
     }
   }
@@ -224,12 +230,12 @@ export class ItemViewComponent implements OnInit {
       formData.append('ItemInfoJSON', JSON.stringify(ItemInfoJSON));
       if (this.addItemImages) {
         this.addItemImages.forEach(element => {
-          formData.append('image', element);
+          formData.append('image[]', element);
         });
       }
       if (this.addItemColors) {
         this.addItemColors.forEach(element => {
-          formData.append('colorImage', element);
+          formData.append('colorImage[]', element);
         });
       }
       this.http.post(AppConfig.settings.apiServer.host + 'Item/Add_Item.php', formData,
@@ -278,6 +284,7 @@ export class ItemViewComponent implements OnInit {
   }
 
   addDescriptionItem() {
+    debugger
     const dialogRef = this.dialog.open(ItemDescreptionComponent, {
       width: '1000px'
     });

@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
+ import { HttpModule } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -104,7 +104,7 @@ export function initializeApp(appConfig: AppConfig) {
         BrowserAnimationsModule,
         FormsModule,
         RouterModule.forRoot(AppRoutes),
-        HttpModule,
+         HttpModule,
         MaterialModule,
         MatNativeDateModule,
         SidebarModule,
