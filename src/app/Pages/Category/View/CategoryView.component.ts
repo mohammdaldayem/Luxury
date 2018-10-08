@@ -87,7 +87,7 @@ export class CategoryViewComponent implements OnInit {
       formData.append('image', this.fileToUpload);
       this.http
         .post(
-          AppConfig.settings.apiServer.host + 'Category/AddNewCategory.php',
+          AppConfig.settings.apiServer.host + 'Category/EditCategory.php',
           formData,
           httpOptions
         )

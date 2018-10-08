@@ -14,20 +14,11 @@ export class DeliveryService extends BaseService {
   }
 
   Add(request: any): Observable<object> {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-        .append('Accept-Language', 'En')
-    };
-    return this.http.post(AppConfig.settings.apiServer.host + 'DeliveryFee/Edit_DeliveryFee.php', this.getFormUrlEncoded(request), httpOptions);
+    return this.http.post(AppConfig.settings.apiServer.host + 'DeliveryFee/Edit_DeliveryFee.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
 
   getDeliveryFee() {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-        .append('Accept-Language', 'En')
-    };
-    return this.http.get(AppConfig.settings.apiServer.host + 'DeliveryFee/DeliveryFee.php', httpOptions);
+    
+    return this.http.get(AppConfig.settings.apiServer.host + 'DeliveryFee/DeliveryFee.php', this.httpOptions);
   }
 }

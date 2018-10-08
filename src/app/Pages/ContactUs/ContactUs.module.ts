@@ -14,7 +14,6 @@ import { ContactUsRoutes } from './ContactUs.routing';
     CommonModule,
     RouterModule.forChild(ContactUsRoutes),
     FormsModule,
-    ReactiveFormsModule,
     MdModule,
     MaterialModule,
     GridDeletbtnModule

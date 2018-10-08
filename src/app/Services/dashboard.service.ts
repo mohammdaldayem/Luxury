@@ -18,29 +18,19 @@ getdashboarddata() {
   return  this.http.get(AppConfig.settings.apiServer.host + 'Reports/DashboardData.php', this.httpOptions);
 }
 getAllAndTodaycontactUsCountReq(request) {
-  const httpOptions = {
-    headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-    .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-    .append('Accept-Language', 'En')
-  };
   return forkJoin(
   this.http.post(AppConfig.settings.apiServer.host + 'ContactUs/All_Messages.php', this.getFormUrlEncoded(request)
-  , httpOptions),
+  , this.httpOptions),
   this.http.post(AppConfig.settings.apiServer.host + 'ContactUs/Today_Messages.php', this.getFormUrlEncoded(request)
-  , httpOptions)
+  , this.httpOptions)
   );
 }
 getAllAndTodayRequestsCount(request) {
-  const httpOptions = {
-    headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-    .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-    .append('Accept-Language', 'En')
-  };
   return forkJoin(
   this.http.post(AppConfig.settings.apiServer.host + 'Request/Requests_Pagenation.php', this.getFormUrlEncoded(request)
-  , httpOptions),
+  , this.httpOptions),
   this.http.post(AppConfig.settings.apiServer.host + 'Request/RequestsToday_Pagenation.php', this.getFormUrlEncoded(request)
-  , httpOptions)
+  , this.httpOptions)
   );
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator,PageEvent } from '@angular/material';
 import { IMessage, IResponse } from '../../../models/Response';
 import { ContactUsService } from '../../../Services/ContactUs.service';
 import swal from 'sweetalert2';
@@ -22,9 +22,14 @@ export class IndexComponent implements AfterViewInit {
     this.loadAllItems(this.paginator.pageSize, this.paginator.pageIndex);
   }
   loadAllItems(pagesize: number, from: number) {
-    this._contactusservice.getAllMessages({LoadFrom: (pagesize * from) + 1, PageSize: pagesize}).subscribe(resultobj => {
+    debugger;
+    if(from != 0)
+    {
+      from  = +this.dataSource.data[this.dataSource.data.length -1].ID;
+    }
+    this._contactusservice.getAllMessages({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
-      this.resultsLength = (<IResponse>resultobj).Items.length;
+      this.resultsLength = (<IResponse>resultobj).AllMessagesCount;
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -55,5 +60,6 @@ export class IndexComponent implements AfterViewInit {
       }
     });
   }
+
 
 }

@@ -23,8 +23,10 @@ export interface IResponse {
     DeliveryFee: IDeliveryFee;
     AllRequestsCount: string;
     TodayRequestsCount: string;
-    AllMessagesCount: string;
+    AllMessagesCount: number;
     TodayMessagesCount: string;
+    TotalItemsCount: number;
+    RequestsCount: number;
 }
 export interface IMessage {
     ID: number;
@@ -47,6 +49,7 @@ export interface IRequest {
     Longitude: string;
     Notes: string;
     CreatedAt: Date;
+    RequestName: string;
 }
 export class ISeller {
 ID: string;
@@ -76,6 +79,7 @@ export interface Iitem {
     ColorImage: string;
     Quantity: string;
     Size: string;
+    Price: number;
 }
 export class IItem {
     ItemInfo: IItemInfo;

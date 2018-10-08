@@ -42,7 +42,7 @@ export class ItemViewComponent implements OnInit {
   Itemurls = [];
   Colorsurls = [];
   addItemColorImages: File[];
-  displayedColumns: string[] = ['name', 'value'];
+  displayedColumns: string[] = ['name', 'value','Actions'];
   ItemDescdataSource: MatTableDataSource<IItemDescription>;
   //#endregion
   //#region  Validation
@@ -68,6 +68,7 @@ export class ItemViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient
   ) {
+    
     this.HasDescription.setValue('0');
     this.HasOptions.setValue('0');
     this.route.queryParams.subscribe(params => {
@@ -378,6 +379,16 @@ export class ItemViewComponent implements OnInit {
     } else {
       this.Item.ItemSizes[index].Deleted = '1';
     }
+  }
+  deleteItemDescfromobj(index: number, event: any) {
+    debugger;
+    event.preventDefault();
+    if (this.Item.ItemDescription[index].ID === '0') {
+      this.Item.ItemDescription.splice(index, 1);
+    } else {
+      this.Item.ItemDescription[index].Deleted = '1';
+    }
+    this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription.filter(x =>!x.Deleted || x.Deleted === '0' ));
   }
 }
 //#endregion

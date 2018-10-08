@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '../../../../../node_modules/@angular/material';
+// import { MatPaginator, MatTableDataSource } from '../../../../../node_modules/@angular/material';
 import { ISeller, IItem, IResponse } from '../../../models/Response';
 import { ItemService } from '../../../Services/Item.service';
 import swal from 'sweetalert2';
 import { AppConfig } from '../../../app.config';
+import { MatTableDataSource, MatPaginator,PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-index',
@@ -20,15 +21,21 @@ export class IndexComponent implements OnInit, AfterViewInit  {
   constructor(private _itemService: ItemService) { }
 
   ngOnInit() {
+    
   }
   ngAfterViewInit(): void {
     this.loadAllItems(this.paginator.pageSize, this.paginator.pageIndex);
+    
   }
   loadAllItems(pagesize: number, from: number) {
-    this._itemService.getAllItems({LoadFrom: 0, PageSize: 1000000}).subscribe(resultobj => {
+    if(from != 0)
+    {
+      from  = +this.dataSource.data[this.dataSource.data.length -1].ItemInfo.ID;
+    }
+    this._itemService.getAllItems({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);
+      this.resultsLength = (<IResponse>resultobj).TotalItemsCount;
       this.dataSource.paginator = this.paginator;
-      this.resultsLength = (<IResponse>resultobj).Items.length;
     });
   }
 

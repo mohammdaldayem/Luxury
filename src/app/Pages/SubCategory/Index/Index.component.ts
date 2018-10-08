@@ -1,5 +1,5 @@
 import { CategoryService } from './../../../Services/CategoryService.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { SubCategoryService } from '../../../Services/SubCategory.service';
 import { IResponse, ISubCategory, ICategory } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
@@ -12,7 +12,10 @@ import swal from 'sweetalert2';
   styleUrls: ['./Index.component.css']
 })
 
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit ,AfterContentInit {
+  ngAfterContentInit(): void {
+    this.loadAllISubCategories(this.paginator.pageSize , this.paginator.pageIndex)
+  }
 
   displayedColumns: string[] = ['Image', 'Name', 'Actions'];
   dataSource: MatTableDataSource<ISubCategory>;
@@ -30,7 +33,8 @@ export class IndexComponent implements OnInit {
   }
 
   loadAllISubCategories(pagesize: number, from: number) {
-    this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
+    const mainCategory = this.category?this.category:0;
+    this.SubCategoryService.getSupCategories({ MainCategoryId: mainCategory }).subscribe(result => {
       this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories);
       this.dataSource.paginator = this.paginator;
       this.resultsLength = (<IResponse>result).SubCategories.length;
@@ -38,6 +42,7 @@ export class IndexComponent implements OnInit {
   }
 
   changeCategory() {
+    debugger;
     this.SubCategoryService.getSupCategories({ MainCategoryId: this.category }).subscribe(result => {
       this.dataSource = new MatTableDataSource<ISubCategory>((<IResponse>result).SubCategories),
         this.dataSource.paginator = this.paginator;
