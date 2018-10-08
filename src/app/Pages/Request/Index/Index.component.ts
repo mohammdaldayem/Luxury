@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit,ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit,ViewChild,ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../../Services/request.service';
 import { SellerService } from '../../../Services/Seller.service';
@@ -33,7 +33,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private _requestService: RequestService, private _sellerService: SellerService, private router: Router) {
+  constructor(private _requestService: RequestService, private _sellerService: SellerService, private router: Router,private changeDetectorRefs: ChangeDetectorRef) {
     this.allSeller = new ISeller();
     this.allSeller.Name = 'All';
     this.allSeller.ID ='0';
@@ -80,22 +80,23 @@ export class IndexComponent implements OnInit, AfterViewInit {
   Search(){
     debugger;
     const pagesize =this.paginator.pageSize;
-    const pageIndex =0;
-    //const tt =this.filterDtaeFrom.to();
+    let from =this.paginator.pageIndex;
+    if(from != 0)
+    {
+      from  = +this.dataSource.data[this.dataSource.data.length -1].RequestId;
+    }
     const dateFrom = this.filterDtaeFrom ? moment(this.filterDtaeFrom).format('YYYY-MM-DD'):'';
     const dateTo = this.filterDtaeTo ? moment(this.filterDtaeTo).format('YYYY-MM-DD'):'';
     const sellerID = this.filterSellerId ? this.filterSellerId : 0;
     const statusID = this.filterStatusId ? this.filterStatusId : 0;
-    this._requestService.getRequests({ LoadFrom: pageIndex , PageSize: pagesize ,
+    this._requestService.getRequests({ LoadFrom: from , PageSize: pagesize ,
        DateFrom: dateFrom,DateTo: dateTo,SellerId: sellerID,StatusId: statusID }).subscribe(result => {
       this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests);
-      this.resultsLength = (<IResponse>result).RequestsCount;
-      this.paginator.length = (<IResponse>result).RequestsCount;
-      this.dataSource.paginator = this.paginator;
+      this.changeDetectorRefs.detectChanges();
     });
   }
   loadAllRequests(pagesize: number, from: number) {
-    debugger;
+    
     if(from != 0)
     {
       from  = +this.dataSource.data[this.dataSource.data.length -1].RequestId;
@@ -108,7 +109,6 @@ export class IndexComponent implements OnInit, AfterViewInit {
        DateFrom: dateFrom,DateTo: dateTo,SellerId: sellerID,StatusId: statusID }).subscribe(result => {
       this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests);
       this.resultsLength = (<IResponse>result).RequestsCount;
-      this.paginator.length = (<IResponse>result).RequestsCount;
       this.dataSource.paginator = this.paginator;
     });
   }

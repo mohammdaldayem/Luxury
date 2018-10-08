@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit,ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator,PageEvent } from '@angular/material';
 import { IMessage, IResponse } from '../../../models/Response';
 import { ContactUsService } from '../../../Services/ContactUs.service';
@@ -15,14 +15,13 @@ export class IndexComponent implements AfterViewInit {
   dataSource: MatTableDataSource<IMessage>;
   resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _contactusservice: ContactUsService) { }
+  constructor(private _contactusservice: ContactUsService,private changeDetectorRefs: ChangeDetectorRef) { }
 
 
   ngAfterViewInit(): void {
     this.loadAllItems(this.paginator.pageSize, this.paginator.pageIndex);
   }
   loadAllItems(pagesize: number, from: number) {
-    debugger;
     if(from != 0)
     {
       from  = +this.dataSource.data[this.dataSource.data.length -1].ID;
@@ -31,6 +30,16 @@ export class IndexComponent implements AfterViewInit {
       this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
       this.resultsLength = (<IResponse>resultobj).AllMessagesCount;
       this.dataSource.paginator = this.paginator;
+    });
+  }
+  loadNextPage(pagesize: number, from: number) {
+    if(from != 0)
+    {
+      from  = +this.dataSource.data[this.dataSource.data.length -1].ID;
+    }
+    this._contactusservice.getAllMessages({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
+      this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
+      this.changeDetectorRefs.detectChanges();
     });
   }
   applyFilter(filterValue: string) {
