@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit,ChangeDetectorRef } from '@angular/core';
 // import { MatPaginator, MatTableDataSource } from '../../../../../node_modules/@angular/material';
 import { ISeller, IItem, IResponse } from '../../../models/Response';
 import { ItemService } from '../../../Services/Item.service';
@@ -18,7 +18,7 @@ export class IndexComponent implements OnInit, AfterViewInit  {
   imagePath: string = AppConfig.settings.apiServer.itemimagepath;
   resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _itemService: ItemService) { }
+  constructor(private _itemService: ItemService,private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
     
@@ -38,7 +38,16 @@ export class IndexComponent implements OnInit, AfterViewInit  {
       this.dataSource.paginator = this.paginator;
     });
   }
-
+  loadNextPage(pagesize: number, from: number) {
+    if(from != 0)
+    {
+      from  = +this.dataSource.data[this.dataSource.data.length -1].ItemInfo.ID;
+    }
+    this._itemService.getAllItems({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
+      this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);
+      this.changeDetectorRefs.detectChanges();
+    });
+  }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
