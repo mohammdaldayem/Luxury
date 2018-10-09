@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit,ChangeDetectorRef } from '@angular/core';
-// import { MatPaginator, MatTableDataSource } from '../../../../../node_modules/@angular/material';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ISeller, IItem, IResponse } from '../../../models/Response';
 import { ItemService } from '../../../Services/Item.service';
 import swal from 'sweetalert2';
 import { AppConfig } from '../../../app.config';
-import { MatTableDataSource, MatPaginator,PageEvent } from '@angular/material';
+import { MatTableDataSource, MatPaginator, PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-index',
@@ -15,22 +15,20 @@ export class IndexComponent implements OnInit, AfterViewInit  {
 
   displayedColumns: string[] = [ 'Image', 'English Name', 'Arabic Name', 'Created At', 'Seller Name', 'Actions'];
   dataSource: MatTableDataSource<IItem>;
+  pageEvent: PageEvent;
   imagePath: string = AppConfig.settings.apiServer.itemimagepath;
   resultsLength = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _itemService: ItemService,private changeDetectorRefs: ChangeDetectorRef) { }
+  constructor(private _itemService: ItemService, private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
-    
   }
   ngAfterViewInit(): void {
     this.loadAllItems(this.paginator.pageSize, this.paginator.pageIndex);
-    
   }
   loadAllItems(pagesize: number, from: number) {
-    if(from != 0)
-    {
-      from  = +this.dataSource.data[this.dataSource.data.length -1].ItemInfo.ID;
+    if (from !== 0) {
+      from  = +this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ID;
     }
     this._itemService.getAllItems({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);
@@ -38,10 +36,12 @@ export class IndexComponent implements OnInit, AfterViewInit  {
       this.dataSource.paginator = this.paginator;
     });
   }
-  loadNextPage(pagesize: number, from: number) {
-    if(from != 0)
-    {
-      from  = +this.dataSource.data[this.dataSource.data.length -1].ItemInfo.ID;
+  loadNextPage() {
+    debugger;
+    const pagesize = this.paginator.pageSize;
+    let from = this.paginator.pageIndex;
+    if (from !== 0) {
+      from  = +this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ID;
     }
     this._itemService.getAllItems({LoadFrom: from, PageSize: pagesize}).subscribe(resultobj => {
       this.dataSource = new MatTableDataSource<IItem>((<IResponse>resultobj).Items);

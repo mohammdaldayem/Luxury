@@ -21,7 +21,7 @@
                     <button class="btn green">Add New</button></a>
               </div>
             </div>
-            
+
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
               <ng-container matColumnDef="Image">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
@@ -62,7 +62,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="resultsLength" showFirstLastButtons (Page)="pageEvent = loadNextPage($event.PageSize,$even.PageIndex)"></mat-paginator>
+            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons (Page)="pageEvent = loadNextPage()"></mat-paginator>
           </div>
           <!-- end content-->
         </div>

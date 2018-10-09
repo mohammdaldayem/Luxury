@@ -102,6 +102,23 @@
                   </mat-form-field>
                   <mat-error *ngIf="subCategoryDDLControl.invalid">Sub Category is Required</mat-error>
                 </div>
+                <div class="col-md-9">
+                  <mat-form-field>
+                    <mat-select placeholder="Container" [formControl]="containerDDLControl">
+                      <mat-option *ngFor="let sub of Containers" [value]="sub.ID">
+                        {{sub.Name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error *ngIf="containerDDLControl.invalid">Container is Required</mat-error>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-9">
+                  <mat-form-field>
+                    <input matInput [formControl]="sizeM3FormControl" placeholder="Size in M3" required>
+                  </mat-form-field>
+                </div>
               </div>
               <!-- Descriprion  -->
               <!-- <mat-divider></mat-divider> -->

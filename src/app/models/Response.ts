@@ -27,6 +27,7 @@ export interface IResponse {
     TodayMessagesCount: string;
     TotalItemsCount: number;
     RequestsCount: number;
+    Containers: Container[];
 }
 export interface IMessage {
     ID: number;
@@ -99,6 +100,8 @@ export interface IItemInfo {
     SubCategoryId: string;
     HasOptions: string;
     HasDescription: string;
+    SizeM3: string;
+    ContainerId: string;
 }
 export interface IItemColor {
     ID: String;
@@ -161,5 +164,13 @@ export class IStatus {
 
 export class IDeliveryFee {
   Value: string;
+}
+
+export class Container {
+    ID: string;
+    Name: string;
+    ContainerShippingCost: string;
+    ContainerSizeM3: string;
+    Deleted: string;
 }
 
