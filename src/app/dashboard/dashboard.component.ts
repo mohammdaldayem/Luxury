@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   // constructor(private navbarTitleService: NavbarTitleService) { }
   public ngOnInit() {
     this._dashboardService.getdashboarddata().subscribe(result => {
-      this.allContactUsCount = (<IResponse>result).AllMessagesCount;
+      this.allContactUsCount = (<IResponse>result).AllMessagesCount.toString();
       this.todayContactUsCount = (<IResponse>result).TodayMessagesCount;
       this.allRequestsCount = (<IResponse>result).AllRequestsCount;
       this.todayRequestsCount = (<IResponse>result).TodayRequestsCount;

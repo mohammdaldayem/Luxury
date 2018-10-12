@@ -11,18 +11,9 @@ export class CategoryService extends BaseService {
     super();
   }
   getCategories() {
-    const httpOptions = {
-      headers: new HttpHeaders()
-        .append('Content-Type', 'application/x-www-form-urlencoded')
-        .append(
-          'Authorization',
-          AppConfig.settings.apiServer.AuthorizationToken
-        )
-        .append('Accept-Language', 'En')
-    };
     return this.http.get(
       AppConfig.settings.apiServer.host + 'Category/MainCategories.php',
-      httpOptions
+      this.httpOptions
     );
   }
 
@@ -43,19 +34,10 @@ export class CategoryService extends BaseService {
   }
 
   updateCategory(request: any) {
-    const httpOptions = {
-      headers: new HttpHeaders()
-        .append('Content-Type', 'application/x-www-form-urlencoded')
-        .append(
-          'Authorization',
-          AppConfig.settings.apiServer.AuthorizationToken
-        )
-        .append('Accept-Language', 'En')
-    };
     return this.http.post(
       AppConfig.settings.apiServer.host + 'Category/EditCategory.php',
       this.getFormUrlEncoded(request),
-      httpOptions
+      this.httpOptions
     );
   }
 }

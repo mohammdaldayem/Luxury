@@ -73,10 +73,10 @@ export class RequestViewComponent implements OnInit {
   getItemPrice(item: any) {
     var id = item.ItemId;
     var price = null;
-    this.itemService.getAllItems({ LoadFrom: 0, PageSize: 100 }).subscribe(response => {
-      var item  = (<IResponse>response).Items.find(item => item.ItemInfo.ID == id);
-      price = item.ItemInfo.Price
-      return price;
-    })
+    // this.itemService.getAllItems({ LoadFrom: 0, PageSize: 100 }).subscribe(response => {
+    //   var item  = (<IResponse>response).Items.find(item => item.ItemInfo.ID == id);
+    //   price = item.ItemInfo.Price
+    //   return price;
+    // })
   }
 }

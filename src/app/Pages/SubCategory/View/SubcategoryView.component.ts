@@ -101,6 +101,7 @@ export class SubcategoryViewComponent implements OnInit {
       formData.append('CategoryId', this.mainCategoryControl.value);
       formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
       formData.append('SubCategoryName_En', this.ennameFormControl.value);
+      if(this.fileToUpload)
       formData.append('Image', this.fileToUpload);
       formData.append('SubCategoryId', this.ID);
       this.http

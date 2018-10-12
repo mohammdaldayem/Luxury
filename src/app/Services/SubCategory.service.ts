@@ -14,12 +14,8 @@ export class SubCategoryService extends BaseService {
   }
 
   getSupCategories(request) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-      .append('Accept-Language', 'En')
-    };
-   return this.http.post(AppConfig.settings.apiServer.host + 'Category/SubCategories.php', this.getFormUrlEncoded(request), httpOptions);
+    
+   return this.http.post(AppConfig.settings.apiServer.host + 'Category/SubCategories.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
 
   deleteSupCategory(request: any) {
@@ -27,20 +23,12 @@ export class SubCategoryService extends BaseService {
   }
 
   addSupCategory(request: any) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-        .append('Accept-Language', 'En')
-    };
-    return this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', this.getFormUrlEncoded(request), httpOptions);
+    
+    return this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
 
   updateSupCategory(request: any) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-        .append('Accept-Language', 'En')
-    };
-    return this.http.post(AppConfig.settings.apiServer.host + 'Category/EditSubCategory.php', this.getFormUrlEncoded(request), httpOptions);
+   
+    return this.http.post(AppConfig.settings.apiServer.host + 'Category/EditSubCategory.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
 }

@@ -8,21 +8,31 @@
               <i class="material-icons">assignment</i>
             </div>
             <h4 class="card-title inline-block">Sub Categories</h4>
-            <a class="float-right card-title" routerLink="/Pages/SubCategory/View" routerLinkActive="active">
-              <button class="btn green"> Add New</button></a>
+            
           </div>
           <div class="card-body">
             <!--Category Drop dawn list-->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
                 </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
+                  <mat-form-field>
                 <mat-select placeholder="Category" [(ngModel)]="category" (selectionChange)="changeCategory()">
+                    <mat-option [value]="0">
+                       All
+                      </mat-option>
                   <mat-option *ngFor="let category of categories" [value]="category.ID">
                     {{category.Name}}
                   </mat-option>
                 </mat-select>
+              </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <a class="float-right card-title" routerLink="/Pages/SubCategory/View" routerLinkActive="active">
+                  <button class="btn green"> Add New</button></a>
               </div>
             </div>
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
@@ -50,7 +60,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
 
           </div>
           <!-- end content-->

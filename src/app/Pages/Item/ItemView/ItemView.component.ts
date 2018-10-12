@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import {
   IResponse,
@@ -7,7 +8,8 @@ import {
   IItemInfo,
   IItemImage,
   IItemDescription,
-  ISeller
+  ISeller,
+  Container
 } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -16,11 +18,13 @@ import { ItemService } from '../../../Services/Item.service';
 import { SellerService } from '../../../Services/Seller.service';
 import { CategoryService } from '../../../Services/CategoryService.service';
 import { SubCategoryService } from '../../../Services/SubCategory.service';
+import { ContainerService } from './../../../Services/Container.service';
 import { MatDialog, MatDialogRef, MatTableDataSource } from '@angular/material';
 import { ItemDescreptionComponent } from '../../../Popups/ItemDescreption/ItemDescreption.component';
 import { AppConfig } from '../../../app.config';
 import { ItemSizeComponent } from '../../../Popups/ItemSize/ItemSize.component';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-itemview',
   templateUrl: './ItemView.component.html',
@@ -34,6 +38,7 @@ export class ItemViewComponent implements OnInit {
   Sellers: ISeller[];
   Categories: ICategory[];
   SubCategories: ISubCategory[];
+  Containers: Container[];
   Item: IItem = new IItem();
   itemImagePath: string = AppConfig.settings.apiServer.itemimagepath;
   itemColorsPath: string = AppConfig.settings.apiServer.itemcolorspath;
@@ -42,7 +47,7 @@ export class ItemViewComponent implements OnInit {
   Itemurls = [];
   Colorsurls = [];
   addItemColorImages: File[];
-  displayedColumns: string[] = ['name', 'value'];
+  displayedColumns: string[] = ['name', 'value', 'Actions'];
   ItemDescdataSource: MatTableDataSource<IItemDescription>;
   //#endregion
   //#region  Validation
@@ -54,6 +59,8 @@ export class ItemViewComponent implements OnInit {
   sellerDDLControl = new FormControl('', [Validators.required]);
   categoryDDLControl = new FormControl('', [Validators.required]);
   subCategoryDDLControl = new FormControl('', [Validators.required]);
+  sizeM3FormControl = new FormControl('', [Validators.required]);
+  containerDDLControl = new FormControl('', [Validators.required]);
   HasDescription = new FormControl('', [Validators.required]);
   HasOptions = new FormControl('', [Validators.required]);
   //#endregion
@@ -64,6 +71,7 @@ export class ItemViewComponent implements OnInit {
     private sellerService: SellerService,
     private categoryService: CategoryService,
     private subCategoryService: SubCategoryService,
+    private containerService: ContainerService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient
@@ -81,6 +89,11 @@ export class ItemViewComponent implements OnInit {
       .subscribe(
         Response => (this.Categories = (<IResponse>Response).Categories)
       );
+      this.containerService
+      .getAllContainers()
+      .subscribe(
+        Response => (this.Containers = (<IResponse>Response).Containers)
+      );
     this.form = new FormGroup({});
     this.form.addControl('ennameFormControl', this.ennameFormControl);
     this.form.addControl('arnameFormControl', this.arnameFormControl);
@@ -90,6 +103,8 @@ export class ItemViewComponent implements OnInit {
     this.form.addControl('sellerDDLControl', this.sellerDDLControl);
     this.form.addControl('enTitleFormConcategoryDDLControltrol', this.categoryDDLControl);
     this.form.addControl('subCategoryDDLControl', this.subCategoryDDLControl);
+    this.form.addControl('sizeM3FormControl', this.sizeM3FormControl);
+    this.form.addControl('containerDDLControl', this.containerDDLControl);
     this.form.addControl('HasDescription', this.HasDescription);
     this.form.addControl('HasOptions', this.HasOptions);
   }
@@ -105,9 +120,11 @@ export class ItemViewComponent implements OnInit {
         this.profitRatioFormControl.setValue(this.Item.ItemInfo.ProfitRatio);
         this.priceFormControl.setValue(this.Item.ItemInfo.Price);
         this.sellerDDLControl.setValue(this.Item.ItemInfo.SellerId);
+        this.containerDDLControl.setValue(this.Item.ItemInfo.ContainerId);
         this.HasDescription.setValue(this.Item.ItemInfo.HasDescription);
         this.HasOptions.setValue(this.Item.ItemInfo.HasOptions);
         this.categoryDDLControl.setValue(this.Item.ItemInfo.CategoryId);
+        this.sizeM3FormControl.setValue(this.Item.ItemInfo.SizeM3);
         this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription);
         this.subCategoryService
       .getSupCategories({ MainCategoryId: this.categoryDDLControl.value })
@@ -378,6 +395,16 @@ export class ItemViewComponent implements OnInit {
     } else {
       this.Item.ItemSizes[index].Deleted = '1';
     }
+  }
+  deleteItemDescfromobj(index: number, event: any) {
+    debugger;
+    event.preventDefault();
+    if (this.Item.ItemDescription[index].ID === '0') {
+      this.Item.ItemDescription.splice(index, 1);
+    } else {
+      this.Item.ItemDescription[index].Deleted = '1';
+    }
+    this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription.filter(x =>!x.Deleted || x.Deleted === '0' ));
   }
 }
 //#endregion

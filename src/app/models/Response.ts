@@ -23,8 +23,11 @@ export interface IResponse {
     DeliveryFee: IDeliveryFee;
     AllRequestsCount: string;
     TodayRequestsCount: string;
-    AllMessagesCount: string;
+    AllMessagesCount: number;
     TodayMessagesCount: string;
+    TotalItemsCount: number;
+    RequestsCount: number;
+    Containers: Container[];
 }
 export interface IMessage {
     ID: number;
@@ -47,6 +50,7 @@ export interface IRequest {
     Longitude: string;
     Notes: string;
     CreatedAt: Date;
+    RequestName: string;
 }
 export class ISeller {
 ID: string;
@@ -76,6 +80,7 @@ export interface Iitem {
     ColorImage: string;
     Quantity: string;
     Size: string;
+    Price: number;
 }
 export class IItem {
     ItemInfo: IItemInfo;
@@ -95,6 +100,8 @@ export interface IItemInfo {
     SubCategoryId: string;
     HasOptions: string;
     HasDescription: string;
+    SizeM3: string;
+    ContainerId: string;
 }
 export interface IItemColor {
     ID: String;
@@ -157,5 +164,13 @@ export class IStatus {
 
 export class IDeliveryFee {
   Value: string;
+}
+
+export class Container {
+    ID: string;
+    Name: string;
+    ContainerShippingCost: string;
+    ContainerSizeM3: string;
+    Deleted: string;
 }
 

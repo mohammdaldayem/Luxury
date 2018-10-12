@@ -23,7 +23,7 @@ export class SellerViewComponent implements OnInit {
   phoneFormControl: FormControl;
   addressFormControl: FormControl;
   locationFormControl: FormControl;
-  areaFormControl: FormControl;
+  //areaFormControl: FormControl;
   isSubitted: boolean;
   map: any;
   areas: IArea[];
@@ -34,7 +34,7 @@ export class SellerViewComponent implements OnInit {
       this.ID = params['ID'];
     });
     this.form = new FormGroup({});
-    this.areaFormControl = new FormControl();
+    //this.areaFormControl = new FormControl();
     this.ennameFormControl = new FormControl('', [
       Validators.required,
     ]);
@@ -54,15 +54,15 @@ export class SellerViewComponent implements OnInit {
   //#endregion
   //#region Init
   ngOnInit() {
-    this.araeService.getAreas().subscribe(response => {
-      this.areas = ((<IResponse>response).Areas);
-    })
+    // this.araeService.getAreas().subscribe(response => {
+    //   this.areas = ((<IResponse>response).Areas);
+    // });
     //#region controls
     this.form.addControl('ennameFormControl', this.ennameFormControl);
     this.form.addControl('arnameFormControl', this.arnameFormControl);
     this.form.addControl('phoneFormControl', this.phoneFormControl);
     this.form.addControl('addressFormControl', this.addressFormControl);
-    this.form.addControl('addressFormControl', this.areaFormControl);
+    //this.form.addControl('addressFormControl', this.areaFormControl);
     //#endregion
     //#region map
     const myLatlng = new google.maps.LatLng('31.9454', '35.9284');
@@ -113,7 +113,7 @@ export class SellerViewComponent implements OnInit {
     let response: any;
     if (this.ID !== undefined && this.ID !== 0) {
       this._sellerService.updateSellers({
-        areaID: this.areaFormControl.value,
+        //areaID: this.areaFormControl.value,
         SellerId: this.ID, NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
         , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {
@@ -138,7 +138,7 @@ export class SellerViewComponent implements OnInit {
       });
     } else {
       this._sellerService.addSellers({
-        areaID: this.areaFormControl.value,
+        //areaID: this.areaFormControl.value,
         NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
         , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {

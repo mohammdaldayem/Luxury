@@ -15,12 +15,7 @@ export class UserService extends BaseService {
   }
 
   logIn(request) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-        .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-        .append('Accept-Language', 'En')
-    };
-    return this.http.post(AppConfig.settings.apiServer.host + 'Admin/Login.php', this.getFormUrlEncoded(request), httpOptions);
+    return this.http.post(AppConfig.settings.apiServer.host + 'Admin/Login.php', this.getFormUrlEncoded(request), this.httpOptions);
   }
 
   isUserLogin() {

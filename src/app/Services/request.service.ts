@@ -11,37 +11,25 @@ export class RequestService extends BaseService {
     super();
   }
   getRequests(request) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-      .append('Accept-Language', 'En')
-    };
+   
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/Requests_Pagenation.php', this.getFormUrlEncoded(request)
-    , httpOptions);
+    , this.httpOptions);
   }
   getRequestDetails(request) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-      .append('Accept-Language', 'En')
-    };
+    
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/RequestDetails.php', this.getFormUrlEncoded(request)
-    , httpOptions);
+    , this.httpOptions);
   }
   changeRequestStatus(request) {
-    const httpOptions = {
-      headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-      .append('Accept-Language', 'En')
-    };
+    
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/UpdateRequestStatus.php', this.getFormUrlEncoded(request)
-    , httpOptions);
+    , this.httpOptions);
   }
 
 
   deleteRequest(request: any) {
     return this.http.post(
-      AppConfig.settings.apiServer.host + '',
+      AppConfig.settings.apiServer.host + 'Request/Delete_Request.php',
       this.getFormUrlEncoded(request),
       this.httpOptions
     );

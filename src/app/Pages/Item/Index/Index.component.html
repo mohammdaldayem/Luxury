@@ -10,11 +10,18 @@
             <h4 class="card-title inline-block">Items</h4>
           </div>
           <div class="card-body">
-            <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-              <a class="float-right card-title" routerLink="/Pages/Item/View" routerLinkActive="active">
-                <button class="btn green">Add New</button></a>
-            </mat-form-field>
+            <div class="row">
+              <div class="col-md-6">
+                  <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                    </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                  <a class="float-right card-title" routerLink="/Pages/Item/View" routerLinkActive="active">
+                    <button class="btn green">Add New</button></a>
+              </div>
+            </div>
+
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
               <ng-container matColumnDef="Image">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
@@ -55,7 +62,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons (Page)="pageEvent = loadNextPage()"></mat-paginator>
           </div>
           <!-- end content-->
         </div>

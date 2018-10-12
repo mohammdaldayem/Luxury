@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,7 @@ import { CategoryService } from '../../Services/CategoryService.service';
 import { SubCategoryService } from '../../Services/SubCategory.service';
 import {ItemDescreptionComponent} from '../../Popups/ItemDescreption/ItemDescreption.component';
 import {ItemSizeComponent} from '../../Popups/ItemSize/ItemSize.component';
+import { ContainerService } from './../../Services/Container.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +27,7 @@ import {ItemSizeComponent} from '../../Popups/ItemSize/ItemSize.component';
     GridDeletbtnModule
   ],
   declarations: [IndexComponent, ItemViewComponent, ItemDescreptionComponent, ItemSizeComponent],
-  providers: [ItemService, SellerService, CategoryService, SubCategoryService],
+  providers: [ItemService, SellerService, CategoryService, SubCategoryService, ContainerService],
   entryComponents : [ItemDescreptionComponent, ItemSizeComponent]
 })
 export class ItemModule { }
