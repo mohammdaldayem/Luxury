@@ -88,6 +88,9 @@ export class IItem {
     ItemSizes: IItemSize[];
     ItemDescription: IItemDescription[];
     ItemImages: IItemImage[];
+    ContainerSizeM3: string;
+    ContainerShippingCost: string;
+    ChinaShippingCost: string;
 }
 export interface IItemInfo {
     ID: string;
