@@ -12,13 +12,13 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6">
-                  <mat-form-field>
-                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-                    </mat-form-field>
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                </mat-form-field>
               </div>
               <div class="col-md-6">
-                  <a class="float-right card-title" routerLink="/Pages/Item/View" routerLinkActive="active">
-                    <button class="btn green">Add New</button></a>
+                <a class="float-right card-title" routerLink="/Pages/Item/View" routerLinkActive="active">
+                  <button class="btn green">Add New</button></a>
               </div>
             </div>
 
@@ -62,7 +62,8 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons (Page)="pageEvent = loadNextPage()"></mat-paginator>
+            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons
+              (page)="pageEvent = loadNextPrevious($event)"></mat-paginator>
           </div>
           <!-- end content-->
         </div>
