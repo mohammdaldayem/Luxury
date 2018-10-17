@@ -160,6 +160,8 @@ export class ItemViewComponent implements OnInit {
       ItemInfoJSON.ItemData.push({ AreaId: 1 });
       ItemInfoJSON.ItemData.push({ CategoryId: this.categoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ SubCategoryId: this.subCategoryDDLControl.value });
+      ItemInfoJSON.ItemData.push({ ContainerId: this.containerDDLControl.value });
+      ItemInfoJSON.ItemData.push({ SizeM3: this.sizeM3FormControl.value });
       ItemInfoJSON.ItemData.push({ HasOptions: this.HasOptions.value });
       ItemInfoJSON.ItemData.push({ HasDescription: this.HasDescription.value });
       if (this.Item.ItemDescription) {
@@ -222,6 +224,8 @@ export class ItemViewComponent implements OnInit {
       ItemInfoJSON.ItemData.push({ AreaId: 1 });
       ItemInfoJSON.ItemData.push({ CategoryId: this.categoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ SubCategoryId: this.subCategoryDDLControl.value });
+      ItemInfoJSON.ItemData.push({ ContainerId: this.containerDDLControl.value });
+      ItemInfoJSON.ItemData.push({ SizeM3: this.sizeM3FormControl.value });
       ItemInfoJSON.ItemData.push({ HasOptions: this.HasOptions.value });
       ItemInfoJSON.ItemData.push({ HasDescription: this.HasDescription.value });
       if (this.Item.ItemDescription) {
@@ -301,7 +305,6 @@ export class ItemViewComponent implements OnInit {
   }
 
   addDescriptionItem() {
-    debugger
     const dialogRef = this.dialog.open(ItemDescreptionComponent, {
       width: '1000px'
     });
@@ -397,14 +400,14 @@ export class ItemViewComponent implements OnInit {
     }
   }
   deleteItemDescfromobj(index: number, event: any) {
-    debugger;
     event.preventDefault();
     if (this.Item.ItemDescription[index].ID === '0') {
       this.Item.ItemDescription.splice(index, 1);
     } else {
       this.Item.ItemDescription[index].Deleted = '1';
     }
-    this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription.filter(x =>!x.Deleted || x.Deleted === '0' ));
+    // tslint:disable-next-line:max-line-length
+    this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription.filter(x => !x.Deleted || x.Deleted === '0' ));
   }
 }
 //#endregion
