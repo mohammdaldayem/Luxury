@@ -106,7 +106,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   pagesExisitData(pageIndex: Number) {
     var result = this.pagesData.find(x => x.pageIndex == pageIndex);
-    debugger
+    
     return result;
   }
 
@@ -123,7 +123,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource<IItem>(result);
       this.changeDetectorRefs.detectChanges();
       this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: this.dataSource })
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
     })
   }
 }

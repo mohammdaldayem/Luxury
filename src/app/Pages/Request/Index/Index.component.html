@@ -18,14 +18,14 @@
             <div class="row">
               <div class="col-md-3">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="frompicker" placeholder="From Date" [(ngModel)]="filterDtaeFrom">
+                  <input matInput [matDatepicker]="frompicker" placeholder="From Date" [(ngModel)]="filterDtaeFrom" >
                   <mat-datepicker-toggle matSuffix [for]="frompicker"></mat-datepicker-toggle>
                   <mat-datepicker #frompicker ></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="topicker" placeholder="To Date" [(ngModel)]="filterDtaeTo">
+                  <input matInput [matDatepicker]="topicker" placeholder="To Date" [(ngModel)]="filterDtaeTo" >
                   <mat-datepicker-toggle matSuffix [for]="topicker"></mat-datepicker-toggle>
                   <mat-datepicker #topicker></mat-datepicker>
                 </mat-form-field>
@@ -33,7 +33,7 @@
               </div>
               <div class="col-md-3">
                 <mat-form-field>
-                  <mat-select placeholder="Seller" [(ngModel)]="filterSellerId">
+                  <mat-select placeholder="Seller" [(ngModel)]="filterSellerId" >
                     <mat-option *ngFor="let seller of sellers" [value]="seller.ID">
                       {{seller?.Name}}
                     </mat-option>
@@ -42,7 +42,7 @@
               </div>
               <div class="col-md-3">
                 <mat-form-field>
-                  <mat-select placeholder="Status" [(ngModel)]="filterStatusId">
+                  <mat-select placeholder="Status" [(ngModel)]="filterStatusId"  >
                     <mat-option *ngFor="let status of Statuses" [value]="status.ID">
                       {{status?.StatusName}}
                     </mat-option>
@@ -99,7 +99,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10,15, 20]" showFirstLastButtons (page)="pageEvent = Search()"></mat-paginator>
+            <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10,15, 20]"  (page)="loadNextPrevious()"></mat-paginator>
 
           </div>
           <!-- end content-->
