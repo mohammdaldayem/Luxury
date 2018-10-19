@@ -207,10 +207,10 @@ export class IndexComponent implements OnInit, AfterViewInit {
         result.pop();
         result.unshift(firstItem);
       }
-      this.dataSource = new MatTableDataSource<IRequest>(result);
+      this.dataSource = new MatTableDataSource<IRequest>(result.slice(0, this.paginator.pageSize));
       this.changeDetectorRefs.detectChanges();
       this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: s })
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
     })
   }
 
