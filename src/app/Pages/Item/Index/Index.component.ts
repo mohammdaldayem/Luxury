@@ -106,7 +106,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   pagesExisitData(pageIndex: Number) {
     var result = this.pagesData.find(x => x.pageIndex == pageIndex);
-    debugger
+    
     return result;
   }
 
@@ -120,10 +120,15 @@ export class IndexComponent implements OnInit, AfterViewInit {
         result.pop();
         result.unshift(firstItem);
       }
-      this.dataSource = new MatTableDataSource<IItem>(result);
+      this.dataSource = new MatTableDataSource<IItem>(result.slice(0, this.paginator.pageSize));
       this.changeDetectorRefs.detectChanges();
       this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
+<<<<<<< HEAD
       this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: this.dataSource })
     });
+=======
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
+    })
+>>>>>>> be6b48f2d7ce64a6e286885e2823e2966959c06e
   }
 }
