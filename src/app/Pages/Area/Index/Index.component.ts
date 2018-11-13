@@ -10,12 +10,13 @@ import swal from 'sweetalert2';
   styleUrls: ['./Index.component.css']
 })
 export class IndexComponent implements OnInit {
-  displayedColumns: string[] = [ 'Name', 'Actions'];
+  displayedColumns: string[] = [ 'No','EnName', 'ArName', 'Actions'];
   dataSource: MatTableDataSource<IArea>;
   constructor(private _areaService: AreaService) { }
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
     this._areaService.getAreas().subscribe(result => {
       this.dataSource = new MatTableDataSource<IArea>((<IResponse>result).Areas);
       this.dataSource.paginator = this.paginator;

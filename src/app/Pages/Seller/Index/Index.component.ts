@@ -9,13 +9,15 @@ import swal from 'sweetalert2';
   styleUrls: ['./Index.component.css']
 })
 export class IndexComponent implements OnInit {
-  displayedColumns: string[] = [ 'Name', 'Phone', 'Address', 'Actions'];
+  displayedColumns: string[] = [ 'No', 'EnName', 'ArName', 'Phone', 'Address', 'Actions'];
   dataSource: MatTableDataSource<ISeller>;
   totalCount: number = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private _sellerService: SellerService) { }
 
   ngOnInit() {
+
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
     this._sellerService.getSellers().subscribe(result => {
       this.dataSource = new MatTableDataSource<ISeller>((<IResponse>result).Sellers);
       this.totalCount = ((<IResponse>result).Sellers).length;
@@ -37,7 +39,7 @@ export class IndexComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
       }).catch(swal.noop);
-      var index = this.dataSource.data.findIndex(x=>x.ID==''+ID);
+      var index = this.dataSource.data.findIndex(x => x.ID ==''+ID);
       this.dataSource.data.splice(index,1);
       this.dataSource._updateChangeSubscription();
       } else {

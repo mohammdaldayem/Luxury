@@ -25,7 +25,7 @@ export class SellerViewComponent implements OnInit {
   locationFormControl: FormControl;
   //areaFormControl: FormControl;
   isSubitted: boolean;
-  map: any;
+  //map: any;
   areas: IArea[];
   //#endregion
   //#region constructor
@@ -53,6 +53,20 @@ export class SellerViewComponent implements OnInit {
   }
   //#endregion
   //#region Init
+
+  changeaddress(results, status) {
+    debugger;
+    if (status === 'OK') {
+      if (results[0]) {
+        (document.getElementById("Address") as HTMLTextAreaElement).value = results[0].formatted_address;
+        //document.getElementById('Address').value = results[0].formatted_address;
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  }
   ngOnInit() {
     // this.araeService.getAreas().subscribe(response => {
     //   this.areas = ((<IResponse>response).Areas);
@@ -67,27 +81,120 @@ export class SellerViewComponent implements OnInit {
     //#region map
     const myLatlng = new google.maps.LatLng('31.9454', '35.9284');
     const mapOptions = {
-      zoom: 6,
+      zoom: 17,
       center: myLatlng,
       scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
     };
 
-    this.map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      title: '',
-      position: new google.maps.LatLng('31.9454', '35.9284'),
-      draggable: true
-    });
+    var map = new google.maps.Map(document.getElementById('regularMap'), mapOptions);
+    var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = document.getElementById('type-selector');
+        var strictBounds = document.getElementById('strict-bounds-selector');
 
-    google.maps.event.addListener(this.map, 'click', (e) => {
-      this.map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
-      var markerPsoition = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng())
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        var geocoder = new google.maps.Geocoder;
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        // var marker = new google.maps.Marker({
+        //   map: map,
+        //   anchorPoint: new google.maps.Point(0, -29),
+        //   draggable: true
+        // });
+         this.marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29),
+          draggable: true
+         });
+
+        autocomplete.addListener('place_changed', (e) => {
+          infowindow.close();
+          this.marker.setVisible(false);
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert('No details available for input: \'' + place.name + "'");
+            return;
+          }
+          // If the place has a geometry, then present it on a map.
+          // if (place.geometry.viewport) {
+          //   map.fitBounds(place.geometry.viewport);
+          // } else {
+            map.setCenter(place.geometry.location);
+          //}
+          map.setZoom(17); // Why 17? Because it looks good.
+          this.marker.setPosition(place.geometry.location);
+          this.marker.setVisible(true);
+          var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+          this.addressFormControl.setValue(address);
+          //document.getElementById('Address').value = address;
+          infowindowContent.children['place-icon'].src = place.icon;
+          // infowindowContent.children['place-name'].textContent = place.name;
+          // infowindowContent.children['place-address'].textContent = address;
+          //infowindow.open(map, marker);
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        function setupClickListener(id, types) {
+          var radioButton = document.getElementById(id);
+          radioButton.addEventListener('click', function() {
+            autocomplete.setTypes(types);
+          });
+        }
+
+    google.maps.event.addListener(map, 'click', (e) => {
+      map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+      var markerPsoition = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
       this.marker.setPosition(markerPsoition);
+      geocoder.geocode({'location': markerPsoition}, (results, status) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            (document.getElementById("Address") as HTMLTextAreaElement).value = results[0].formatted_address;
+            //document.getElementById('Address').value = results[0].formatted_address;
+          } else {
+            window.alert('No results found');
+          }
+        } else {
+          window.alert('Geocoder failed due to: ' + status);
+        }
+      });
     });
 
     google.maps.event.addListener(this.marker, 'dragend', (e) => {
-      this.map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+      map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+      var markerPsoition = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+      geocoder.geocode({'location': markerPsoition}, (results, status) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            (document.getElementById('Address') as HTMLTextAreaElement).value = results[0].formatted_address;
+          } else {
+            window.alert('No results found');
+          }
+        } else {
+          window.alert('Geocoder failed due to: ' + status);
+        }
+      });
     });
 
     //#endregion
@@ -95,12 +202,12 @@ export class SellerViewComponent implements OnInit {
     if (this.ID !== undefined && this.ID !== 0) {
       this._sellerService.getSellerDetails({ SellerId: this.ID }).subscribe(result => {
         const seller: ISeller = <ISeller>((<IResponse>result).SellerInfo);
-        this.ennameFormControl.setValue(seller.Name);
-        this.arnameFormControl.setValue(seller.NameAR == undefined ? seller.Name : seller.Name);
+        this.ennameFormControl.setValue(seller.NameEn);
+        this.arnameFormControl.setValue(seller.NameAr === undefined ? seller.Name : seller.NameAr);
         this.phoneFormControl.setValue(seller.Phone);
         this.addressFormControl.setValue(seller.Address);
-        this.map.setCenter(new google.maps.LatLng(seller.Latitude, seller.Longitude));
-        var markerPsoition = new google.maps.LatLng(seller.Latitude, seller.Longitude)
+        map.setCenter(new google.maps.LatLng(seller.Latitude, seller.Longitude));
+        var markerPsoition = new google.maps.LatLng(seller.Latitude, seller.Longitude);
         this.marker.setPosition(markerPsoition);
       });
     }
@@ -111,11 +218,12 @@ export class SellerViewComponent implements OnInit {
     if (this.form.status == "INVALID")
       return;
     let response: any;
+    debugger;
     if (this.ID !== undefined && this.ID !== 0) {
       this._sellerService.updateSellers({
         //areaID: this.areaFormControl.value,
         SellerId: this.ID, NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
-        , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
+        , Address: (document.getElementById('Address') as HTMLTextAreaElement).value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {
         response = <IResponse>result;
         if (response.success === true) {
@@ -140,7 +248,7 @@ export class SellerViewComponent implements OnInit {
       this._sellerService.addSellers({
         //areaID: this.areaFormControl.value,
         NameAr: this.arnameFormControl.value, NameEn: this.ennameFormControl.value, Phone: this.phoneFormControl.value
-        , Address: this.addressFormControl.value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
+        , Address: (document.getElementById("Address") as HTMLTextAreaElement).value, Latitude: this.marker.position.lat(), Longitude: this.marker.position.lng()
       }).subscribe(result => {
         response = <IResponse>result;
         if (response.success === true) {

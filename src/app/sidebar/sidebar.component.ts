@@ -34,8 +34,8 @@ export const ROUTES: RouteInfo[] = [{
     icontype: 'move_to_inbox',
     collapse: 'Inbox',
     children: [
-        { path: 'Request', title: 'Request', ab: '' },
-        { path: 'ContactUs', title: 'Contact Us', ab: '' }
+        { path: 'Request', title: 'Requests', ab: 'RQ' },
+        { path: 'ContactUs', title: 'Contact Us', ab: 'CU' }
     ]
 },
 {
@@ -45,14 +45,14 @@ export const ROUTES: RouteInfo[] = [{
     icontype: 'settings',
     collapse: 'manage',
     children: [
-        { path: 'Seller', title: 'Seller', ab: '' },
-        { path: 'Item', title: 'Items', ab: '' },
-        { path: 'Area', title: 'Area', ab: '' },
-        { path: 'Terms', title: 'Terms and Conditions', ab: '' },
-        { path: 'Advertisment', title: 'Advertisments', ab: '' },
-        { path: 'Category', title: 'Category', ab: '' },
-        { path: 'SubCategory', title: 'SubCategory', ab: '' },
-        { path: 'Delivery', title: 'Delivery Setting', ab: '' },
+        { path: 'Seller', title: 'Sellers', ab: 'SL' },
+        { path: 'Item', title: 'Items', ab: 'IT' },
+        { path: 'Area', title: 'Areas', ab: 'AS' },
+        { path: 'Terms', title: 'Terms and Conditions', ab: 'TC' },
+        { path: 'Advertisment', title: 'Advertisments', ab: 'AD' },
+        { path: 'Category', title: 'Categories', ab: 'CT' },
+        { path: 'SubCategory', title: 'SubCategory', ab: 'SC' },
+        { path: 'Delivery', title: 'Delivery Setting', ab: 'DS' },
 
     ]
 }

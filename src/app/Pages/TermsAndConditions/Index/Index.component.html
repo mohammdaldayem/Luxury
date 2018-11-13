@@ -15,12 +15,12 @@
                 <form (ngSubmit)="AddUpdateTerms()">
                   <div class="col-md-12">
                     <label><strong>Arabic Terms</strong></label>
-                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsAr" [spellcheck]="true"></app-ngx-editor>
+                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsAr" name="TremsAr" [spellcheck]="true" ></app-ngx-editor>
                   </div>
                   <br />
                   <div class="col-md-12">
                     <label><strong>English Terms</strong></label>
-                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsEn" [spellcheck]="true"></app-ngx-editor>
+                    <app-ngx-editor [placeholder]="'Enter text here...'" [(ngModel)]="TremsEn" name="TremsEn" [spellcheck]="true"></app-ngx-editor>
                   </div>
                   <button mat-raised-button type="submit" class="btn btn-rose btn-fill right-green">Save</button>
                 </form>

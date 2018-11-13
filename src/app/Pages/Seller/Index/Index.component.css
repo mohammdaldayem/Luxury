@@ -4,7 +4,9 @@ table {
   .example-container {
     display: inline !important;
   }
-
+  .mat-column-actions {
+    flex: 0 0 5%;
+  }
   .right {
     float: right;
   }

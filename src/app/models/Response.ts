@@ -24,7 +24,7 @@ export interface IResponse {
     AllRequestsCount: string;
     TodayRequestsCount: string;
     AllMessagesCount: number;
-    TodayMessagesCount: string;
+    TodayMessagesCount: number;
     TotalItemsCount: number;
     RequestsCount: number;
     Containers: Container[];
@@ -56,6 +56,8 @@ export class ISeller {
 ID: string;
 Name: string;
 NameAR: string;
+NameAr: string;
+NameEn: string;
 Phone: string;
 Address: string;
 Latitude: string;
@@ -94,7 +96,9 @@ export class IItem {
 }
 export interface IItemInfo {
     ID: string;
-    Name: string;
+    ItemId: string;
+    NameEn: string;
+    NameAr: string;
     OriginalPrice: string;
     ProfitRatio: string;
     Price: string;
@@ -105,6 +109,11 @@ export interface IItemInfo {
     HasDescription: string;
     SizeM3: string;
     ContainerId: string;
+    ItemNameEn: string;
+    ItemNameAr: string;
+    SellerNameAr: string;
+    SellerNameEn: string;
+    CreatedAt: string;
 }
 export interface IItemColor {
     ID: String;
@@ -133,26 +142,32 @@ export interface IItemImage {
 export interface ISubCategory {
     ID: string;
     Image: string;
-    Name: string;
+    NameEn: string;
+    NameAr: string;
     CategoryId: string;
 }
 export  interface ICategory {
     ID: string;
-    Name: string;
+    NameEn: string;
+    NameAr: string;
     Image: string;
 }
 export interface IArea {
     ID: string;
     Name: string;
-    ArName: string;
+    NameAr: string;
+    NameEn: string;
 }
 export interface ITerms {
-    Value: string;
+    ValueEn: string;
+    ValueAr: string;
 }
 export interface IAdvertisment {
     ID: string;
-    Title: string;
-    Description: string;
+    TitleEn: string;
+    TitleAr: string;
+    DescriptionEn: string;
+    DescriptionAr: string;
     Image: string;
 }
 

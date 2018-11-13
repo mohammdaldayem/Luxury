@@ -1,3 +1,5 @@
+
+<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALrzswrOnA3Mgyhrp6Up37whIz__Jlv1o&libraries=places&sensor=false"></script> -->
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
@@ -8,32 +10,29 @@
               <!-- <div class="card-icon">
                   <i class="material-icons">list</i>
                 </div> -->
-              <h4 class="card-title">Sellet Details</h4>
+              <h4 class="card-title">Seller Details</h4>
             </div>
             <div class="card-body">
               <div class="row">
-                <label class="col-sm-2 col-form-label">English Name *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="ennameFormControl" required>
+                    <input matInput [formControl]="ennameFormControl" placeholder="English Name" required>
                     <mat-error *ngIf="ennameFormControl.invalid">Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                <label class="col-sm-2 col-form-label">Arabic Name *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="arnameFormControl" required>
+                    <input matInput [formControl]="arnameFormControl" placeholder="Arabic Name" required>
                     <mat-error *ngIf="arnameFormControl.invalid">Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                <label class="col-sm-2 col-form-label">Phone *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="phoneFormControl" type="number" required>
+                    <input matInput [formControl]="phoneFormControl" type="number" placeholder="Phone" required>
                     <mat-error *ngIf="phoneFormControl.invalid">Phone is Required</mat-error>
                   </mat-form-field>
                 </div>
@@ -52,24 +51,62 @@
                 </div>
               </div> -->
               <div class="row">
-                <label class="col-sm-2 col-form-label">Address *</label>
                 <div class="col-sm-4">
                   <mat-form-field>
-                    <input matInput [formControl]="addressFormControl" required>
+                    <input matInput [formControl]="addressFormControl" placeholder="Address" id="Address" required>
                     <mat-error *ngIf="addressFormControl.invalid">Address is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-sm-12">
                   <legend>Location</legend>
                 </div>
-              </div>
+              </div> -->
+              <!-- <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <input matInput id="pac-input" placeholder="Search" type="text" [formControl]="locationFormControl" >
+                      </mat-form-field>
+                  
+                </div>
+              </div> -->
               <div class="row">
                 <div class="col-md-12">
-                  <input id="pac-input" class="controls" type="text" [formControl]="locationFormControl" placeholder="Search Box"
-                    >
-                  <div id="regularMap" class="map"></div>
+                    <div class="pac-card" id="pac-card">
+                        <div>
+                          <div id="title">
+                            Search
+                          </div>
+                          <!-- <div id="type-selector" class="pac-controls">
+                            <input type="radio" name="type" id="changetype-all" checked="checked">
+                            <label for="changetype-all">All</label>
+                  
+                            <input type="radio" name="type" id="changetype-establishment">
+                            <label for="changetype-establishment">Establishments</label>
+                  
+                            <input type="radio" name="type" id="changetype-address">
+                            <label for="changetype-address">Addresses</label>
+                  
+                            <input type="radio" name="type" id="changetype-geocode">
+                            <label for="changetype-geocode">Geocodes</label>
+                          </div>
+                          <div id="strict-bounds-selector" class="pac-controls">
+                            <input type="checkbox" id="use-strict-bounds" value="">
+                            <label for="use-strict-bounds">Strict Bounds</label>
+                          </div> -->
+                        </div>
+                        <div id="pac-container">
+                          <input id="pac-input" type="text"
+                              placeholder="Enter a location">
+                        </div>
+                      </div>
+                    <div id="regularMap" class="map"></div>
+                    <div id="infowindow-content">
+                        <img src="" width="16" height="16" id="place-icon">
+                        <span id="place-name"  class="title"></span><br>
+                        <span id="place-address"></span>
+                      </div>
                 </div>
               </div>
               <div class="row">

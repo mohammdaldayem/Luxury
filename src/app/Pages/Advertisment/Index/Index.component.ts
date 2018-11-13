@@ -11,7 +11,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./Index.component.css']
 })
 export class IndexComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['Image', 'Title', 'Description', 'Actions'];
+  displayedColumns: string[] = ['No', 'Image', 'Title', 'ArTitle', 'Description', 'ArDescription', 'Actions'];
   dataSource: MatTableDataSource<IAdvertisment>;
   imagePath: string = AppConfig.settings.apiServer.advertimagepath;
   resultsLength = 0;
@@ -20,6 +20,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   constructor(private _advertismentService: AdvertismentService) { }
 
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
   }
   ngAfterViewInit(): void {
     this.loadAllIAdvertisment(this.paginator.pageSize, this.paginator.pageIndex);

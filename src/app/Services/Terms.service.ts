@@ -12,10 +12,10 @@ constructor(private http: HttpClient) {
   super();
 }
 getTerms() {
-  return this.http.get(AppConfig.settings.apiServer.host + 'Terms_Conditions/Terms_Conditions.php', this.httpOptions);
+  return this.http.get(AppConfig.settings.apiServer.host + 'Terms_Conditions/Terms_Conditions.php', this.EnArhttpOptions);
  }
  UpdateTerms(request) {
   // tslint:disable-next-line:max-line-length
-  return this.http.post(AppConfig.settings.apiServer.host + 'Terms_Conditions/Edit_Terms_Conditions.php', this.getFormUrlEncoded(request), this.httpOptions);
+  return this.http.post(AppConfig.settings.apiServer.host + 'Terms_Conditions/Edit_Terms_Conditions.php', this.getFormUrlEncoded(request), this.EnArhttpOptions);
  }
 }

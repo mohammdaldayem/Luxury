@@ -11,17 +11,18 @@ export class RequestService extends BaseService {
     super();
   }
   getRequests(request) {
-   
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/Requests_Pagenation.php', this.getFormUrlEncoded(request)
     , this.httpOptions);
   }
+  getTodayRequests(request) {
+    return this.http.post(AppConfig.settings.apiServer.host + 'Request/RequestsToday_Pagenation.php', this.getFormUrlEncoded(request)
+     , this.httpOptions);
+   }
   getRequestDetails(request) {
-    
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/RequestDetails.php', this.getFormUrlEncoded(request)
     , this.httpOptions);
   }
   changeRequestStatus(request) {
-    
    return this.http.post(AppConfig.settings.apiServer.host + 'Request/UpdateRequestStatus.php', this.getFormUrlEncoded(request)
     , this.httpOptions);
   }

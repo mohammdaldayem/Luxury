@@ -18,9 +18,10 @@ export class AdvertismentViewComponent implements OnInit {
   arTitleFormControl: FormControl;
   enDescFormControl: FormControl;
   arDescFormControl: FormControl;
-  ID: Number;
+  ID: string;
   elementImage: string = null;
   fileToUpload: File = null;
+  upluadimage: any;
   imagePath: string = AppConfig.settings.apiServer.advertimagepath;
 
   constructor(private _advertismentService: AdvertismentService, private route: ActivatedRoute, private http: HttpClient) {
@@ -50,13 +51,13 @@ export class AdvertismentViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.ID !== undefined && this.ID !== 0) {
+    if (this.ID !== undefined && this.ID !== '') {
       this._advertismentService.getAdvertismentDetails({ AdvertismentId: this.ID }).subscribe(result => {
         const advertisment: IAdvertisment = <IAdvertisment>((<IResponse>result).ItemInfo);
-        this.enTitleFormControl.setValue(advertisment.Title);
-        this.arTitleFormControl.setValue(advertisment.Title);
-        this.enDescFormControl.setValue(advertisment.Description);
-        this.arDescFormControl.setValue(advertisment.Description);
+        this.enTitleFormControl.setValue(advertisment.TitleEn);
+        this.arTitleFormControl.setValue(advertisment.TitleAr);
+        this.enDescFormControl.setValue(advertisment.DescriptionEn);
+        this.arDescFormControl.setValue(advertisment.DescriptionAr);
         this.elementImage = advertisment.Image;
         this.imagePath = AppConfig.settings.apiServer.advertimagepath;
       });
@@ -64,6 +65,11 @@ export class AdvertismentViewComponent implements OnInit {
   }
   previewImage(files: FileList) {
     this.fileToUpload = files.item(0);
+    const reader = new FileReader();
+    reader.onload = (ev: FileReaderEvent) => {
+      this.upluadimage = ev.target.result;
+    };
+    reader.readAsDataURL(files.item(0));
   }
   AddUpdateAdvertisment() {
     this.isSubmitted = true;
@@ -71,9 +77,29 @@ export class AdvertismentViewComponent implements OnInit {
       return;
     }
     let response: any;
-    if (this.ID !== undefined && this.ID !== 0) {
-      // tslint:disable-next-line:max-line-length
-      this._advertismentService.updateAdvertisment({ AdvertismentId: this.ID, TitleAr: this.arTitleFormControl.value, TitleEn: this.enTitleFormControl.value, DescriptionAr: this.arDescFormControl.value, DescriptionEn: this.enDescFormControl.value, image: this.fileToUpload, name: this.fileToUpload.name }).subscribe(result => {
+    if (this.ID) {
+      const httpOptions = {
+        headers: new HttpHeaders()
+          .append(
+            'Authorization',
+            AppConfig.settings.apiServer.AuthorizationToken
+          )
+          .append('Accept-Language', 'En')
+      };
+      const formData: FormData = new FormData();
+      formData.append('AdvertismentId', this.ID);
+      formData.append('TitleAr', this.arTitleFormControl.value);
+      formData.append('TitleEn', this.enTitleFormControl.value);
+      formData.append('DescriptionAr', this.arDescFormControl.value);
+      formData.append('DescriptionEn', this.enDescFormControl.value);
+      formData.append('image', this.fileToUpload);
+      this.http
+      .post(
+        AppConfig.settings.apiServer.host + 'Advertisment/Edit_Advertisment.php',
+        formData,
+        httpOptions
+      )
+      .subscribe(result => {
         response = <IResponse>result;
         if (response.success === true) {
           swal({
@@ -97,7 +123,7 @@ export class AdvertismentViewComponent implements OnInit {
       const httpOptions = {
         headers: new HttpHeaders()
           .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
-          .append('Accept-Language', 'Ar')
+          .append('Accept-Language', 'En')
       };
       const formData: FormData = new FormData();
       formData.append('TitleAr', this.arTitleFormControl.value);

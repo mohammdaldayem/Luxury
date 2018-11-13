@@ -14,21 +14,25 @@ export class SubCategoryService extends BaseService {
   }
 
   getSupCategories(request) {
-    
-   return this.http.post(AppConfig.settings.apiServer.host + 'Category/SubCategories.php', this.getFormUrlEncoded(request), this.httpOptions);
+
+   return this.http.post(AppConfig.settings.apiServer.host + 'Category/SubCategories.php',
+    this.getFormUrlEncoded(request), this.EnArhttpOptions);
   }
 
   deleteSupCategory(request: any) {
-    return this.http.post(AppConfig.settings.apiServer.host + 'Category/DeleteSubCategory.php', this.getFormUrlEncoded(request), this.httpOptions);
+    return this.http.post(AppConfig.settings.apiServer.host + 'Category/DeleteSubCategory.php',
+     this.getFormUrlEncoded(request), this.EnArhttpOptions);
   }
 
   addSupCategory(request: any) {
-    
-    return this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php', this.getFormUrlEncoded(request), this.httpOptions);
+
+    return this.http.post(AppConfig.settings.apiServer.host + 'Category/AddNewSubCategory.php',
+     this.getFormUrlEncoded(request), this.EnArhttpOptions);
   }
 
   updateSupCategory(request: any) {
-   
-    return this.http.post(AppConfig.settings.apiServer.host + 'Category/EditSubCategory.php', this.getFormUrlEncoded(request), this.httpOptions);
+
+    return this.http.post(AppConfig.settings.apiServer.host + 'Category/EditSubCategory.php',
+     this.getFormUrlEncoded(request), this.EnArhttpOptions);
   }
 }

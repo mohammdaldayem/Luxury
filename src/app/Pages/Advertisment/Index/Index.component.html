@@ -10,34 +10,58 @@
             <h4 class="card-title">Advertisments</h4>
           </div>
           <div class="card-body">
-            <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-              <a class="float-right card-title" routerLink="/Pages/Advertisment/View" routerLinkActive="active">
-                <button class="btn green"> Add New</button></a>
-            </mat-form-field>
+              <div class="row">
+                  <div class="col-md-6">
+                    </div>
+                  <div class="col-md-6">
+                      <!-- <a [routerLink]="['/Pages/Advertisment/View']" type="submit" class="btn btn-info btn-fill right green">Add</a> -->
+                      <button [routerLink]="['/Pages/Advertisment/View']" type="submit" class="btn btn-info btn-fill right green">Add</button>
+                    </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                      </mat-form-field>
+                </div>
+              </div>
+            
             <!-- <div class="spinner-container" *ngIf="dataSource.loading$ | async">
                               <mat-spinner></mat-spinner>
                           </div> -->
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
+                <ng-container matColumnDef="No">
+                    <th mat-header-cell *matHeaderCellDef > No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+                  </ng-container>
               <ng-container matColumnDef="Image">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+                <th mat-header-cell *matHeaderCellDef > Image </th>
                 <td mat-cell *matCellDef="let element">
                   <img height="100px" width="100px" src='{{imagePath + element.Image}}' /> </td>
               </ng-container>
 
               <ng-container matColumnDef="Title">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-                <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+                <th mat-header-cell *matHeaderCellDef > English Title </th>
+                <td mat-cell *matCellDef="let element"> {{element.TitleEn}} </td>
               </ng-container>
+
+              <ng-container matColumnDef="ArTitle">
+                  <th mat-header-cell *matHeaderCellDef > Arabic Title </th>
+                  <td mat-cell *matCellDef="let element"> {{element.TitleAr}} </td>
+                </ng-container>
 
 
               <ng-container matColumnDef="Description">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                <td mat-cell *matCellDef="let element">{{element.Description}} </td>
+                <th mat-header-cell *matHeaderCellDef > English Description </th>
+                <td mat-cell *matCellDef="let element">{{element.DescriptionEn}} </td>
               </ng-container>
+
+              <ng-container matColumnDef="ArDescription">
+                  <th mat-header-cell *matHeaderCellDef > Arabic Description </th>
+                  <td mat-cell *matCellDef="let element">{{element.DescriptionAr}} </td>
+                </ng-container>
               <ng-container matColumnDef="Actions">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                <th mat-header-cell *matHeaderCellDef > Actions </th>
                 <td mat-cell *matCellDef="let element" class="text-right">
                   <a [routerLink]="['/Pages/Advertisment/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i
                       class="material-icons">dvr</i></a>
@@ -48,7 +72,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[10, 15, 20]" ></mat-paginator>
           </div>
           <!-- end content-->
         </div>

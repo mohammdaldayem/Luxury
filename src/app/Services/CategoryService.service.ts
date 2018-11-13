@@ -13,7 +13,7 @@ export class CategoryService extends BaseService {
   getCategories() {
     return this.http.get(
       AppConfig.settings.apiServer.host + 'Category/MainCategories.php',
-      this.httpOptions
+      this.EnArhttpOptions
     );
   }
 
@@ -21,7 +21,7 @@ export class CategoryService extends BaseService {
     return this.http.post(
       AppConfig.settings.apiServer.host + 'Category/DeleteCategory.php',
       this.getFormUrlEncoded(request),
-      this.httpOptions
+      this.EnArhttpOptions
     );
   }
 
@@ -29,7 +29,7 @@ export class CategoryService extends BaseService {
     return this.http.post(
       AppConfig.settings.apiServer.host + 'Category/AddNewCategory.php',
       this.getFormUrlEncodedwithfile(request),
-      this.httpOptions
+      this.EnArhttpOptions
     );
   }
 
@@ -37,7 +37,7 @@ export class CategoryService extends BaseService {
     return this.http.post(
       AppConfig.settings.apiServer.host + 'Category/EditCategory.php',
       this.getFormUrlEncoded(request),
-      this.httpOptions
+      this.EnArhttpOptions
     );
   }
 }

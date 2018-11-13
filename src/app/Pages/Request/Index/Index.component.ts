@@ -4,7 +4,7 @@ import { RequestService } from '../../../Services/request.service';
 import { SellerService } from '../../../Services/Seller.service';
 import { IResponse, IRequest, ISeller, IStatus } from '../../../models/Response';
 import { MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import * as moment from 'moment';
 @Component({
@@ -32,12 +32,14 @@ export class IndexComponent implements OnInit, AfterViewInit {
   pagesData: Array<any>;
   currentPageSize: number;
   currentPageIndex: number;
-
+  TodayReq: string;
+  Title: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private _requestService: RequestService, private _sellerService: SellerService, private router: Router, private changeDetectorRefs: ChangeDetectorRef) {
+  constructor(private _requestService: RequestService, private _sellerService: SellerService,
+     private router: Router, private changeDetectorRefs: ChangeDetectorRef, private route: ActivatedRoute) {
     this.allSeller = new ISeller();
-    this.allSeller.Name = 'All';
+    this.allSeller.NameEn = 'All';
     this.allSeller.ID = '0';
 
     this.allStatus = new IStatus();
@@ -49,7 +51,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.pendingtatus.ID = '1';
 
     this.ProgressStatus = new IStatus();
-    this.ProgressStatus.StatusName = 'AIn Progressll';
+    this.ProgressStatus.StatusName = 'In Progress';
     this.ProgressStatus.ID = '2';
 
 
@@ -67,8 +69,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.Statuses.push(this.ProgressStatus);
     this.Statuses.push(this.completedStatus);
     this.Statuses.push(this.declinedStatus);
+    this.route.queryParams.subscribe(params => {
+      this.TodayReq = params['Today'];
+    });
   }
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
     this._sellerService.getSellers().subscribe(result => {
       this.sellers = (<IResponse>result).Sellers;
       this.sellers.push(this.allSeller);
@@ -79,7 +85,15 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.currentPageSize = 10;
     this.currentPageIndex = 0;
     this.pagesData = new Array<any>();
-    this.loadAllRequests(20, this.paginator.pageIndex);
+    if (this.TodayReq === 'T') {
+      this.Title = 'Today Request';
+      this.filterDtaeFrom = new Date();
+      this.filterDtaeTo = new Date();
+      this.loadAllTodayRequests(20, this.paginator.pageIndex);
+    } else {
+      this.Title = 'Requests';
+      this.loadAllRequests(20, this.paginator.pageIndex);
+    }
   }
   Search() {
     const pagesize = this.paginator.pageSize;
@@ -87,16 +101,29 @@ export class IndexComponent implements OnInit, AfterViewInit {
     const dateTo = this.filterDtaeTo ? moment(this.filterDtaeTo).format('YYYY-MM-DD') : '';
     const sellerID = this.filterSellerId ? this.filterSellerId : 0;
     const statusID = this.filterStatusId ? this.filterStatusId : 0;
-    this._requestService.getRequests({
-      LoadFrom: 0, PageSize: 20,
-      DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
-    }).subscribe(result => {
-      this.pagesData = new Array<any>();
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests })
-      this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests.slice(0, this.paginator.pageSize));
-      this.changeDetectorRefs.detectChanges();
-      this.resultsLength = (<IResponse>result).RequestsCount;
-    });
+    if (this.TodayReq === 'T') {
+      this._requestService.getTodayRequests({
+        LoadFrom: 0, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(result => {
+        this.pagesData = new Array<any>();
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests });
+        this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+        this.resultsLength = (<IResponse>result).RequestsCount;
+      });
+    } else {
+      this._requestService.getRequests({
+        LoadFrom: 0, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(result => {
+        this.pagesData = new Array<any>();
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests });
+        this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+        this.resultsLength = (<IResponse>result).RequestsCount;
+      });
+    }
   }
 
   loadAllRequests(pagesize: number, from: number) {
@@ -111,7 +138,26 @@ export class IndexComponent implements OnInit, AfterViewInit {
       LoadFrom: from, PageSize: pagesize,
       DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
     }).subscribe(result => {
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests })
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests });
+
+      this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests.slice(0, this.paginator.pageSize));
+      this.resultsLength = (<IResponse>result).RequestsCount;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+  loadAllTodayRequests(pagesize: number, from: number) {
+    if (from !== 0) {
+      from = +this.dataSource.data[this.dataSource.data.length - 1].RequestId;
+    }
+    const dateFrom = this.filterDtaeFrom ? moment(this.filterDtaeFrom).format('YYYY-MM-DD') : '';
+    const dateTo = this.filterDtaeTo ? moment(this.filterDtaeTo).format('YYYY-MM-DD') : '';
+    const sellerID = this.filterSellerId ? this.filterSellerId : 0;
+    const statusID = this.filterStatusId ? this.filterStatusId : 0;
+    this._requestService.getTodayRequests({
+      LoadFrom: from, PageSize: pagesize,
+      DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+    }).subscribe(result => {
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>result).Requests });
 
       this.dataSource = new MatTableDataSource<IRequest>((<IResponse>result).Requests.slice(0, this.paginator.pageSize));
       this.resultsLength = (<IResponse>result).RequestsCount;
@@ -179,39 +225,66 @@ export class IndexComponent implements OnInit, AfterViewInit {
     const dateTo = this.filterDtaeTo ? moment(this.filterDtaeTo).format('YYYY-MM-DD') : '';
     const sellerID = this.filterSellerId ? this.filterSellerId : 0;
     const statusID = this.filterStatusId ? this.filterStatusId : 0;
-    this._requestService.getRequests({
-      LoadFrom: from, PageSize: 20,
-      DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
-    }).subscribe(resultobj => {
-      this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).Requests })
-      this.dataSource = new MatTableDataSource<IRequest>((<IResponse>resultobj).Requests.slice(0, this.paginator.pageSize));
-      this.changeDetectorRefs.detectChanges();
-    });
+    if (this.TodayReq === 'T') {
+      this._requestService.getTodayRequests({
+        LoadFrom: from, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(resultobj => {
+        this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).Requests })
+        this.dataSource = new MatTableDataSource<IRequest>((<IResponse>resultobj).Requests.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+      });
+    } else {
+      this._requestService.getRequests({
+        LoadFrom: from, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(resultobj => {
+        this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).Requests })
+        this.dataSource = new MatTableDataSource<IRequest>((<IResponse>resultobj).Requests.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+      });
+    }
   }
 
   reloadCurentPageData(ID: Number) {
-    var isFirstItem = (this.dataSource.data[0].ID == ID.toString());
+    var isFirstItem = (this.dataSource.data[0].RequestId == ID.toString());
     var firstItem = this.dataSource.data[0];
-    let from = this.dataSource.data[0].ID;
+    let from = this.dataSource.data[0].RequestId;
     const dateFrom = this.filterDtaeFrom ? moment(this.filterDtaeFrom).format('YYYY-MM-DD') : '';
     const dateTo = this.filterDtaeTo ? moment(this.filterDtaeTo).format('YYYY-MM-DD') : '';
     const sellerID = this.filterSellerId ? this.filterSellerId : 0;
     const statusID = this.filterStatusId ? this.filterStatusId : 0;
-
-    this._requestService.getRequests({
-      LoadFrom: from, PageSize: 20,
-      DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
-    }).subscribe(resultobj => {
-      var result = (<IResponse>resultobj).Requests;
-      if (!isFirstItem) {
-        result.pop();
-        result.unshift(firstItem);
-      }
-      this.dataSource = new MatTableDataSource<IRequest>(result.slice(0, this.paginator.pageSize));
-      this.changeDetectorRefs.detectChanges();
-      this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
-    })
+    if (this.TodayReq === 'T') {
+      this._requestService.getTodayRequests({
+        LoadFrom: from, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(resultobj => {
+        var result = (<IResponse>resultobj).Requests;
+        if (!isFirstItem) {
+          result.pop();
+          result.unshift(firstItem);
+        }
+        this.dataSource = new MatTableDataSource<IRequest>(result.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+        this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
+      });
+    } else {
+      this._requestService.getRequests({
+        LoadFrom: from, PageSize: 20,
+        DateFrom: dateFrom, DateTo: dateTo, SellerId: sellerID, StatusId: statusID
+      }).subscribe(resultobj => {
+        var result = (<IResponse>resultobj).Requests;
+        if (!isFirstItem) {
+          result.pop();
+          result.unshift(firstItem);
+        }
+        this.dataSource = new MatTableDataSource<IRequest>(result.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+        this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: result })
+      });
+    }
   }
 
 }

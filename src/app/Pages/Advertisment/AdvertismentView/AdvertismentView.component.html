@@ -35,8 +35,9 @@
                   Arabic Desciption is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <div *ngIf="elementImage">
-                <img height="300px" width="100%" src='{{imagePath + elementImage}}' />
+              <div>
+                <img *ngIf="!fileToUpload &&  elementImage"  height="200px" width="200px" src='{{imagePath + elementImage}}' />
+                <img *ngIf="fileToUpload"  height="200px" width="200px" [src]='upluadimage' />
               </div>
               <br/>
               <button mat-raised-button type="button" (click)="imgFileInput.click()">

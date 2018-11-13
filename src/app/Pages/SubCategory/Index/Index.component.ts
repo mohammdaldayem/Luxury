@@ -17,7 +17,8 @@ export class IndexComponent implements OnInit ,AfterContentInit {
     this.loadAllISubCategories(this.paginator.pageSize , this.paginator.pageIndex)
   }
 
-  displayedColumns: string[] = ['Image', 'Name', 'Actions'];
+  // tslint:disable-next-line:member-ordering
+  displayedColumns: string[] = ['No', 'Image', 'Name', 'ArName', 'Actions'];
   dataSource: MatTableDataSource<ISubCategory>;
   imagePath: string = AppConfig.settings.apiServer.subCategoryimagepath;
   categories: ICategory[];
@@ -27,6 +28,7 @@ export class IndexComponent implements OnInit ,AfterContentInit {
 
   constructor(private CategoryService: CategoryService, private SubCategoryService: SubCategoryService) { }
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
     this.CategoryService.getCategories().subscribe(result => {
       this.categories = ((<IResponse>result).Categories);
     })

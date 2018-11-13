@@ -7,11 +7,17 @@ import { AppConfig } from '../app.config';
 })
 export class BaseService {
   httpOptions: {};
+  EnArhttpOptions: {};
 constructor() {
   this.httpOptions = {
     headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
     .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
     .append('Accept-Language', 'En')
+  };
+  this.EnArhttpOptions = {
+    headers: new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded')
+    .append('Authorization', AppConfig.settings.apiServer.AuthorizationToken)
+    .append('Accept-Language', 'En-Ar')
   };
  }
 

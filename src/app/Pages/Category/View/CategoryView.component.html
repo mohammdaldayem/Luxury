@@ -11,7 +11,7 @@
               <div class="row">
                 <div class="col-md-9">
                   <mat-form-field>
-                    <input type="text" [formControl]="ennameFormControl" matInput placeholder="English Name *" required>
+                    <input type="text" [formControl]="ennameFormControl" matInput placeholder="English Name " required>
                     <mat-error *ngIf="ennameFormControl.invalid && isSubmitted">English Name is Required</mat-error>
                   </mat-form-field>
                 </div>
@@ -19,13 +19,14 @@
               <div class="row">
                 <div class="col-md-9">
                   <mat-form-field>
-                    <input type="text" [formControl]="arnameFormControl" matInput placeholder="Arabic Name *" required>
+                    <input type="text" [formControl]="arnameFormControl" matInput placeholder="Arabic Name " required>
                     <mat-error *ngIf="arnameFormControl.invalid && isSubmitted">Arabic Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
-              <div *ngIf="elementImage">
-                <img height="300px" width="100%" src='{{imagePath + elementImage}}' />
+              <div>
+                <img *ngIf="!fileToUpload &&  elementImage"  height="200px" width="200px" src='{{imagePath + elementImage}}' />
+                <img *ngIf="fileToUpload"  height="200px" width="200px" [src]='upluadimage' />
               </div>
               <br/>
               <div class="row">

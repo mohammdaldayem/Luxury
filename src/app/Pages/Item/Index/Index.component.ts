@@ -13,7 +13,7 @@ import { MatTableDataSource, MatPaginator, PageEvent } from '@angular/material';
 })
 export class IndexComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['Image', 'English Name', 'Arabic Name', 'Created At', 'Seller Name', 'Actions'];
+  displayedColumns: string[] = ['No', 'Image', 'English Name', 'Arabic Name', 'Seller Name', 'ArSeller Name', 'Created At', 'Actions'];
   dataSource: MatTableDataSource<IItem>;
   pageEvent: PageEvent;
   imagePath: string = AppConfig.settings.apiServer.itemimagepath;
@@ -26,6 +26,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   constructor(private _itemService: ItemService, private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
   }
 
   ngAfterViewInit(): void {
@@ -37,7 +38,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   loadAllItems(pagesize: number, from: number) {
     if (from !== 0) {
-      from = +this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ID;
+      from = +this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ItemId;
     }
     this._itemService.getAllItems({ LoadFrom: from, PageSize: pagesize }).subscribe(resultobj => {
       this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>resultobj).Items })
@@ -63,7 +64,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.changeDetectorRefs.detectChanges();
     }
     else {
-      this.getPageData(this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ID)
+      this.getPageData(this.dataSource.data[this.dataSource.data.length - 1].ItemInfo.ItemId)
     }
   }
 
@@ -111,9 +112,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
 
   reloadCurentPageData(ID: Number) {
-    var isFirstItem = (this.dataSource.data[0].ItemInfo.ID == ID.toString());
+    var isFirstItem = (this.dataSource.data[0].ItemInfo.ItemId == ID.toString());
     var firstItem = this.dataSource.data[0];
-    let from = this.dataSource.data[0].ItemInfo.ID;
+    let from = this.dataSource.data[0].ItemInfo.ItemId;
     this._itemService.getAllItems({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
       var result = (<IResponse>resultobj).Items;
       if (!isFirstItem) {

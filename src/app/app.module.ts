@@ -10,6 +10,8 @@ import { ItemDescreptionComponent} from './Popups/ItemDescreption/ItemDescreptio
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import {logenUser} from './Auth/logenUser';
 import {UserService} from './Services/User.service';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -90,7 +92,7 @@ import { AppRoutes } from './app.routing';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
 })
 export class MaterialModule {}
@@ -112,11 +114,12 @@ export function initializeApp(appConfig: AppConfig) {
         FooterModule,
         FixedpluginModule,
         HttpClientModule,
+        TextareaAutosizeModule,
     ],
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        AuthLayoutComponent
+        AuthLayoutComponent,
     ],
     providers: [UserService, logenUser, CookieService, AppConfig,
       { provide: APP_INITIALIZER,

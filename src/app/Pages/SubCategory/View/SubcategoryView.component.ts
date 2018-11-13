@@ -36,7 +36,7 @@ export class SubcategoryViewComponent implements OnInit {
   isSubmitted: boolean;
   elementImage: string;
   imagePath: string;
-
+  upluadimage: any;
   // tslint:disable-next-line:max-line-length
   constructor(
     private _subCategoryService: SubCategoryService,
@@ -60,6 +60,9 @@ export class SubcategoryViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.CategortyID === undefined) {
+      this.CategortyID = '0';
+    }
     this.categoryService.getCategories().subscribe(response => {
       this.categories = (<IResponse>response).Categories;
       if (this.ID) {
@@ -76,10 +79,11 @@ export class SubcategoryViewComponent implements OnInit {
           this.category = (<IResponse>result).SubCategories.find(
             x => x.ID === this.ID
           );
-          this.ennameFormControl.setValue(this.category.Name);
-          this.arnameFormControl.setValue(this.category.Name);
+          this.ennameFormControl.setValue(this.category.NameEn);
+          this.arnameFormControl.setValue(this.category.NameAr);
           this.elementImage = this.category.Image;
           this.imagePath = AppConfig.settings.apiServer.subCategoryimagepath;
+          this.mainCategoryControl.setValue(this.category.CategoryId);
         });
     }
   }
@@ -102,7 +106,7 @@ export class SubcategoryViewComponent implements OnInit {
       formData.append('SubCategoryName_Ar', this.arnameFormControl.value);
       formData.append('SubCategoryName_En', this.ennameFormControl.value);
       if(this.fileToUpload)
-      formData.append('Image', this.fileToUpload);
+      formData.append('image', this.fileToUpload);
       formData.append('SubCategoryId', this.ID);
       this.http
         .post(
@@ -180,5 +184,10 @@ export class SubcategoryViewComponent implements OnInit {
 
   previewImage(files: FileList) {
     this.fileToUpload = files.item(0);
+    const reader = new FileReader();
+    reader.onload = (ev: FileReaderEvent) => {
+      this.upluadimage = ev.target.result;
+    };
+    reader.readAsDataURL(files.item(0));
   }
 }

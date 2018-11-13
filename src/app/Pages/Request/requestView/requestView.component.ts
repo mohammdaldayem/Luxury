@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestService } from '../../../Services/request.service';
 import { ItemService } from '../../../Services/Item.service';
 import { IResponse, IRequest, ISeller, ICart, IItem } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import swal from 'sweetalert2';
+import { AppConfig } from '../../../app.config';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import {take} from 'rxjs/operators';
 
 declare const google: any;
 @Component({
@@ -18,17 +21,21 @@ export class RequestViewComponent implements OnInit {
   ID: Number;
   Cart: ICart[];
   SelectedStatus: any;
+  imagePath: string;
+  // tslint:disable-next-line:max-line-length
   Statuses = [{ ID: 1, NameEN: 'Pending' }, { ID: 2, NameEN: 'In Progress' }, { ID: 3, NameEN: 'Completed' }, { ID: 4, NameEN: 'Declined' }];
-  constructor(private itemService: ItemService, private _requestService: RequestService, private route: ActivatedRoute) {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  constructor(private itemService: ItemService, private _requestService: RequestService, private route: ActivatedRoute
+    , private ngZone: NgZone) {
     this.route.queryParams.subscribe(params => {
       this.ID = params['ID'];
     });
   }
+ 
   ngOnInit() {
     this._requestService.getRequestDetails({ RequestId: this.ID }).subscribe(result => {
       this.request = <IRequest>((<IResponse>result).RequestInfo);
       this.Cart = (<IResponse>result).Cart;
-      debugger
       const myLatlng = new google.maps.LatLng(this.request.Latitude, this.request.Longitude);
       const mapOptions = {
         zoom: 17,
@@ -42,12 +49,15 @@ export class RequestViewComponent implements OnInit {
       });
       marker.setMap(map);
     });
+    this.imagePath = AppConfig.settings.apiServer.itemcolorspath;
+    this.ngZone.onStable.pipe(take(1))
+    .subscribe(() => this.autosize.resizeToFitContent(true));
   }
   showconfermationmessage(Reqid: number, statusid: number) {
     this.SelectedStatus = statusid;
   }
   ChangeRequestStatus() {
-    this._requestService.changeRequestStatus({ RequestId: this.request.ID, StatusId: this.SelectedStatus }).subscribe(result => {
+    this._requestService.changeRequestStatus({ RequestId: this.ID, StatusId: this.SelectedStatus }).subscribe(result => {
       const response = <IResponse>result;
       if (response.success === true) {
         swal({
@@ -57,6 +67,7 @@ export class RequestViewComponent implements OnInit {
           confirmButtonClass: 'btn btn-success',
           type: 'success'
         }).catch(swal.noop);
+        this.ngOnInit();
       } else {
         swal({
           title: 'Failed',

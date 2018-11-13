@@ -10,23 +10,37 @@
             <h4 class="card-title">Areas</h4>
           </div>
           <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                    </div>
+                  <div class="col-md-6">
+                      <button [routerLink]="['/Pages/Area/View']" type="submit" class="btn btn-info btn-fill float-right green">Add</button>
+                    </div>
+              </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <mat-form-field>
                   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
                 </mat-form-field>
               </div>
-              <div class="col-md-6"><a class="float-right card-title" routerLink="/Pages/Area/View" routerLinkActive="active">
-                  <button class="btn green"> Add New</button></a></div>
+             
             </div>
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
               <!-- Position Column -->
-              <ng-container matColumnDef="Name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+              <ng-container matColumnDef="No">
+                <th mat-header-cell *matHeaderCellDef > No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
               </ng-container>
+              <ng-container matColumnDef="ArName">
+                <th mat-header-cell *matHeaderCellDef > Arabic  Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.NameAr}} </td>
+              </ng-container>
+              <ng-container matColumnDef="EnName">
+                  <th mat-header-cell *matHeaderCellDef > English Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.NameEn}} </td>
+                </ng-container>
               <ng-container matColumnDef="Actions">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                <th mat-header-cell *matHeaderCellDef > Actions </th>
                 <td mat-cell *matCellDef="let element" class="text-right">
                   <a [routerLink]="['/Pages/Area/View']" [queryParams]="{ID: element.ID}" class="btn btn-link btn-warning btn-just-icon edit"><i
                       class="material-icons">dvr</i></a>
@@ -37,7 +51,7 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
 
           </div>
           <!-- end content-->

@@ -11,13 +11,14 @@ export class ItemService extends BaseService {
   }
   getAllItems(request: any) {
    return this.http.post(AppConfig.settings.apiServer.host + 'Item/AllItems.php', this.getFormUrlEncoded(request)
-  , this.httpOptions);
+  , this.EnArhttpOptions);
   }
   deletItem(request) {
-    return this.http.post(AppConfig.settings.apiServer.host + 'Item/Delete_Item.php', this.getFormUrlEncoded(request), this.httpOptions);
+    return this.http.post(AppConfig.settings.apiServer.host + 'Item/Delete_Item.php',
+     this.getFormUrlEncoded(request), this.EnArhttpOptions);
   }
 getItemDetails(request) {
-  return this.http.post(AppConfig.settings.apiServer.host + 'Item/ItemDetails.php', this.getFormUrlEncoded(request), this.httpOptions);
+  return this.http.post(AppConfig.settings.apiServer.host + 'Item/ItemDetails.php', this.getFormUrlEncoded(request), this.EnArhttpOptions);
 }
 
 

@@ -9,7 +9,9 @@ import {
   IItemImage,
   IItemDescription,
   ISeller,
-  Container
+  Container,
+  IItemSize,
+  IArea
 } from '../../../models/Response';
 import { ActivatedRoute } from '../../../../../node_modules/@angular/router';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
@@ -24,6 +26,7 @@ import { ItemDescreptionComponent } from '../../../Popups/ItemDescreption/ItemDe
 import { AppConfig } from '../../../app.config';
 import { ItemSizeComponent } from '../../../Popups/ItemSize/ItemSize.component';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { AreaService } from '../../../Services/Area.service';
 
 @Component({
   selector: 'app-itemview',
@@ -39,6 +42,7 @@ export class ItemViewComponent implements OnInit {
   Categories: ICategory[];
   SubCategories: ISubCategory[];
   Containers: Container[];
+  Areas: IArea[];
   Item: IItem = new IItem();
   itemImagePath: string = AppConfig.settings.apiServer.itemimagepath;
   itemColorsPath: string = AppConfig.settings.apiServer.itemcolorspath;
@@ -48,7 +52,9 @@ export class ItemViewComponent implements OnInit {
   Colorsurls = [];
   addItemColorImages: File[];
   displayedColumns: string[] = ['name', 'value', 'Actions'];
+  sizedisplayedColumns: string[] = ['name', 'Actions'];
   ItemDescdataSource: MatTableDataSource<IItemDescription>;
+  ItemSizesdataSource: MatTableDataSource<IItemSize>;
   //#endregion
   //#region  Validation
   ennameFormControl = new FormControl('', [Validators.required]);
@@ -63,6 +69,7 @@ export class ItemViewComponent implements OnInit {
   containerDDLControl = new FormControl('', [Validators.required]);
   HasDescription = new FormControl('', [Validators.required]);
   HasOptions = new FormControl('', [Validators.required]);
+  AreaDDLControl = new FormControl('', [Validators.required]);
   //#endregion
   //#region Constructor
   constructor(
@@ -72,6 +79,7 @@ export class ItemViewComponent implements OnInit {
     private categoryService: CategoryService,
     private subCategoryService: SubCategoryService,
     private containerService: ContainerService,
+    private areaService: AreaService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private http: HttpClient
@@ -94,6 +102,12 @@ export class ItemViewComponent implements OnInit {
       .subscribe(
         Response => (this.Containers = (<IResponse>Response).Containers)
       );
+      this.areaService
+      .getAreas()
+      .subscribe(
+        Response => (this.Areas = (<IResponse>Response).Areas)
+      );
+      
     this.form = new FormGroup({});
     this.form.addControl('ennameFormControl', this.ennameFormControl);
     this.form.addControl('arnameFormControl', this.arnameFormControl);
@@ -107,15 +121,17 @@ export class ItemViewComponent implements OnInit {
     this.form.addControl('containerDDLControl', this.containerDDLControl);
     this.form.addControl('HasDescription', this.HasDescription);
     this.form.addControl('HasOptions', this.HasOptions);
+    this.form.addControl('AreaDDLControl', this.AreaDDLControl);
   }
   //#endregion
   //#region Functions
   ngOnInit() {
     if (this.ID) {
+      
       this.itemService.getItemDetails({ ItemId: this.ID }).subscribe(resault => {
         this.Item = (<IResponse>resault).ItemDetails;
-        this.ennameFormControl.setValue(this.Item.ItemInfo.Name);
-        this.arnameFormControl.setValue(this.Item.ItemInfo.Name);
+        this.ennameFormControl.setValue(this.Item.ItemInfo.NameEn);
+        this.arnameFormControl.setValue(this.Item.ItemInfo.NameAr);
         this.orginalPriceFormControl.setValue(this.Item.ItemInfo.OriginalPrice);
         this.profitRatioFormControl.setValue(this.Item.ItemInfo.ProfitRatio);
         this.priceFormControl.setValue(this.Item.ItemInfo.Price);
@@ -125,7 +141,9 @@ export class ItemViewComponent implements OnInit {
         this.HasOptions.setValue(this.Item.ItemInfo.HasOptions);
         this.categoryDDLControl.setValue(this.Item.ItemInfo.CategoryId);
         this.sizeM3FormControl.setValue(this.Item.ItemInfo.SizeM3);
+        //this.AreaDDLControl.setValue(this.Item.ItemInfo.Area);
         this.ItemDescdataSource = new MatTableDataSource<IItemDescription>(this.Item.ItemDescription);
+        this.ItemSizesdataSource = new MatTableDataSource<IItemSize>(this.Item.ItemSizes);
         this.subCategoryService
       .getSupCategories({ MainCategoryId: this.categoryDDLControl.value })
       .subscribe(result => {
@@ -157,7 +175,7 @@ export class ItemViewComponent implements OnInit {
       ItemInfoJSON.ItemData.push({ ProfitRatio: this.profitRatioFormControl.value });
       ItemInfoJSON.ItemData.push({ Price: this.priceFormControl.value });
       ItemInfoJSON.ItemData.push({ SellerId: this.sellerDDLControl.value });
-      ItemInfoJSON.ItemData.push({ AreaId: 1 });
+      ItemInfoJSON.ItemData.push({ AreaId: this.AreaDDLControl.value });
       ItemInfoJSON.ItemData.push({ CategoryId: this.categoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ SubCategoryId: this.subCategoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ ContainerId: this.containerDDLControl.value });
@@ -221,7 +239,7 @@ export class ItemViewComponent implements OnInit {
       ItemInfoJSON.ItemData.push({ ProfitRatio: this.profitRatioFormControl.value });
       ItemInfoJSON.ItemData.push({ Price: this.priceFormControl.value });
       ItemInfoJSON.ItemData.push({ SellerId: this.sellerDDLControl.value });
-      ItemInfoJSON.ItemData.push({ AreaId: 1 });
+      ItemInfoJSON.ItemData.push({ AreaId: this.AreaDDLControl.value });
       ItemInfoJSON.ItemData.push({ CategoryId: this.categoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ SubCategoryId: this.subCategoryDDLControl.value });
       ItemInfoJSON.ItemData.push({ ContainerId: this.containerDDLControl.value });
@@ -328,6 +346,8 @@ export class ItemViewComponent implements OnInit {
           this.Item.ItemSizes = [];
         }
         this.Item.ItemSizes.push({ ID: '0', SizeValue: result.size, Deleted: '' });
+        this.ItemSizesdataSource = new MatTableDataSource<IItemSize>(this.Item.ItemSizes);
+
       }
     });
   }
@@ -346,6 +366,7 @@ export class ItemViewComponent implements OnInit {
         // this.Item.ItemImages.push({ID: '0', Image: files[i].name} as IItemImage);
         this.addItemImages.push(files[i]);
         reader.onload = (ev: FileReaderEvent) => {
+          debugger;
           this.Itemurls.push(ev.target.result);
         };
         reader.readAsDataURL(files[i]);
@@ -398,6 +419,8 @@ export class ItemViewComponent implements OnInit {
     } else {
       this.Item.ItemSizes[index].Deleted = '1';
     }
+     // tslint:disable-next-line:max-line-length
+     this.ItemSizesdataSource = new MatTableDataSource<IItemSize>(this.Item.ItemSizes.filter(x => !x.Deleted || x.Deleted === '0' ));
   }
   deleteItemDescfromobj(index: number, event: any) {
     event.preventDefault();

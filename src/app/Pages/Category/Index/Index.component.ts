@@ -12,7 +12,7 @@ import swal from 'sweetalert2';
 })
 
 export class IndexComponent implements OnInit {
-  displayedColumns: string[] = ['Image', 'Name', 'Actions'];
+  displayedColumns: string[] = ['No', 'Image', 'Name', 'ArName', 'Actions'];
   dataSource: MatTableDataSource<ICategory>;
   imagePath: string = AppConfig.settings.apiServer.categoryimagepath;
   categories: ICategory[];
@@ -21,6 +21,7 @@ export class IndexComponent implements OnInit {
   // tslint:disable-next-line:no-shadowed-variable
   constructor(private CategoryService: CategoryService) { }
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = 'Page Size';
     this.CategoryService.getCategories().subscribe(result => {
       // tslint:disable-next-line:max-line-length
       this.dataSource = new MatTableDataSource<ICategory>((<IResponse>result).Categories);

@@ -30,6 +30,7 @@ export class CategoryViewComponent implements OnInit {
   fileToUpload: File = null;
   elementImage: string;
   imagePath: string;
+  upluadimage: any;
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
@@ -55,8 +56,8 @@ export class CategoryViewComponent implements OnInit {
         this.category = (<IResponse>response).Categories.find(
           category => category.ID === this.ID
         );
-        this.ennameFormControl.setValue(this.category.Name);
-        this.arnameFormControl.setValue(this.category.Name); // to be chanege when feedback come from back end
+        this.ennameFormControl.setValue(this.category.NameEn);
+        this.arnameFormControl.setValue(this.category.NameAr); // to be chanege when feedback come from back end
         this.elementImage = this.category.Image;
         this.imagePath = AppConfig.settings.apiServer.categoryimagepath;
       });
@@ -64,6 +65,11 @@ export class CategoryViewComponent implements OnInit {
   }
   previewImage(files: FileList) {
     this.fileToUpload = files.item(0);
+    const reader = new FileReader();
+    reader.onload = (ev: FileReaderEvent) => {
+      this.upluadimage = ev.target.result;
+    };
+    reader.readAsDataURL(files.item(0));
   }
   addUpdate() {
     this.isSubmitted = true;

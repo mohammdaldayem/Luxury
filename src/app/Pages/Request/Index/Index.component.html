@@ -7,25 +7,25 @@
             <div class="card-icon">
               <i class="material-icons">assignment</i>
             </div>
-            <h4 class="card-title">Requests</h4>
+            <h4 class="card-title">{{Title!}}</h4>
             <!-- <a class="float-right card-title" routerLink="/Pages/Request/View" routerLinkActive="active">
               <button class="btn btn-Green"> Add New</button></a> -->
-            <a class="float-right card-title" routerLinkActive="active">
+            <a class="float-right card-title" routerLinkActive="active"   >
               <button class="btn float-right" (click)="Search()">Filter</button>
             </a>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row" >
               <div class="col-md-3">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="frompicker" placeholder="From Date" [(ngModel)]="filterDtaeFrom" >
+                  <input matInput [matDatepicker]="frompicker" placeholder="From Date" [(ngModel)]="filterDtaeFrom" [disabled]="TodayReq === 'T'" >
                   <mat-datepicker-toggle matSuffix [for]="frompicker"></mat-datepicker-toggle>
                   <mat-datepicker #frompicker ></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="topicker" placeholder="To Date" [(ngModel)]="filterDtaeTo" >
+                  <input matInput [matDatepicker]="topicker" placeholder="To Date" [(ngModel)]="filterDtaeTo" [disabled]="TodayReq === 'T'" >
                   <mat-datepicker-toggle matSuffix [for]="topicker"></mat-datepicker-toggle>
                   <mat-datepicker #topicker></mat-datepicker>
                 </mat-form-field>
@@ -35,7 +35,7 @@
                 <mat-form-field>
                   <mat-select placeholder="Seller" [(ngModel)]="filterSellerId" >
                     <mat-option *ngFor="let seller of sellers" [value]="seller.ID">
-                      {{seller?.Name}}
+                      {{seller?.NameEn}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -54,51 +54,62 @@
             <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
             </mat-form-field>
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <div class="example-container mat-elevation-z8">
+            <mat-table #table [dataSource]="dataSource" [class.isMobile]="isMobile" >
               <!-- Position Column -->
               <ng-container matColumnDef="RequestId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.RequestId}} </td>
+                <mat-header-cell  *matHeaderCellDef > No. </mat-header-cell>
+                <mat-cell  *matCellDef="let element">
+                    <span class="mobile-label">No: </span>
+                  {{element.RequestId}} </mat-cell>
               </ng-container>
               <!-- Name Column -->
               <ng-container matColumnDef="ClientName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.ClientName}} </td>
+                <mat-header-cell  *matHeaderCellDef > Name </mat-header-cell>
+                <mat-cell  *matCellDef="let element"> 
+                    <span class="mobile-label">Name: </span>
+                  {{element.ClientName}} 
+                </mat-cell>
               </ng-container>
-
               <!-- Weight Column -->
               <!-- <ng-container matColumnDef="Phone">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
-                <td mat-cell *matCellDef="let element"> {{element.Area}} </td>
+                <mat-header-cell  *matHeaderCellDef > Area </mat-header-cell>
+                <mat-cell  *matCellDef="let element"> {{element.Area}} </mat-cell>
               </ng-container> -->
 
               <!-- Weight Column -->
               <ng-container matColumnDef="Status">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-                <td mat-cell *matCellDef="let element"> {{element.StatusName}} </td>
+                <mat-header-cell  *matHeaderCellDef > Status </mat-header-cell>
+                <mat-cell  *matCellDef="let element"> 
+                    <span class="mobile-label">Status: </span>
+                  {{element.StatusName}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="Total">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
-                <td mat-cell *matCellDef="let element"> {{element.Total}} </td>
+                <mat-header-cell  *matHeaderCellDef > Total </mat-header-cell>
+                <mat-cell  *matCellDef="let element"> 
+                    <span class="mobile-label">Total: </span>
+                  {{element.Total}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="CreatedAt">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
-                <td mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
+                <mat-header-cell  *matHeaderCellDef > Created At </mat-header-cell>
+                <mat-cell  *matCellDef="let element"> 
+                    <span class="mobile-label">Created At: </span>
+                  {{element.CreatedAt}} </mat-cell>
               </ng-container>
               <ng-container matColumnDef="Actions">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-                <td mat-cell *matCellDef="let element" class="text-right">
+                <mat-header-cell  *matHeaderCellDef > Actions </mat-header-cell>
+                <mat-cell  *matCellDef="let element" class="text-right">
                   <a [routerLink]="['/Pages/Request/View']" [queryParams]="{ID: element.RequestId}" class="btn btn-link btn-warning btn-just-icon edit"><i
                       class="material-icons">dvr</i></a>
                   <app-grid-delet-btn [ID]="element.RequestId" (onConfirm)="deleteRequest($event)"></app-grid-delet-btn>
-                </td>
+                </mat-cell>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
             <mat-paginator #paginator [length]="resultsLength" [pageSizeOptions]="[10,15, 20]"  (page)="loadNextPrevious()"></mat-paginator>
 
           </div>

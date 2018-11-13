@@ -1,12 +1,8 @@
-/* Always set the map height explicitly to define the size of the div
+ /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-       .right-green{
-         float: right;
-         background-color: green !important;
-         margin-top: 10px;
-       }
        #map {
         height: 100%;
+        min-height: 1000px;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -83,4 +79,8 @@
       }
       #target {
         width: 345px;
+      }
+
+      .row{
+        margin-top: 10px;
       }

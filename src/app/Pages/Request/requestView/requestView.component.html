@@ -11,9 +11,9 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <label class="col-sm-2 col-form-label">Order #</label>
+              <label class="col-sm-2 col-form-label">Request #</label>
               <div class="col-sm-10 output">
-                {{request?.ID}}
+                {{request?.RequestId}}
               </div>
             </div>
             <div class="row">
@@ -38,12 +38,16 @@
               <label class="col-sm-2 col-form-label">Notes</label>
               <div class="col-sm-10 output">
                 <mat-form-field>
-                  <textarea matInput readonly="readonly">
+                  <textarea matInput cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="10" >
                                                 {{request?.Notes}}
                                             </textarea>
                 </mat-form-field>
               </div>
             </div>
+            
             <div class="row">
               <div class="col-sm-12">
                 <legend>Location</legend>
@@ -68,56 +72,51 @@
           <div class="card-body">
             <ul class="mdc-list">
               <li *ngFor="let cart of Cart">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="col-form-label">Seller Name </label>
+                <div class="row" style="margin-bottom: 30px;">
+                  <div class="col-md-5">
+                    <label class="col-form-label"  style="font-weight: bolder;font-size:x-large">Seller Name </label>
                   </div>
-                  <div class="col-md-4">
-                    <label class="col-form-label">{{cart?.SellerDetails?.Name}}</label>
+                  <div class="col-md-7">
+                    <label class="col-form-label" style="color: black;font-weight: bolder;font-size:x-large">{{cart?.SellerDetails?.Name}}</label>
                   </div>
                 </div>
-                <ul>
+                <ul style="padding-left: 20px;">
                   <li class="mdc-list-item" *ngFor="let item of cart.RequestItems">
                     <div class="row">
-                      <!-- <div class="col-md-3">
-                        <img src="../../../../assets/img/image_placeholder.jpg" />
-                      </div> -->
-                      <div class="col-md-9">
-                        <br>
+                       <div class="col-md-4">
+                         <img *ngIf="item.ColorImage"  src='{{imagePath + item.ColorImage}}' />
+                         <img *ngIf="!item.ColorImage"  src='{{imagePath + item.ItemImage}}' />
+                        <img *ngIf="item.ColorImage == null && item.ItemImage == null" src="../../../../assets/img/image_placeholder.jpg" />
+                      </div>
+                      <div class="col-md-8">
                         <div class="row">
-                          <label class="col-md-4">Name  </label>
-                          <label class="col-md-3"> {{item.ItemName}}</label>
+                          <label class="col-md-12" style="color: black;font-weight: bold;font-size:16px;">{{item.ItemName}}</label>
+                          <label class="col-md-12" style="color: black;font-weight: bold;font-size:16px;">{{item.Price}}</label>
+                          <label class="col-md-12" style="color: black;font-weight: bold;font-size:16px;">Quantity: {{item.Quantity}}</label>
                         </div>
-                        <br>
-                        <div class="row">
-                          <label class="col-md-4">Size  </label>
-                          <label class="col-md-3"> {{item.Size}}</label>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <label class="col-md-4">Price  </label>
-                          <label class="col-md-3">{{item.Price}}</label>
-                        </div>
-                        <br>
-                        <div class="row">
+                        <!-- <div class="row">
                             <label class="col-md-4">Color  </label>
                             <label class="col-md-3"> {{item.ColorName}}</label>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <label class="col-md-4">Quantity  </label>
-                          <label class="col-md-3"> {{item.Quantity}}</label>
-                        </div>
-                        <br>
-                        <div class="row">
+                        </div> -->
+                        <!-- <div class="row">
                          <div class="col-md-7">
                             <img src="../../../../assets/img/image_placeholder.jpg" />
                          </div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col-md-3" *ngIf="item.ColorName && item.Size"   style="font-weight: bold;font-size:16px;">{{item.ColorName}}|{{item.Size}}</div>
+                      <div class="col-md-3" *ngIf="item.ColorName == null || item.Size == null "   style="font-weight: bold;font-size:16px;">{{item.ColorName}}{{item.Size}}</div>
+                    </div>
+                    <hr>
                   </li>
                 </ul>
+                <hr style="border: 0;
+                margin-top: 60px;
+                height: 1px;
+                background: #333;
+                background-image: linear-gradient(to right, #ccc, #333, #ccc);">
               </li>
             </ul>
             <div class="row">
@@ -132,7 +131,7 @@
                 <div class="col-md-6">
                   <h3 class="mdc-list-group">Current Status </h3>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <h3 class="mdc-list-group__subheader">{{request?.RequestName}}</h3>
                 </div>
               </div>

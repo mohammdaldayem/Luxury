@@ -4,6 +4,12 @@ table {
   .example-container {
     display: inline !important;
   }
-  .green {
+  
+
+  .right {
+    float: right;
+  }
+
+  .green{
     background-color: green;
   }

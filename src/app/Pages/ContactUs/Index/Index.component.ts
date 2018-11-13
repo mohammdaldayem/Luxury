@@ -3,38 +3,63 @@ import { MatTableDataSource, MatPaginator, PageEvent } from '@angular/material';
 import { IMessage, IResponse } from '../../../models/Response';
 import { ContactUsService } from '../../../Services/ContactUs.service';
 import swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-index',
   templateUrl: './Index.component.html',
   styleUrls: ['./Index.component.css']
 })
-export class IndexComponent implements AfterViewInit {
+export class IndexComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['Name', 'Email', 'Phone', 'Message', 'CreatedAt', 'Actions'];
+  displayedColumns: string[] = ['No', 'Name', 'Email', 'Phone', 'Message', 'CreatedAt', 'Actions'];
   dataSource: MatTableDataSource<IMessage>;
   resultsLength = 0;
   pagesData: Array<any>;
   currentPageSize: number;
   currentPageIndex: number;
+  TodayReq: string;
+  Title: string;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private _contactusservice: ContactUsService, private changeDetectorRefs: ChangeDetectorRef) {
+  constructor(private _contactusservice: ContactUsService, private changeDetectorRefs: ChangeDetectorRef, private route: ActivatedRoute) {
     this.pagesData = new Array<any>();
     this.currentPageSize = 10;
     this.currentPageIndex = 0;
+    this.route.queryParams.subscribe(params => {
+      this.TodayReq = params['Today'];
+    });
   }
-
+ngOnInit() {
+  this.paginator._intl.itemsPerPageLabel = 'Page Size';
+}
   ngAfterViewInit(): void {
-    this.loadAllItems(20, this.paginator.pageIndex);
+    if (this.TodayReq === 'T') {
+      this.Title = 'Today Contact Us';
+      this.loadTodayItems(20, this.paginator.pageIndex);
+    } else {
+      this.Title = 'Contact Us';
+        this.loadAllItems(20, this.paginator.pageIndex);
+      }
   }
   loadAllItems(pagesize: number, from: number) {
-    if (from != 0) {
+    if (from !== 0) {
       from = +this.dataSource.data[this.dataSource.data.length - 1].ID;
     }
     this._contactusservice.getAllMessages({ LoadFrom: from, PageSize: pagesize }).subscribe(resultobj => {
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>resultobj).Messages })
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>resultobj).Messages });
       this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages);
       this.resultsLength = (<IResponse>resultobj).AllMessagesCount;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+  loadTodayItems(pagesize: number, from: number) {
+    if (from !== 0) {
+      from = +this.dataSource.data[this.dataSource.data.length - 1].ID;
+    }
+    this._contactusservice.getTodayMessages({ LoadFrom: from, PageSize: pagesize }).subscribe(resultobj => {
+      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: (<IResponse>resultobj).TodayMessages });
+      this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).TodayMessages);
+      this.resultsLength = (<IResponse>resultobj).TodayMessagesCount;
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -94,29 +119,53 @@ export class IndexComponent implements AfterViewInit {
     return result;
   }
   getPageData(from) {
-    this._contactusservice.getAllMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
-      this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).Messages })
-      this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages.slice(0, this.paginator.pageSize));
-      this.changeDetectorRefs.detectChanges();
-    });
+    if (this.TodayReq === 'T') {
+      this._contactusservice.getTodayMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
+        this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).TodayMessages });
+        this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).TodayMessages.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+      });
+    } else {
+      this._contactusservice.getAllMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
+        this.pagesData.push({ pageIndex: this.currentPageIndex, data: (<IResponse>resultobj).Messages });
+        this.dataSource = new MatTableDataSource<IMessage>((<IResponse>resultobj).Messages.slice(0, this.paginator.pageSize));
+        this.changeDetectorRefs.detectChanges();
+      });
+    }
   }
 
   reloadCurentPageData(ID: Number) {
     var isFirstItem = (this.dataSource.data[0].ID == ID);
     var firstItem = this.dataSource.data[0];
     let from = this.dataSource.data[0].ID;
-    this._contactusservice.getAllMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
-      var result = (<IResponse>resultobj).Messages;
-      if (!isFirstItem) {
-        result.pop();
-        result.unshift(firstItem);
-      }
-      this.dataSource = new MatTableDataSource<IMessage>(result.slice(0, this.paginator.pageSize));
-      debugger
-      this.changeDetectorRefs.detectChanges();
-      this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
-      this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: this.dataSource })
-    })
+    if (this.TodayReq === 'T') {
+      this._contactusservice.getTodayMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
+        var result = (<IResponse>resultobj).TodayMessages;
+        if (!isFirstItem) {
+          result.pop();
+          result.unshift(firstItem);
+        }
+        this.dataSource = new MatTableDataSource<IMessage>(result.slice(0, this.paginator.pageSize));
+        
+        this.changeDetectorRefs.detectChanges();
+        this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: this.dataSource });
+      });
+    } else {
+      this._contactusservice.getAllMessages({ LoadFrom: from, PageSize: 20 }).subscribe(resultobj => {
+        var result = (<IResponse>resultobj).Messages;
+        if (!isFirstItem) {
+          result.pop();
+          result.unshift(firstItem);
+        }
+        this.dataSource = new MatTableDataSource<IMessage>(result.slice(0, this.paginator.pageSize));
+        
+        this.changeDetectorRefs.detectChanges();
+        this.pagesData.splice(this.paginator.pageIndex, this.pagesData.length);
+        this.pagesData.push({ pageIndex: this.paginator.pageIndex, data: this.dataSource })
+      });
+    }
+    
   }
 }
    

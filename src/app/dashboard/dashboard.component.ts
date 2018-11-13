@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   allRequestsCount: string;
   todayRequestsCount: string;
   allContactUsCount: string;
-  todayContactUsCount: string;
+  todayContactUsCount: number;
 
   constructor(private _dashboardService: DashboardService ) { }
   startAnimationForLineChart(chart: any) {

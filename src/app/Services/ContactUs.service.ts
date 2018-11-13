@@ -15,6 +15,10 @@ getAllMessages(request) {
   return this.http.post(AppConfig.settings.apiServer.host + 'ContactUs/All_Messages.php', this.getFormUrlEncoded(request)
  , this.httpOptions);
  }
+ getTodayMessages(request) {
+  return this.http.post(AppConfig.settings.apiServer.host + 'ContactUs/Today_Messages.php', this.getFormUrlEncoded(request)
+ , this.httpOptions);
+ }
  deletMessage(request) {
    // tslint:disable-next-line:max-line-length
    return this.http.post(AppConfig.settings.apiServer.host + 'ContactUs/Delete_Message.php', this.getFormUrlEncoded(request), this.httpOptions);

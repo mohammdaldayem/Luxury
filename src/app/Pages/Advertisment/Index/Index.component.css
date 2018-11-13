@@ -7,3 +7,6 @@ table {
   .green{
     background-color: green !important;
   }
+  .right {
+    float: right;
+  }

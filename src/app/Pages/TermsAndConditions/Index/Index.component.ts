@@ -9,15 +9,16 @@ import swal from 'sweetalert2';
   styleUrls: ['./Index.component.css']
 })
 export class IndexComponent implements OnInit {
-  TremsAr: any;
-  TremsEn: any;
+  TremsAr: string;
+  TremsEn: string;
   constructor(private _sellerService: TermsService) { }
 
   ngOnInit() {
     this._sellerService.getTerms().subscribe(result => {
       const terms: ITerms = <ITerms>((<IResponse>result).Terms_Conditions);
-      this.TremsEn = terms.Value;
-      this.TremsAr = terms.Value;
+      debugger;
+      this.TremsEn = terms.ValueEn;
+      this.TremsAr = terms.ValueAr;
     });
   }
   AddUpdateTerms() {

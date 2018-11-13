@@ -11,6 +11,8 @@ import { ItemModule } from './Item/Item.module';
 import { FieldErrorDisplayComponent } from '../shared/field-error-display/field-error-display.component';
 import { GridDeletbtnModule } from '../shared/GridDeletbtn/GridDeletbtn.module';
 import {SubCategoryModule} from './SubCategory/SubCategory.module';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import {SubCategoryModule} from './SubCategory/SubCategory.module';
     SellerModule,
     ItemModule,
     GridDeletbtnModule,
-    SubCategoryModule
+    SubCategoryModule,
+    TextareaAutosizeModule,
   ],
   declarations: []
 })

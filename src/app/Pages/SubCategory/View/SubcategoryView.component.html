@@ -11,7 +11,7 @@
               <div class="row">
                 <div class="col-md-9">
                   <mat-form-field>
-                    <input matInput [formControl]="ennameFormControl" required placeholder="English Name *">
+                    <input matInput [formControl]="ennameFormControl" required placeholder="English Name ">
                     <mat-error *ngIf="ennameFormControl.invalid && isSubmitted">English Name is Required</mat-error>
                   </mat-form-field>
                 </div>
@@ -19,25 +19,28 @@
               <div class="row">
                 <div class="col-md-9">
                   <mat-form-field>
-                    <input matInput [formControl]="arnameFormControl" placeholder="Arabic Name *" required>
+                    <input matInput [formControl]="arnameFormControl" placeholder="Arabic Name " required>
                     <mat-error *ngIf="arnameFormControl.invalid && isSubmitted">Arabic Name is Required</mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-9">
+                    <mat-form-field>
                   <mat-select placeholder="Category" [formControl]="mainCategoryControl">
                     <mat-option *ngFor="let category of categories" [value]="category.ID">
-                      {{category.Name}}
+                      {{category.NameEn}}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="mainCategoryControl.invalid && isSubmitted">Category is Required</mat-error>
+                </mat-form-field>
                 </div>
               </div>
               <br/>
               <div class="row">
-                  <div *ngIf="elementImage" class="col-md-9">
-                      <img height="300px" width="100%" src='{{imagePath + elementImage}}' />
+                  <div  class="col-md-9">
+                      <img *ngIf="!fileToUpload &&  elementImage"  height="200px" width="200px" src='{{imagePath + elementImage}}' />
+                      <img *ngIf="fileToUpload"  height="200px" width="200px" [src]='upluadimage' />
                     </div>
               </div>
               <br/>
